@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>poneymon_fx</name>
-    <url>https://forge.univ-lyon1.fr/p1707049/poney-refactoring</url>
+    <url>https://forge.univ-lyon1.fr/p1408376/poneymon</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
