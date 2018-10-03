@@ -13,6 +13,8 @@ public class MainMenu extends Parent {
 	
     private VBox mainMenu;
     private ButtonMenu btnSolo;
+    private ButtonMenu btnMulti;
+    private ButtonMenu btnExit;
 	
     /**
      * Constructor of MainMenu.
@@ -20,10 +22,15 @@ public class MainMenu extends Parent {
     public MainMenu() {
         //La valeur 10 corresponds à l'écarts entre les différents éléments
         mainMenu = new VBox(10);
+        
+        mainMenu.setTranslateX(100);
+        mainMenu.setTranslateY(200);
+        
+        btnSolo = new ButtonMenu("Play alone");
+        btnMulti = new ButtonMenu("Multiplayer");
+        btnExit = new ButtonMenu("Exit");
 		
-        btnSolo = new ButtonMenu("Play alone :'(");
-		
-        mainMenu.getChildren().add(btnSolo);
+        mainMenu.getChildren().addAll(btnSolo, btnMulti, btnExit);
         
         getChildren().addAll(mainMenu);
     }
