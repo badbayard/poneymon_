@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.JfxView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
@@ -14,6 +15,9 @@ import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
  */
 public class App extends Application {
 
+	
+    MenuView menu;
+    
     /**
      * Start() launch the application.
      * @see <a
@@ -53,6 +57,10 @@ public class App extends Application {
         
         // Launch the game
         c.startTimer();
+    	
+    	/*menu = new MenuView();
+    	stage.setScene(menu.getScene());
+    	stage.show();*/
     }
 
     public static void main(String[] args) {
