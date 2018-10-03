@@ -1,13 +1,10 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
-
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 
 import javafx.scene.text.Text;
 
@@ -18,49 +15,69 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 /**
  * Class printing the data of a poney.
  */
-public class DataView extends Canvas implements View {
+public class DataView implements View {
     // Window title
-    static final String WINDOW_TITLE = "Poney Data";
+    private static final String WINDOW_TITLE = "Poney Data";
     // Size of the dataView
     private final int width;
     private final int height;
-    // Drawing tool
-    private final GraphicsContext graphicsContext;
-    private final Stage stage;
-    private final Scene scene;
     // PoneyModel which has the focus of the view
     private PoneyModel poneyModel;
-    private Group root;
+
     // Text to be displayed
-    private Text poneyColor;
-    private Text poneySpeed;
-    private Text xMessage;
-    private Text isAi;
-    private Text boostActive;
-    private Text lapNumber;
+    private Text colorValue = new Text();
+    private Text speedValue = new Text();
+    private Text progressValue = new Text();
+    private Text isAiValue = new Text();
+    private Text boostValue = new Text();
+    private Text lapValue = new Text();
+
     // Size of the canvas
     private int canvasWidth;
 
     /**
      * DataView constructor.
      *
-     * @param s the stage of the view
+     * @param stage the stage of the view
      * @param w the width of the view
      * @param h the height of the view
      */
-    public DataView(Stage s, int w, int h) {
-        super(w, h);
-        stage = s;
+    public DataView(Stage stage, int w, int h) {
         stage.setTitle(WINDOW_TITLE);
 
         width = w;
         height = h;
 
-        root = new Group();
+        Group root = new Group();
+        Scene scene = new Scene(root, width, height, Color.LIGHTGRAY);
+        scene.getStylesheets().add(getClass().getResource("/stylesheet.css").toExternalForm());
 
-        scene = new Scene(root, width, height, Color.LIGHTGRAY);
-        
-        graphicsContext = getGraphicsContext2D();
+        GridPane gridPane = new GridPane();
+        gridPane.getStyleClass().add("grid-pane");
+
+        final Text colorLabel = new Text("Color :");
+
+        final Text progressLabel = new Text("Progress :");
+
+        final Text speedLabel = new Text("Speed :");
+
+        final Text boostLabel = new Text("Boost :");
+
+        final Text placeLabel = new Text("Tour n° :");
+
+        gridPane.add(colorLabel, 0, 0);
+        gridPane.add(progressLabel, 0, 1);
+        gridPane.add(speedLabel, 0, 2);
+        gridPane.add(boostLabel, 0, 3);
+        gridPane.add(placeLabel, 0, 4);
+
+        gridPane.add(colorValue, 1, 0);
+        gridPane.add(progressValue, 1, 1);
+        gridPane.add(speedValue, 1, 2);
+        gridPane.add(boostValue, 1, 3);
+        gridPane.add(lapValue, 1, 4);
+
+        root.getChildren().add(gridPane);
 
         stage.setScene(scene);
         stage.show();
@@ -71,25 +88,8 @@ public class DataView extends Canvas implements View {
      *
      * @param pm the new PoneyModel
      */
-    public void setPoneyModel(PoneyModel pm) {
-        // Clean the root
-        if (!root.getChildren().isEmpty()) {
-            root.getChildren().remove(0, 6);
-        }
-        // Update the texts
-        poneyModel = pm; 
-        poneyColor = new Text(15, 20, "Color : " + poneyModel.getColor());
-        isAi = new Text(15, 40, "AI : " + poneyModel.isAnAi());
-
-        update();
-
-        // Add the new texts
-        root.getChildren().add(0, poneyColor);
-        root.getChildren().add(1, poneySpeed);
-        root.getChildren().add(2, xMessage);
-        root.getChildren().add(3, isAi);
-        root.getChildren().add(4, boostActive);
-        root.getChildren().add(5, lapNumber);
+    void setPoneyModel(PoneyModel pm) {
+        poneyModel = pm;
     }
 
     /**
@@ -97,23 +97,35 @@ public class DataView extends Canvas implements View {
      */
     public void update() {
         // Round the speed
-        double speed = Math.round(canvasWidth * poneyModel.getSpeed() 
-                                  / PoneyModel.MINIMAL_TIME);
+
         // Update the texts
-        poneySpeed = new Text(15, 60, "Speed : " + speed + " px/s.");
-        xMessage = new Text(15, 80, "X : " + (int)(poneyModel.getX() * canvasWidth));
-        boostActive = new Text(15, 100, "Boost : " + poneyModel.isNianPoney());
-        lapNumber = new Text(15, 120, "Lap : " + poneyModel.getNbLap());
+        colorValue.setText(poneyModel.getColor());
+        colorValue.setStyle("-fx-fill:" + poneyModel.getColor());
+
+        progressValue.setText("" + (int)(poneyModel.getX() * 100) + "%");
+
+        double speed = Math.round(canvasWidth * poneyModel.getSpeed() / PoneyModel.MINIMAL_TIME);
+        speedValue.setText("" + speed + " px/s");
+
+        if (!poneyModel.canBoost()) {
+            if (poneyModel.isNianPoney()) {
+                boostValue.setText("Boosted");
+            } else {
+                boostValue.setText("Depleted");
+            }
+        } else {
+            boostValue.setText("Available");
+        }
+
+        isAiValue.setText("" + poneyModel.isAnAi());
+
+        lapValue.setText("" + poneyModel.getNbLap());
     }
 
     /**
      * Display the texts.
      */
-    public void display() {  
-        root.getChildren().set(1, poneySpeed);
-        root.getChildren().set(2, xMessage);
-        root.getChildren().set(4, boostActive);
-        root.getChildren().set(5, lapNumber);
+    public void display() {
     }
 
     /**

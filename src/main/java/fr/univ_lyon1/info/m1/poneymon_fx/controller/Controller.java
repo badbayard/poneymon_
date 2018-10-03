@@ -138,8 +138,7 @@ public class Controller {
      * @param yClick    the ordinate of the click
      * @param fieldView the fieldView in which the click happened
      */
-    public void mouseClicked(double xClick, double yClick,
-                             FieldView fieldView) {
+    public void mouseClicked(double xClick, double yClick, FieldView fieldView) {
         fieldView.manageClick(xClick, yClick);
     }
 
