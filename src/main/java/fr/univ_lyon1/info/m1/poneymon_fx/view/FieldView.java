@@ -23,7 +23,7 @@ public final class FieldView extends Canvas implements View {
     // Drawing tool
     private final GraphicsContext graphicsContext;
     // PoneyViews managed
-    private List<PoneyView> poneyViews = new ArrayList<PoneyView>();
+    private List<PoneyView> poneyViews = new ArrayList<>();
     // Controller of this view
     private Controller controller = null;
     // Model of this view

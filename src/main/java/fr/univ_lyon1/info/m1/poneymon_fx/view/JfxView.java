@@ -58,8 +58,9 @@ public class JfxView implements View {
      */
     private void listenToEvent() {
         // Event Listener de la souris
-        scene.setOnMouseClicked(m -> controller.mouseClicked(m.getSceneX(), m.getSceneY(),
-            fieldView));
+        scene.setOnMouseClicked(m ->
+            controller.mouseClicked(m.getSceneX(), m.getSceneY(), fieldView)
+        );
     }
 
     /**
