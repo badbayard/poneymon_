@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
@@ -133,7 +134,7 @@ import org.junit.Test;
         field.update(0);
 
 
-        System.out.println("2 poneys equals : ");
+        System.out.println("Classement voisin : 2 poneys equals ");
         for(int i = 0 ; i < poneys.length ; i++)
         {
           System.out.println("Poney ["+i+"] rank : "+ poneys[i].getRank());
@@ -141,7 +142,9 @@ import org.junit.Test;
 
         System.out.println("\n");
 
-
+        int ArrayAttendu [] = {2,0,1,4,3};
+        field.rankPoney();
+        assertArrayEquals(field.getRanking(),ArrayAttendu);
 
 
 
@@ -173,12 +176,18 @@ import org.junit.Test;
 
         field.update(0);
 
-        System.out.println("3 poneys equals : ");
+        System.out.println("Classement voisin : 3 poneys equals ");
         for(int i = 0 ; i < poneys.length ; i++)
         {
             System.out.println("Poney ["+i+"] rank : "+ poneys[i].getRank());
         }
         System.out.println("\n");
+
+
+        int ArrayAttendu [] = {0,1,2,4,3};
+        field.rankPoney();
+        assertArrayEquals(field.getRanking(),ArrayAttendu);
+
 
 
     }
@@ -192,22 +201,37 @@ import org.junit.Test;
     public void FivePoneyEquals()
     {
         PoneyModel[] poneys = field.getPoneyModels();
+        int ArrayAttendu [] = new int [poneys.length];
 
         for(int i = 0 ; i < poneys.length; i++)
         {
             poneys[i].setX(0.99999999999);
             poneys[i].setNbLap(4);
             poneys[i].setSpeed(0.5);
+            ArrayAttendu[i] = i;
 
         }
         field.update(0);
 
-        System.out.println("5 poneys equals : ");
+        System.out.println("Classement voisin : 5 poneys equals ");
         for(int i = 0 ; i < poneys.length ; i++)
         {
             System.out.println("Poney ["+i+"] rank : "+ poneys[i].getRank());
         }
         System.out.println("\n");
+
+
+        field.rankPoney();
+        assertArrayEquals(field.getRanking(),ArrayAttendu);
+
+        System.out.println("Classement Tri : Verif ravail sur Copies ");
+        for(int i = 0 ; i < poneys.length ; i++)
+        {
+            System.out.println("Poney ["+i+"] Progression : "+ poneys[i].getX());
+            System.out.println("Poney ["+i+"] Tours : "+ poneys[i].getNbLap());
+        }
+        System.out.println("\n");
+
     }
 
 

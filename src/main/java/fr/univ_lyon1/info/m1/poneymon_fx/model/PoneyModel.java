@@ -384,5 +384,18 @@ public class PoneyModel implements Model {
         return nbLap + x;
     }
 
+    /**
+     * constructeur par copie (remplace l'interface cloneable).
+     * @param clone PoneyModel
+     */
+    public PoneyModel(PoneyModel clone) {
+        x = clone.getX();
+        row = clone.getRow();
+        nbLap = clone.getNbLap();
+        poneyColor = clone.getColor();
+        isNian = hasBeenNianPoney = raceFinished = clone.isNianPoney();
+        isAi = clone.isAnAi();
+        speed = clone.getSpeed();
+    }
 
 }

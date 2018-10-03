@@ -12,12 +12,15 @@ public class FieldModel implements Model {
     // State of the poneys. True : AI, False : Human
     private static final boolean[] isIa = new boolean[] {true, true, true, false, false};
 
+    private int [] ranking;
+
     /**
      * FieldModel constructor.
      *
      * @param nbPoneys the number of poneys in the game
      */
     public FieldModel(final int nbPoneys) {
+        ranking = new int [nbPoneys];
         // If the number of poneys is acceptable
         if (2 <= nbPoneys && nbPoneys <= 5) {
             poneys = new PoneyModel[nbPoneys];
@@ -75,5 +78,48 @@ public class FieldModel implements Model {
      */
     public int countPoneys() {
         return poneys.length;
+    }
+
+    /**
+     * Renvoit la liste des indices triés des animalModels classés par
+     progresion croissante.
+     */
+    public void rankPoney() {
+        PoneyModel[] poneyCpy = new PoneyModel[poneys.length];
+        for (int i = 0; i < poneys.length; i++) {
+            poneyCpy[i] = new PoneyModel(poneys[i]);
+        }
+        int indiceMax;
+        for (int i = 0; i < poneyCpy.length; i++) {
+            indiceMax = max(poneyCpy);
+            ranking[i] = indiceMax;
+        }
+    }
+
+    /**
+     * Recherche la progression maximum dans le tableau de animals.
+     *
+     * @return indice du maximum
+     */
+    private int max(PoneyModel[] poneyCpy) {
+        int indiceMax = 0;
+        double maxim = poneyCpy[0].totalProgress();
+        for (int i = 1; i < poneyCpy.length; i++) {
+            if (maxim < poneyCpy[i].totalProgress()) {
+                maxim = poneyCpy[i].totalProgress();
+                indiceMax = i;
+            }
+        }
+        poneyCpy[indiceMax].setX(0);
+        poneyCpy[indiceMax].setNbLap(0);
+        return indiceMax;
+    }
+
+    /**
+     * accesseur ranking.
+     * @return ranking
+     */
+    public int[] getRanking() {
+        return ranking;
     }
 }
