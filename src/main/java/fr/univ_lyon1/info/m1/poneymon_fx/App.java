@@ -56,11 +56,11 @@ public class App extends Application {
 
         
         // Launch the game
-    	
-    	/*menu = new MenuView();
-    	stage.setScene(menu.getScene());
-    	stage.show();*/
         controller.startTimer();
+        
+        /*menu = new MenuView();
+        stage.setScene(menu.getScene());
+        stage.show();*/
     }
 
     public static void main(String[] args) {
