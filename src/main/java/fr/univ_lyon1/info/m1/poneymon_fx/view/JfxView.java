@@ -152,7 +152,8 @@ public class JfxView implements View {
         final Button pauseResume = new Button("Pause");
         pauseResume.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent m) {
-                controller.pauseResumeButton();
+                controller.pauseResume();
+
                 if (controller.getTimerActive()) {
                     pauseResume.setText("Pause");
                 } else {

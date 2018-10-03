@@ -17,7 +17,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.PoneyView;
  * Controller of the game, handle the time.
  */
 public class Controller {
-    
+
     // Subscribed views for display events
     private List<View> views = new ArrayList<View>();
     // Subscribed models for update events
@@ -116,24 +116,18 @@ public class Controller {
         resume = false;
     }
 
-    /**
-     * Pauses the game.
-     */
-    public void pause() {
-        timer.stop();
-        timerActive = false;
-        resume = false;
-        soundController.pause();
-    }
+    public void pauseResume() {
+        timerActive = !timerActive;
 
-    /**
-     * Resumes the game.
-     */
-    public void resume() {
-        timer.start();
-        timerActive = true;
-        resume = true;
-        soundController.resume();
+        if (timerActive) {
+            timer.start();
+            soundController.resume();
+            resume = true;
+        } else {
+            timer.stop();
+            resume = false;
+            soundController.pause();
+        }
     }
 
     /**
@@ -144,7 +138,7 @@ public class Controller {
      * @param fieldView the fieldView in which the click happened
      */
     public void mouseClicked(double xClick, double yClick,
-                                FieldView fieldView) {
+                             FieldView fieldView) {
         fieldView.manageClick(xClick, yClick);
     }
 
@@ -168,17 +162,6 @@ public class Controller {
     }
 
     /**
-     * Decides whether to pause or resume the game.
-     */
-    public void pauseResumeButton() {
-        if (timerActive) {
-            pause();
-        } else {
-            resume();
-        }
-    }
-
-    /**
      * Asks to the SoundController to play a sound.
      */
     public void playBoostSound() {
@@ -189,7 +172,7 @@ public class Controller {
      * Gets the timerActive flag.
      *
      * @return <code>true</code> if the timer is active.
-     *         <code>false</code> otherwise.
+     *     <code>false</code> otherwise.
      */
     public boolean getTimerActive() {
         return timerActive;
