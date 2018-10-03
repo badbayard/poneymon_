@@ -1,12 +1,9 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class PoneyModelTest {
 
@@ -75,27 +72,51 @@ public class PoneyModelTest {
 
 
     /**
-     * Test for the boost
+     * Test the return to the left of the screen at the end of lap
      */
     @Test
-    public void testBoost() {
+    public void testEndLap() {
 
         poney = new PoneyModel("green", 0, true);
-        poney.setSpeed(0.25);
+        poney.setSpeed(0.6);
+        poney.setX(0.99);
+        poney.setNbLap(1);
 
+        // When
+        poney.update(1000);
 
-        poney.turnIntoNianPoney();
-        assert(poney.getSpeed() == 0.5);
-        assert(poney.isNianPoney());
-        assertTrue(!poney.canBoost());
-
-        poney.turnIntoNianPoney();
-
-        assert(poney.getSpeed() == 0.5);
-        assert(poney.isNianPoney());
-        assertTrue(!poney.canBoost());
-
+        assert(poney.getX() == 0);
+        assert(poney.getNbLap() == 2);
+        assert(poney.getSpeed() != 0.6);
     }
+
+
+    /**
+     * verifie la vitesse generée
+     */
+    @Test
+    public void testRandomSpeed()
+    {
+        assert (poney.getSpeed() <= 1);
+        assert (poney.getSpeed() >= 0);
+    }
+
+
+    /**
+     * verrifie que la progression totale ne puisse jamais dépasser 5
+     */
+    @Test
+    public void testProgressionTotale()
+    {
+        poney.setX(0.99999);
+        poney.setNbLap(4);
+        poney.setSpeed(1);
+
+        poney.update(500);
+
+        assert (poney.totalProgress() <= 5);
+    }
+
 
 
 

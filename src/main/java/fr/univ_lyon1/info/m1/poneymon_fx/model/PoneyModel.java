@@ -375,4 +375,15 @@ public class PoneyModel implements Model {
             }
         }
     }
+
+    /**
+     * determine la progression totale d'un poney
+     * @return progression totale d'un poney
+     */
+    public double totalProgress()
+    {
+        return nbLap + x;
+    }
+
+
 }
