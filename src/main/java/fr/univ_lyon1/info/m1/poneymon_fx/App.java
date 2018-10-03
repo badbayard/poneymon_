@@ -29,23 +29,23 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Creates five poneys in the game field
-        FieldModel m = new FieldModel(5);
+        FieldModel fieldModel = new FieldModel(5);
         // Creates a window 1200x800 px
-        JfxView v = new JfxView(stage, 1200, 800);
+        JfxView jfxView = new JfxView(stage, 1200, 800);
         // Creates a controller
-        Controller c = new Controller();
+        Controller controller = new Controller();
 
         // Second window (stats)
         Stage s2 = new Stage();
-        DataView dv = new DataView(s2, 175, 150);
+        DataView dataView = new DataView(s2, 210, 180);
         
-        c.addView(v);
-        c.addView(dv);
-        c.addModel(m);
-        v.setDataView(dv);
+        controller.addView(jfxView);
+        controller.addView(dataView);
+        controller.addModel(fieldModel);
+        jfxView.setDataView(dataView);
         // Trigger the waterfall initialization
-        v.setModel(m);
-        v.setController(c);
+        jfxView.setModel(fieldModel);
+        jfxView.setController(controller);
 
         // Secondary view
         /*Stage s3 = new Stage();
@@ -56,11 +56,11 @@ public class App extends Application {
 
         
         // Launch the game
-        c.startTimer();
     	
     	/*menu = new MenuView();
     	stage.setScene(menu.getScene());
     	stage.show();*/
+        controller.startTimer();
     }
 
     public static void main(String[] args) {

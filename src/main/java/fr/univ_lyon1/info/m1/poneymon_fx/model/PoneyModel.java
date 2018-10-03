@@ -132,14 +132,16 @@ public class PoneyModel implements Model {
      * Turns the poney into nianPoney.
      */
     public void turnIntoNianPoney() {
-        // Levé de drapeau
-        isNian = true;
-        hasBeenNianPoney = true;
-        // Speed increased
-        speed *= 2;
+        if (!hasBeenNianPoney) {
+            // Levé de drapeau
+            isNian = true;
+            hasBeenNianPoney = true;
+            // Speed increased
+            speed *= 2;
 
-        //Notify the view 
-        playSound();
+            //Notify the view
+            playSound();
+        }
     }
 
     /**
@@ -373,4 +375,15 @@ public class PoneyModel implements Model {
             }
         }
     }
+
+    /**
+     * determine la progression totale d'un poney
+     * @return progression totale d'un poney
+     */
+    public double totalProgress()
+    {
+        return nbLap + x;
+    }
+
+
 }
