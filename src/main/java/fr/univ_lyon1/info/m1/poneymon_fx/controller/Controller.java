@@ -9,9 +9,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.View;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.Model;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.FieldView;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.PoneyView;
 
 /**
  * Controller of the game, handle the time.
@@ -19,9 +17,9 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.PoneyView;
 public class Controller {
 
     // Subscribed views for display events
-    private List<View> views = new ArrayList<View>();
+    private List<View> views = new ArrayList<>();
     // Subscribed models for update events
-    private List<Model> models = new ArrayList<Model>();
+    private List<Model> models = new ArrayList<>();
     // Timer handling the time in game
     private AnimationTimer timer;
     // Store the timestamps of the last timer update
@@ -85,7 +83,7 @@ public class Controller {
      *
      * @param msElapsed time elapsed since last update
      */
-    public void updateModels(double msElapsed) {
+    private void updateModels(double msElapsed) {
         for (Model m : models) {
             m.update(msElapsed);
         }
@@ -94,7 +92,7 @@ public class Controller {
     /**
      * Requests the views to be rendered.
      */
-    public void displayViews() {
+    private void displayViews() {
         for (View v : views) {
             v.display();
         }
@@ -116,6 +114,9 @@ public class Controller {
         resume = false;
     }
 
+    /**
+     * Pause or resume the game depending on current state.
+     */
     public void pauseResume() {
         timerActive = !timerActive;
 

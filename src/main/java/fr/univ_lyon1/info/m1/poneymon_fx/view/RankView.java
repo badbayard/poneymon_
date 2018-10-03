@@ -5,8 +5,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-
 /**
  * Class handling the rank displayed graphically.
  */
@@ -29,15 +27,14 @@ public class RankView implements View {
      *
      * @param pv the PoneyView associated
      * @param gc the drawing tool
-     * @param imWidth the image width
-     * @param imHeight the image height
+     * @param w the image width
+     * @param h the image height
      */
-    public RankView(PoneyView pv, GraphicsContext gc, int imWidth,
-            int imHeight) {
+    RankView(PoneyView pv, GraphicsContext gc, int w, int h) {
         poneyView = pv;
         graphicsContext = gc;
-        imgHeight = imHeight;
-        imgWidth = imWidth;
+        imgWidth = w;
+        imgHeight = h;
     }
 
     /**

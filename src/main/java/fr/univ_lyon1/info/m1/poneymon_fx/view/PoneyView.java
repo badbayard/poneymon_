@@ -110,7 +110,7 @@ public class PoneyView implements View {
      *
      * @return the image width
      */
-    public double getImageWidth() {
+    double getImageWidth() {
         return currentPoneyImage.getWidth();
     }
 
@@ -119,7 +119,7 @@ public class PoneyView implements View {
      *
      * @return the image height
      */
-    public double getImageHeight() {
+    double getImageHeight() {
         return currentPoneyImage.getHeight();
     }
 
@@ -128,7 +128,7 @@ public class PoneyView implements View {
      *
      * @return the abscissa of the poney
      */
-    public int getX() {
+    int getX() {
         return x;
     }
 
@@ -137,7 +137,7 @@ public class PoneyView implements View {
      *
      * @return the ordinate of the poney
      */
-    public int getY() {
+    int getY() {
         return y;
     }
 

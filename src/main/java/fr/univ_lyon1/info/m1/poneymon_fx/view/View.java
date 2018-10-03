@@ -7,10 +7,10 @@ public interface View {
     /**
      * Update logically the view.
      */
-    public void update();
+    void update();
     
     /**
      * Display the view on the screen.
      */
-    public void display();
+    void display();
 }

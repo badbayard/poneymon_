@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class PoneyModel implements Model {
     // Number of laps to win the race
-    public static final int NB_LAPS = 5;
+    private static final int NB_LAPS = 5;
     // Minimal time for the poney to complete a lap (s)
     public static final int MINIMAL_TIME = 5;
     // Poney's row
@@ -36,9 +36,9 @@ public class PoneyModel implements Model {
     // Flag for the race completed
     private boolean raceFinished;
     // Other poneys
-    private List<PoneyModel> neighbors = new ArrayList<PoneyModel>();
+    private List<PoneyModel> neighbors = new ArrayList<>();
     // Views to notify when a change occurs
-    private List<View> views = new ArrayList<View>();
+    private List<View> views = new ArrayList<>();
 
     /**
      * PoneyModel constructor.
@@ -65,8 +65,7 @@ public class PoneyModel implements Model {
      * Gives the algebraic distance between the current poney and the other.
      *
      * @param otherPoney the other poney needed to get a distance
-     *
-     * @return           the algebraic distance between the poneys
+     * @return the algebraic distance between the poneys
      */
     public double getRelativeDistanceTo(PoneyModel otherPoney) {
         final double distOther = otherPoney.nbLap + otherPoney.x;
@@ -80,7 +79,7 @@ public class PoneyModel implements Model {
      *
      * @param poney the neighbor to add
      */
-    public void addNeighbor(PoneyModel poney) {
+    void addNeighbor(PoneyModel poney) {
         neighbors.add(poney);
     }
 
@@ -138,21 +137,20 @@ public class PoneyModel implements Model {
         hasBeenNianPoney = true;
         // Speed increased
         speed *= 2;
-        
+
         //Notify the view 
         playSound();
     }
 
     /**
-     * AI has to choose whether to trigger the boost
+     * AI has to choose whether to trigger the boost.
      *
      * @return <code>true</code> if the AI chose to trigger the boost.
-     *         <code>false</code> otherwise.
+     *     <code>false</code> otherwise.
      */
-    public boolean startNianMode() {
+    private boolean startNianMode() {
         final int lapsLeft = NB_LAPS - nbLap - 1;
-        final boolean slowestSpeed = Math.pow(1 - speed, lapsLeft) > 0.5;
-        return slowestSpeed;
+        return Math.pow(1 - speed, lapsLeft) > 0.5;
     }
 
     /**
@@ -192,13 +190,13 @@ public class PoneyModel implements Model {
                 isNian = false;
                 hasBeenNianPoney = true;
             }
-            
+
             x = 0;
 
             // Change of speed
             Random randomGenerator = new Random();
             speed = randomGenerator.nextFloat();
-        
+
             nbLap++;
 
             // Is the race finished ?
@@ -217,7 +215,7 @@ public class PoneyModel implements Model {
     /**
      * Notify the views to update.
      */
-    void notifyViews() {
+    private void notifyViews() {
         for (View v : views) {
             v.update();
         }
@@ -249,7 +247,7 @@ public class PoneyModel implements Model {
     public double getSpeed() {
         return speed;
     }
-    
+
     /**
      * Gets the poney abscissa.
      *
@@ -272,7 +270,6 @@ public class PoneyModel implements Model {
      * Sets the nbLap attributes.
      *
      * @param lap the new value for nbLap
-     *
      * @throws IllegalArgumentException if lap is < 0
      */
     public void setNbLap(int lap) throws IllegalArgumentException {
@@ -300,7 +297,7 @@ public class PoneyModel implements Model {
     public void setSpeed(double s) {
         speed = s;
     }
-    
+
     /**
      * Gets the poney row.
      *
@@ -371,7 +368,7 @@ public class PoneyModel implements Model {
         //Seek for the PoneyView
         for (View v : views) {
             if (v instanceof PoneyView) {
-                PoneyView pv = (PoneyView)v;
+                PoneyView pv = (PoneyView) v;
                 pv.playSound();
             }
         }

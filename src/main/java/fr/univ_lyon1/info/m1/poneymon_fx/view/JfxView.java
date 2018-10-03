@@ -9,14 +9,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import javafx.event.EventHandler;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.WindowEvent;
-
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -26,8 +18,7 @@ import javafx.scene.layout.HBox;
  */
 public class JfxView implements View {
     // Window title
-    public static final String WINDOW_TITLE = "Poneymon";
-    private final Stage stage;
+    private static final String WINDOW_TITLE = "Poneymon";
     private final Scene scene;
     // Field model 
     private FieldView fieldView;
@@ -37,15 +28,13 @@ public class JfxView implements View {
     /**
      * Constructor of JfxView.
      *
-     * @param s the stage of the view
-     * @param width the width of the view
+     * @param stage  the stage of the view
+     * @param width  the width of the view
      * @param height the height of the view
      */
-    public JfxView(Stage s, final int width, final int height) {
-        stage = s;
-
+    public JfxView(Stage stage, final int width, final int height) {
         stage.setTitle(WINDOW_TITLE);
-        
+
         root = new Group();
         scene = new Scene(root);
 
@@ -59,29 +48,20 @@ public class JfxView implements View {
         // On ajoute la scene a la fenetre et on affiche
         stage.setScene(scene);
         stage.show();
-        
+
         //Close all the stages when the main stage is closed.
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-                Platform.exit();
-            }
-        });
+        stage.setOnCloseRequest(e -> Platform.exit());
     }
 
     /**
      * Adds the event listeners.
      */
-    private void listenToEvent() {    
+    private void listenToEvent() {
         // Event Listener de la souris
-        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent m) {
-                controller.mouseClicked(m.getSceneX(), m.getSceneY(),
-                    fieldView);
-            }
-        });
+        scene.setOnMouseClicked(m -> controller.mouseClicked(m.getSceneX(), m.getSceneY(),
+            fieldView));
     }
-    
+
     /**
      * View display() implementation.
      */
@@ -103,7 +83,7 @@ public class JfxView implements View {
      */
     public void setModel(FieldModel fm) {
         fieldView.setModel(fm);
-        
+
         setButtons();
     }
 
@@ -132,35 +112,29 @@ public class JfxView implements View {
      */
     private void setButtons() {
         HBox hb = new HBox();
-        
+
         //Buttons to boost the poneys
         for (PoneyView poneyView : fieldView.getPoneyViews()) {
             final PoneyModel poneyModel = poneyView.getModel();
             //We don't want buttons for the AIs
             if (poneyModel.isAPlayer()) {
                 Button boostPoney = new Button("Boost poney: " + poneyModel.getColor());
-          
-                boostPoney.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent arg0) {
-                        controller.boostButton(poneyModel);
-                    }
-                });
+
+                boostPoney.setOnMouseClicked(m -> controller.boostButton(poneyModel));
                 hb.getChildren().add(boostPoney);
             }
         }
         //Button to pause/resume the game.
         final Button pauseResume = new Button("Pause");
-        pauseResume.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent m) {
-                controller.pauseResume();
+        pauseResume.setOnMouseClicked(m -> {
+            controller.pauseResume();
 
-                if (controller.getTimerActive()) {
-                    pauseResume.setText("Pause");
-                } else {
-                    pauseResume.setText("Resume");
-                }
-                
+            if (controller.getTimerActive()) {
+                pauseResume.setText("Pause");
+            } else {
+                pauseResume.setText("Resume");
             }
+
         });
         hb.getChildren().add(pauseResume);
         root.getChildren().add(hb);

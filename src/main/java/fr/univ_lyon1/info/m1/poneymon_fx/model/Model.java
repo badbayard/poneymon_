@@ -8,12 +8,12 @@ public interface Model {
     /**
      * Notify the model that the game just started.
      */
-    public void start();
+    void start();
 
     /**
      * Updates the specialized model.
      *
      * @param msElapsed time elapsed since last update
      */
-    public void update(double msElapsed);
+    void update(double msElapsed);
 }

@@ -14,10 +14,6 @@ import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-import java.util.ArrayList;
-import java.util.List;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 /**
  * Class printing the data of a poney.
@@ -39,7 +35,6 @@ public class DataView extends Canvas implements View {
     private Text poneyColor;
     private Text poneySpeed;
     private Text xMessage;
-    private Text row;
     private Text isAi;
     private Text boostActive;
     private Text lapNumber;

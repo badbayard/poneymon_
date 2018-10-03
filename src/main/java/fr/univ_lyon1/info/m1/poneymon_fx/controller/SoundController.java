@@ -9,12 +9,12 @@ import javafx.util.Duration;
 /**
  * Controller of the sound.
  */
-public class SoundController {
+class SoundController {
     //Music file to play
     private static final String MUSIC_FILE =
                                     "src/main/resources/assets/BoostPoney.wav";
     // Player of the sound
-    final MediaPlayer boostPoney;
+    private final MediaPlayer boostPoney;
 
     /**
      * SoundController constructor.
@@ -27,7 +27,7 @@ public class SoundController {
     /**
      * Plays a sound when a poney turn into nian poney.
      */
-    public void playBoostSound() {
+    void playBoostSound() {
         boostPoney.play();
         reset();
     }
