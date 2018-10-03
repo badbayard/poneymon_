@@ -1,17 +1,17 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import javafx.scene.canvas.Canvas;
-import javafx.scene.Scene;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+import javafx.scene.paint.ImagePattern;
 
 /**
  * Game field View.
@@ -30,6 +30,8 @@ public final class FieldView extends Canvas implements View {
     private FieldModel fieldModel;
     // DataView managed
     private DataView dataView;
+    // Background image pattern
+    private final ImagePattern grassPattern;
 
     /**
      * FieldView constructor.
@@ -37,10 +39,12 @@ public final class FieldView extends Canvas implements View {
      * @param w the width of the view
      * @param h the height of the view
      */
-    public FieldView(int w, int h) {
+    FieldView(int w, int h) {
         super(w, h);
         width = w;
         height = h;
+
+        grassPattern = new ImagePattern(new Image("assets/grass.png"), 0, 0, 32, 32, false);
 
         graphicsContext = getGraphicsContext2D();
     }
@@ -73,10 +77,10 @@ public final class FieldView extends Canvas implements View {
      *
      * @param c the controller
      */
-    public void setController(Controller c) {
+    void setController(Controller c) {
         controller = c;
-        for (int i = 0; i < poneyViews.size(); i++) {
-            poneyViews.get(i).setController(c);
+        for (PoneyView poneyView : poneyViews) {
+            poneyView.setController(c);
         }
     }
 
@@ -135,8 +139,7 @@ public final class FieldView extends Canvas implements View {
      * Renders the game field and the poneys.
      */
     public void display() {
-        graphicsContext.clearRect(0, 0, width, height);
-        graphicsContext.setFill(Color.rgb(240, 240, 240));
+        graphicsContext.setFill(grassPattern);
         graphicsContext.fillRect(0, 0, width, height);
 
         // Render the poneys
@@ -150,7 +153,7 @@ public final class FieldView extends Canvas implements View {
      *
      * @return a list of PoneyViews
      */
-    public List<PoneyView> getPoneyViews() {
+    List<PoneyView> getPoneyViews() {
         return poneyViews;
     }
     
@@ -159,7 +162,7 @@ public final class FieldView extends Canvas implements View {
      *
      * @param dv the dataView
      */
-    public void setDataView(DataView dv) {
+    void setDataView(DataView dv) {
         dataView = dv;
     }
 
