@@ -38,10 +38,26 @@ public class MainMenu extends Parent {
         getChildren().addAll(mainMenu);
     }
 
+    /**
+     * Get the button play.
+     * @return field btnSolo;
+     */
     public ButtonMenu getBtnPlay() {
         return btnSolo;
     }
 
+    /**
+     * Get the button multi.
+     * @return field btnMulti.
+     */
+    public ButtonMenu getBtnPlayMulti() {
+        return btnMulti;
+    }
+    
+    /**
+     * Get the button exit.
+     * @return field btnExit.
+     */
     public ButtonMenu getBtnExit() {
         return btnExit;
     }

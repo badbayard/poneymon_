@@ -55,9 +55,16 @@ public class App extends Application {
         btnPlay.setOnMouseClicked(event -> {
             createGameSolo();
         });
+        
+        //Event Play multi
+        ButtonMenu btnPlayMulti = menu.getMainMenu().getBtnPlayMulti();
+        btnPlayMulti.setOnMouseClicked(event -> {
+            //Menu suivant ?
+        });
 
         //Event exit game
-        menu.getMainMenu().getBtnExit().setOnMouseClicked(event -> {
+        ButtonMenu btnExit = menu.getMainMenu().getBtnExit();
+        btnExit.setOnMouseClicked(event -> {
             System.exit(0);
         });
     }
