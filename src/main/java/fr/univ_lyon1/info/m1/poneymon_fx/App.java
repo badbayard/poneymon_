@@ -19,33 +19,34 @@ import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
  */
 public class App extends Application {
 
-	
+
     private MenuView menu;
     private Stage stage;
-    
+
     /**
      * Start() launch the application.
-     * @see <a
-     * href="http://docs.oracle.com/javafx/2/scenegraph/jfxpub-scenegraph.htm">
-     * jfxpub-scenegraph.htm</a>
      *
      * @param s the application stage
+     * @see <a
+     *     href="http://docs.oracle.com/javafx/2/scenegraph/jfxpub-scenegraph.htm">
+     *     jfxpub-scenegraph.htm</a>
      */
     @Override
     public void start(Stage s) throws Exception {
         stage = s;
-        
+
         // Secondary view
         /*Stage s3 = new Stage();
         JfxView v2 = new JfxView(s3, 1000, 600);
         c.addView(v2);
         v2.setModel(m);
         v2.setController(c);*/
-        
+
         menu = new MenuView(800, 600);
+
         stage.setScene(menu.getScene());
         stage.show();
-        
+
         setEvents();
     }
 
@@ -55,7 +56,7 @@ public class App extends Application {
         btnPlay.setOnMouseClicked(event -> {
             createGameSolo();
         });
-        
+
         //Event Play multi
         ButtonMenu btnPlayMulti = menu.getMainMenu().getBtnPlayMulti();
         btnPlayMulti.setOnMouseClicked(event -> {
@@ -73,32 +74,29 @@ public class App extends Application {
      * Create a one-player game.
      */
     private void createGameSolo() {
-        // Creates a window 1200x800 px
-        JfxView jfxView = new JfxView(stage, 1200, 800);
-        // Creates a controller
-        Controller controller = new Controller();
-
         // Second window (stats)
         Stage s2 = new Stage();
         s2.setX(stage.getX() + stage.getWidth());
         s2.setY(stage.getY());
 
         DataView dataView = new DataView(s2, 210, 180);
+        Controller.CONTROLLER.setDataView(dataView);
 
         // Creates five poneys in the game field
         FieldModel fieldModel = new FieldModel(5);
 
-        controller.addView(jfxView);
-        controller.addView(dataView);
-        controller.addModel(fieldModel);
-        
-        jfxView.setDataView(dataView);
+        // Set a default poney model to the data view
+        dataView.setPoneyModel(fieldModel.getPoneyModel(0));
+
+        Controller.CONTROLLER.addModel(fieldModel);
+
+        // Creates a window 1200x800 px
+        JfxView jfxView = new JfxView(stage, 1200, 800);
         // Trigger the waterfall initialization
         jfxView.setModel(fieldModel);
-        jfxView.setController(controller);
 
         // Launch the game
-        controller.startTimer();
+        Controller.CONTROLLER.startTimer();
     }
 
     public static void main(String[] args) {

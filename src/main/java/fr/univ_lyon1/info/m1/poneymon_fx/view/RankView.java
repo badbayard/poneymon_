@@ -44,15 +44,17 @@ public class RankView implements View {
         x = poneyView.getX() - 90 + imgWidth;
         y = poneyView.getY() + 30;
         rank = poneyView.getModel().getRank();
-    }
 
-    /**
-     * Render the view.
-     */
-    public void display() {
         // Display parameters
         graphicsContext.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
 
+        colorRank();
+
+        // Display the rank
+        graphicsContext.fillText(Integer.toString(rank), x, y);
+    }
+
+    private void colorRank() {
         switch (rank) {
             // Gold color
             case 1 :
@@ -71,7 +73,5 @@ public class RankView implements View {
                 graphicsContext.setFill(Color.BLACK);
                 break;
         }
-        // Display the rank
-        graphicsContext.fillText(Integer.toString(rank), x, y);
     }
 }

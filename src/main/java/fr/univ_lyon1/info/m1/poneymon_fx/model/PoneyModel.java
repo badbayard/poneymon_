@@ -1,7 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.view.PoneyView;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.View;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
 import java.util.Random;
 import java.util.ArrayList;
@@ -37,8 +36,6 @@ public class PoneyModel implements Model {
     private boolean raceFinished;
     // Other poneys
     private List<PoneyModel> neighbors = new ArrayList<>();
-    // Views to notify when a change occurs
-    private List<View> views = new ArrayList<>();
 
     /**
      * PoneyModel constructor.
@@ -84,24 +81,6 @@ public class PoneyModel implements Model {
     }
 
     /**
-     * Adds a view subscribed to the update notification.
-     *
-     * @param v the view subscribed
-     */
-    public void addView(View v) {
-        views.add(v);
-    }
-
-    /**
-     * Removes a view from the subscribed list.
-     *
-     * @param v the view to remove
-     */
-    public void removeView(View v) {
-        views.remove(v);
-    }
-
-    /**
      * Removes a neighbor.
      *
      * @param poney the neighbor to remove
@@ -139,7 +118,6 @@ public class PoneyModel implements Model {
             // Speed increased
             speed *= 2;
 
-            //Notify the view
             playSound();
         }
     }
@@ -208,18 +186,6 @@ public class PoneyModel implements Model {
                 // AI boost decision
                 boostIfNecessary();
             }
-        }
-
-        // Notify the views to update
-        notifyViews();
-    }
-
-    /**
-     * Notify the views to update.
-     */
-    private void notifyViews() {
-        for (View v : views) {
-            v.update();
         }
     }
 
@@ -364,16 +330,10 @@ public class PoneyModel implements Model {
     }
 
     /**
-     * Notify the view that a sound has to be played.
+     * Notify the controller that a sound has to be played.
      */
     private void playSound() {
-        //Seek for the PoneyView
-        for (View v : views) {
-            if (v instanceof PoneyView) {
-                PoneyView pv = (PoneyView) v;
-                pv.playSound();
-            }
-        }
+        Controller.CONTROLLER.playBoostSound();
     }
 
     /**

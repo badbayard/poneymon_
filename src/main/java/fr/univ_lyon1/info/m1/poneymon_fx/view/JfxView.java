@@ -1,10 +1,9 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
@@ -22,7 +21,6 @@ public class JfxView implements View {
     private final Scene scene;
     // Field model 
     private FieldView fieldView;
-    private Controller controller;
     private Group root;
 
     /**
@@ -33,6 +31,8 @@ public class JfxView implements View {
      * @param height the height of the view
      */
     public JfxView(Stage stage, final int width, final int height) {
+        Controller.CONTROLLER.addView(this);
+
         stage.setTitle(WINDOW_TITLE);
 
         root = new Group();
@@ -59,22 +59,15 @@ public class JfxView implements View {
     private void listenToEvent() {
         // Event Listener de la souris
         scene.setOnMouseClicked(m ->
-            controller.mouseClicked(m.getSceneX(), m.getSceneY(), fieldView)
+            Controller.CONTROLLER.mouseClicked(m.getSceneX(), m.getSceneY(), fieldView)
         );
-    }
-
-    /**
-     * View display() implementation.
-     */
-    public void display() {
-        fieldView.display();
     }
 
     /**
      * View update() implementation.
      */
     public void update() {
-        fieldView.update();
+        // nothing to be done
     }
 
     /**
@@ -86,25 +79,6 @@ public class JfxView implements View {
         fieldView.setModel(fm);
 
         setButtons();
-    }
-
-    /**
-     * Sets the controller.
-     *
-     * @param c the controller
-     */
-    public void setController(Controller c) {
-        controller = c;
-        fieldView.setController(c);
-    }
-
-    /**
-     * Sets the data view.
-     *
-     * @param dv the dataView
-     */
-    public void setDataView(DataView dv) {
-        fieldView.setDataView(dv);
     }
 
     /**
@@ -121,16 +95,16 @@ public class JfxView implements View {
             if (poneyModel.isAPlayer()) {
                 Button boostPoney = new Button("Boost poney: " + poneyModel.getColor());
 
-                boostPoney.setOnMouseClicked(m -> controller.boostButton(poneyModel));
+                boostPoney.setOnMouseClicked(m -> Controller.CONTROLLER.boostButton(poneyModel));
                 hb.getChildren().add(boostPoney);
             }
         }
         //Button to pause/resume the game.
         final Button pauseResume = new Button("Pause");
         pauseResume.setOnMouseClicked(m -> {
-            controller.pauseResume();
+            Controller.CONTROLLER.pauseResume();
 
-            if (controller.getTimerActive()) {
+            if (Controller.CONTROLLER.getTimerActive()) {
                 pauseResume.setText("Pause");
             } else {
                 pauseResume.setText("Resume");

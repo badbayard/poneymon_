@@ -20,8 +20,6 @@ public class PoneyImprovedTest {
     }
 
 
-
-
     /**
      * Test for the boost
      */
@@ -32,25 +30,24 @@ public class PoneyImprovedTest {
 
 
         poney.turnIntoNianPoney();
-        assert(poney.getSpeed() == 0.5);
-        assert(poney.isNianPoney());
+        assert (poney.getSpeed() == 0.5);
+        assert (poney.isNianPoney());
         assertTrue(!poney.canBoost());
 
         poney.turnIntoNianPoney();
 
-        assert(poney.getSpeed() == 0.5);
-        assert(poney.isNianPoney());
+        assert (poney.getSpeed() == 0.5);
+        assert (poney.isNianPoney());
         assertTrue(!poney.canBoost());
 
     }
 
 
     /**
-     * loose NianMode after a turn
+     * Lose NianMode after a lap.
      */
     @Test
-    public void looseNianMode()
-    {
+    public void loseNianMode() {
         poney.turnIntoNianPoney();
 
         poney.setX(0.999);
@@ -59,18 +56,13 @@ public class PoneyImprovedTest {
 
         poney.update(500);
 
-        assertEquals(poney.isNianPoney() , false);
-        assertEquals(poney.canBoost() , false);
+        assertEquals(poney.isNianPoney(), false);
+        assertEquals(poney.canBoost(), false);
         assert (poney.getSpeed() < 1);
 
         poney.turnIntoNianPoney();
 
-        assertEquals(poney.canBoost() , false);
+        assertEquals(poney.canBoost(), false);
         assertTrue(!poney.canBoost());
-
     }
-
-
-
-
 }

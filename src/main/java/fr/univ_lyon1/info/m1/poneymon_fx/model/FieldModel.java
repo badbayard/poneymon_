@@ -72,6 +72,15 @@ public class FieldModel implements Model {
     }
 
     /**
+     * Returns a specific poney from the field model.
+     * @param index index of the poney
+     * @return poney at index in the arraylist of poneys
+     */
+    public PoneyModel getPoneyModel(int index) {
+        return poneys[index];
+    }
+
+    /**
      * Getter on the number of PoneyModels.
      *
      * @return the number of PoneyModels stored in this instance

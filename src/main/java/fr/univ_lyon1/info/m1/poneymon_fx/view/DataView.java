@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -43,6 +44,8 @@ public class DataView implements View {
      * @param h the height of the view
      */
     public DataView(Stage stage, int w, int h) {
+        Controller.CONTROLLER.addView(this);
+
         stage.setTitle(WINDOW_TITLE);
 
         width = w;
@@ -88,7 +91,7 @@ public class DataView implements View {
      *
      * @param pm the new PoneyModel
      */
-    void setPoneyModel(PoneyModel pm) {
+    public void setPoneyModel(PoneyModel pm) {
         poneyModel = pm;
     }
 
@@ -96,8 +99,6 @@ public class DataView implements View {
      * Update the data.
      */
     public void update() {
-        // Round the speed
-
         // Update the texts
         colorValue.setText(poneyModel.getColor());
         colorValue.setStyle("-fx-fill:" + poneyModel.getColor());
@@ -120,12 +121,6 @@ public class DataView implements View {
         isAiValue.setText("" + poneyModel.isAnAi());
 
         lapValue.setText("" + poneyModel.getNbLap());
-    }
-
-    /**
-     * Display the texts.
-     */
-    public void display() {
     }
 
     /**

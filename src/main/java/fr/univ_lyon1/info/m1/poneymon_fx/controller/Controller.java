@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
 import javafx.animation.AnimationTimer;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.view.View;
@@ -20,6 +21,8 @@ public class Controller {
     private List<View> views = new ArrayList<>();
     // Subscribed models for update events
     private List<Model> models = new ArrayList<>();
+    // Tiny window displaying data about a poney
+    private DataView dataView;
     // Timer handling the time in game
     private AnimationTimer timer;
     // Store the timestamps of the last timer update
@@ -33,10 +36,12 @@ public class Controller {
     // Sound controller managed by this controller
     private SoundController soundController = new SoundController();
 
+    public static final Controller CONTROLLER = new Controller();
+
     /**
      * Controller constructor.
      */
-    public Controller() {
+    private Controller() {
         timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 //Prevent from resuming the game when the race is over
@@ -52,7 +57,7 @@ public class Controller {
                     // Each time the event is triggered, update the model
                     updateModels(msElapsed);
                     // refresh the views
-                    displayViews();
+                    notifyViews();
                     // update the last timer update
                     lastTimerUpdate = currentNanoTime;
                 }
@@ -67,6 +72,15 @@ public class Controller {
      */
     public void addView(View view) {
         views.add(view);
+    }
+
+    /**
+     * Removes a specific view from the list of views.
+     *
+     * @param view the view that needs to be removed
+     */
+    public void removeView(View view) {
+        views.remove(view);
     }
 
     /**
@@ -92,9 +106,9 @@ public class Controller {
     /**
      * Requests the views to be rendered.
      */
-    private void displayViews() {
+    private void notifyViews() {
         for (View v : views) {
-            v.display();
+            v.update();
         }
     }
 
@@ -176,5 +190,18 @@ public class Controller {
      */
     public boolean getTimerActive() {
         return timerActive;
+    }
+
+    /**
+     * Sets the data view.
+     *
+     * @param dv the dataView
+     */
+    public void setDataView(DataView dv) {
+        dataView = dv;
+    }
+
+    public DataView getDataView() {
+        return dataView;
     }
 }

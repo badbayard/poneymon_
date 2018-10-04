@@ -30,7 +30,6 @@ public class PoneyView implements View {
     private Image currentPoneyImage;
     private Image nianPoneyImage;
     private Image classicPoneyImage;
-    private Controller controller;
 
     /**
      * PoneyView constructor.
@@ -40,11 +39,10 @@ public class PoneyView implements View {
      * @param cWidth  the canvas width
      * @param cHeight the canvas height
      */
-    public PoneyView(PoneyModel pm, GraphicsContext gc, int cWidth,
-                     int cHeight) {
-        poneyModel = pm;
+    public PoneyView(PoneyModel pm, GraphicsContext gc, int cWidth, int cHeight) {
+        Controller.CONTROLLER.addView(this);
 
-        poneyModel.addView(this);
+        poneyModel = pm;
 
         graphicsContext = gc;
         canvasWidth = cWidth;
@@ -71,7 +69,7 @@ public class PoneyView implements View {
      */
     public void update() {
         // Get the x coordinate
-        x = (int) (canvasWidth * poneyModel.getX() * widthRatio - (imageWidth / 2));
+        x = (int) (canvasWidth * poneyModel.getX() * widthRatio - imageWidth);
 
         // Get the y coordinate
         int nbPoneys = poneyModel.countNeighbors() + 1;
@@ -89,14 +87,8 @@ public class PoneyView implements View {
 
         // Update of the rank view
         rankView.update();
-    }
+        graphicsContext.drawImage(currentPoneyImage, x, y);
 
-    /**
-     * Render the poney.
-     */
-    public void display() {
-        rankView.display();
-        graphicsContext.drawImage(currentPoneyImage, x - 90, y);
     }
 
     /**
@@ -142,21 +134,5 @@ public class PoneyView implements View {
      */
     int getY() {
         return y;
-    }
-
-    /**
-     * Notifies the sound controller to play a sound.
-     */
-    public void playSound() {
-        controller.playBoostSound();
-    }
-
-    /**
-     * Sets the controller.
-     *
-     * @param c the controller
-     */
-    void setController(Controller c) {
-        controller = c;
     }
 }
