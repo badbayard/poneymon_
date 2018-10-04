@@ -6,7 +6,11 @@ import javafx.stage.Stage;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.JfxView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.ButtonMenu;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
+
+import java.io.IOException;
+
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
 /**
@@ -16,7 +20,8 @@ import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 public class App extends Application {
 
 	
-    MenuView menu;
+    private MenuView menu;
+    private Stage stage;
     
     /**
      * Start() launch the application.
@@ -24,10 +29,43 @@ public class App extends Application {
      * href="http://docs.oracle.com/javafx/2/scenegraph/jfxpub-scenegraph.htm">
      * jfxpub-scenegraph.htm</a>
      *
-     * @param stage the application stage
+     * @param s the application stage
      */
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage s) throws Exception {
+        stage = s;
+        
+        // Secondary view
+        /*Stage s3 = new Stage();
+        JfxView v2 = new JfxView(s3, 1000, 600);
+        c.addView(v2);
+        v2.setModel(m);
+        v2.setController(c);*/
+        
+        menu = new MenuView();
+        stage.setScene(menu.getScene());
+        stage.show();
+        
+        setEvents();
+    }
+
+    private void setEvents() {
+        //Event Play solo
+        ButtonMenu btnPlay = menu.getMainMenu().getBtnPlay();
+        btnPlay.setOnMouseClicked(event -> {
+            createGameSolo();
+        });
+
+        //Event exit game
+        menu.getMainMenu().getBtnExit().setOnMouseClicked(event -> {
+            System.exit(0);
+        });
+    }
+
+    /**
+     * Create a one-player game.
+     */
+    private void createGameSolo() {
         // Creates a window 1200x800 px
         JfxView jfxView = new JfxView(stage, 1200, 800);
         // Creates a controller
@@ -46,25 +84,14 @@ public class App extends Application {
         controller.addView(jfxView);
         controller.addView(dataView);
         controller.addModel(fieldModel);
+        
         jfxView.setDataView(dataView);
         // Trigger the waterfall initialization
         jfxView.setModel(fieldModel);
         jfxView.setController(controller);
 
-        // Secondary view
-        /*Stage s3 = new Stage();
-        JfxView v2 = new JfxView(s3, 1000, 600);
-        c.addView(v2);
-        v2.setModel(m);
-        v2.setController(c);*/
-
-        
         // Launch the game
         controller.startTimer();
-        
-        /*menu = new MenuView();
-        stage.setScene(menu.getScene());
-        stage.show();*/
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,8 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
+import java.io.IOException;
+
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -33,5 +36,13 @@ public class MainMenu extends Parent {
         mainMenu.getChildren().addAll(btnSolo, btnMulti, btnExit);
         
         getChildren().addAll(mainMenu);
+    }
+
+    public ButtonMenu getBtnPlay() {
+        return btnSolo;
+    }
+
+    public ButtonMenu getBtnExit() {
+        return btnExit;
     }
 }

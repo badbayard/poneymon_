@@ -140,4 +140,8 @@ public class JfxView implements View {
         hb.getChildren().add(pauseResume);
         root.getChildren().add(hb);
     }
+
+    public Scene getScene() {
+        return scene;
+    }
 }

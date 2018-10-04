@@ -47,4 +47,8 @@ public class MenuView {
     public Scene getScene() {
         return scene;
     }
+
+    public MainMenu getMainMenu() {
+        return mainMenu;
+    }
 }
