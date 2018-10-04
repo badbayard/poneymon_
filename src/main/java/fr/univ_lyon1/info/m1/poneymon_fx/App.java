@@ -28,8 +28,6 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        // Creates five poneys in the game field
-        FieldModel fieldModel = new FieldModel(5);
         // Creates a window 1200x800 px
         JfxView jfxView = new JfxView(stage, 1200, 800);
         // Creates a controller
@@ -37,8 +35,14 @@ public class App extends Application {
 
         // Second window (stats)
         Stage s2 = new Stage();
+        s2.setX(stage.getX() + stage.getWidth());
+        s2.setY(stage.getY());
+
         DataView dataView = new DataView(s2, 210, 180);
-        
+
+        // Creates five poneys in the game field
+        FieldModel fieldModel = new FieldModel(5);
+
         controller.addView(jfxView);
         controller.addView(dataView);
         controller.addModel(fieldModel);
