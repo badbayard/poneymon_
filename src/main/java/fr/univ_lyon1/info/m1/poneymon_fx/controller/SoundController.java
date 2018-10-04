@@ -10,55 +10,55 @@ import javafx.util.Duration;
  * Controller of the sound.
  */
 public class SoundController {
-	// Music file to play
-	private static final String MUSIC_FILE = "src/main/resources/assets/BoostPoney.wav";
-	private static final String MUSIC_BACKGROUND = "src/main/resources/assets/poney.mp3";
-	// Player of the sound
-	private final MediaPlayer boostPoney;
-	private final MediaPlayer chunk;
+    // Music file to play
+    private static final String MUSIC_FILE = "src/main/resources/assets/BoostPoney.wav";
+    private static final String MUSIC_BACKGROUND = "src/main/resources/assets/poney.mp3";
+    // Player of the sound
+    private final MediaPlayer boostPoney;
+    private final MediaPlayer chunk;
 
-	/**
-	 * SoundController constructor.
-	 */
-	public SoundController() {
-		Media sound = new Media(new File(MUSIC_FILE).toURI().toString());
-		Media sound2 = new Media(new File(MUSIC_BACKGROUND).toURI().toString());
-		boostPoney = new MediaPlayer(sound);
-		chunk = new MediaPlayer(sound2);
+    /**
+     * SoundController constructor.
+     */
+    public SoundController() {
+        Media sound = new Media(new File(MUSIC_FILE).toURI().toString());
+        Media sound2 = new Media(new File(MUSIC_BACKGROUND).toURI().toString());
+        boostPoney = new MediaPlayer(sound);
+        chunk = new MediaPlayer(sound2);
 
-	}
+    }
 
-	/**
-	 * Plays a sound when a poney turn into nian poney.
-	 */
-	void playBoostSound() {
-		boostPoney.play();
-		reset();
-	}
+    /**
+     * Plays a sound when a poney turn into nian poney.
+     */
+    void playBoostSound() {
+        boostPoney.play();
+        reset();
+    }
 
-	public void playchunk() {
-		chunk.play();
+    public void playchunk() {
+        chunk.play();
 
-	}
+    }
 
-	/**
-	 * Sets the sound to the begining.
-	 */
-	private void reset() {
-		boostPoney.seek(Duration.ZERO);
-	}
+    /**
+     * Sets the sound to the begining.
+     */
+    private void reset() {
+        boostPoney.seek(Duration.ZERO);
+    }
 
-	/**
-	 * Pauses the sound.
-	 */
-	void pause() {
-		boostPoney.pause();
-	}
+    /**
+     * Pauses the sound.
+     */
+    void pause() {
+        boostPoney.pause();
+    }
 
-	/**
-	 * Resumes the sound.
-	 */
-	void resume() {
-		boostPoney.play();
-	}
+    /**
+     * Resumes the sound.
+     */
+    void resume() {
+        boostPoney.play();
+    }
 }
