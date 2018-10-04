@@ -13,26 +13,31 @@ public class MenuView {
 	
     private MainMenu mainMenu;
     private Scene scene;
+    private int width;
+    private int height;
     
     /**
 	 * Constructor of MenuView.
 	 */
-    public MenuView() {
+    public MenuView(int x, int y) {
 		
+        width = x;
+        height = y;
+        
         //Creation de la fenêtre.
         Pane root = new Pane();
-        root.setPrefSize(800, 600);
+        root.setPrefSize(width, height);
         
         //Chargement du background.
         Image background = new Image("assets/bgMenu.jpg");
         
         //Adapte l'image a la taille de la fenêtre
         ImageView imgView = new ImageView(background);
-        imgView.setFitWidth(800);
-        imgView.setFitHeight(600);
+        imgView.setFitWidth(width);
+        imgView.setFitHeight(height);
         
         //Affiche le menu principal
-        mainMenu = new MainMenu();
+        mainMenu = new MainMenu(width, height);
         mainMenu.setVisible(true);
         
         root.getChildren().addAll(imgView, mainMenu);
@@ -48,6 +53,10 @@ public class MenuView {
         return scene;
     }
 
+    /**
+     * Get the main menu.
+     * @return field mainMenu.
+     */
     public MainMenu getMainMenu() {
         return mainMenu;
     }

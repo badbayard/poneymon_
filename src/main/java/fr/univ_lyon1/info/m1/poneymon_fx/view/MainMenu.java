@@ -22,12 +22,12 @@ public class MainMenu extends Parent {
     /**
      * Constructor of MainMenu.
      */
-    public MainMenu() {
+    public MainMenu(int x, int y) {
         //La valeur 10 corresponds à l'écarts entre les différents éléments
         mainMenu = new VBox(10);
         
-        mainMenu.setTranslateX(100);
-        mainMenu.setTranslateY(200);
+        mainMenu.setTranslateX(x / 5);
+        mainMenu.setTranslateY(y / 3);
         
         btnSolo = new ButtonMenu("Play alone");
         btnMulti = new ButtonMenu("Multiplayer");

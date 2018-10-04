@@ -42,7 +42,7 @@ public class App extends Application {
         v2.setModel(m);
         v2.setController(c);*/
         
-        menu = new MenuView();
+        menu = new MenuView(800, 600);
         stage.setScene(menu.getScene());
         stage.show();
         
