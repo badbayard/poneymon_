@@ -17,6 +17,8 @@ public class PoneyView implements View {
     private final int canvasHeight;
     // Size of the image
     private final double imageHeight;
+    private final double imageWidth;
+    private final double widthRatio;
     // Model associated with the view
     private final PoneyModel poneyModel;
     // Graphics context
@@ -54,10 +56,11 @@ public class PoneyView implements View {
         nianPoneyImage = new Image("assets/pony-" + color + "-rainbow.gif");
 
         imageHeight = classicPoneyImage.getHeight();
-        int imageWidth = (int) classicPoneyImage.getWidth();
+        imageWidth = classicPoneyImage.getWidth();
 
-        rankView = new RankView(this, graphicsContext, imageWidth,
-            (int) imageHeight);
+        widthRatio = (canvasWidth + (imageWidth / 2)) / canvasWidth;
+
+        rankView = new RankView(this, graphicsContext, (int) imageWidth, (int) imageHeight);
 
         // Update the variable attributes of PoneyView
         update();
@@ -68,7 +71,7 @@ public class PoneyView implements View {
      */
     public void update() {
         // Get the x coordinate
-        x = (int) (poneyModel.getX() * canvasWidth);
+        x = (int) (canvasWidth * poneyModel.getX() * widthRatio - (imageWidth / 2));
 
         // Get the y coordinate
         int nbPoneys = poneyModel.countNeighbors() + 1;
