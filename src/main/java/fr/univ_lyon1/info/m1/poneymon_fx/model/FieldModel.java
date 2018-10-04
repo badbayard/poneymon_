@@ -81,7 +81,7 @@ public class FieldModel implements Model {
     }
 
     /**
-     * Renvoit la liste des indices triés des animalModels classés par
+     * Renvoit la liste des indices triés des PoneyModel classés par
      progresion croissante.
      */
     public void rankPoney() {
@@ -97,7 +97,7 @@ public class FieldModel implements Model {
     }
 
     /**
-     * Recherche la progression maximum dans le tableau de animals.
+     * Recherche la progression maximum dans le tableau de poneyCpy.
      *
      * @return indice du maximum
      */
