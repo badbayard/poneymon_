@@ -6,9 +6,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 public class FieldModel implements Model {
 
     private PoneyModel[] poneys;
-    // Poneys' colors
-    private static final String[] COLOR_MAP = new String[] {"blue", "green", "orange", "purple",
-        "yellow"};
+
     // State of the poneys. True : AI, False : Human
     private static final boolean[] isIa = new boolean[] {true, true, true, false, false};
 
@@ -30,7 +28,7 @@ public class FieldModel implements Model {
 
         // Initializing poneys
         for (int i = 0; i < poneys.length; i++) {
-            poneys[i] = new PoneyModel(COLOR_MAP[i], i, isIa[i]);
+            poneys[i] = new PoneyModel(PoneyModel.getColor(i), i, isIa[i]);
         }
         // make them know the others
         for (int i = 0; i < poneys.length; i++) {

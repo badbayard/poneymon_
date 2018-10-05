@@ -36,6 +36,11 @@ public class PoneyModel implements Model {
     private boolean raceFinished;
     // Other poneys
     private List<PoneyModel> neighbors = new ArrayList<>();
+    // Available poney colors
+    private static final String[] COLOR_MAP = new String[] {"blue", "green", "orange", "purple",
+        "yellow"};
+    // Notifies the controller to play a boost sound
+    private boolean playSound = false;
 
     /**
      * PoneyModel constructor.
@@ -112,13 +117,13 @@ public class PoneyModel implements Model {
      */
     public void turnIntoNianPoney() {
         if (!hasBeenNianPoney) {
-            // Levé de drapeau
+            // Levé de drapeaux
             isNian = true;
             hasBeenNianPoney = true;
+            playSound = true;
+
             // Speed increased
             speed *= 2;
-
-            playSound();
         }
     }
 
@@ -126,7 +131,7 @@ public class PoneyModel implements Model {
      * AI has to choose whether to trigger the boost.
      *
      * @return <code>true</code> if the AI chose to trigger the boost.
-     *     <code>false</code> otherwise.
+     * <code>false</code> otherwise.
      */
     private boolean startNianMode() {
         final int lapsLeft = NB_LAPS - nbLap - 1;
@@ -205,6 +210,16 @@ public class PoneyModel implements Model {
      */
     public String getColor() {
         return poneyColor;
+    }
+
+    /**
+     * Returns the color at position index in the color map.
+     *
+     * @param index index of the color
+     * @return color at position index
+     */
+    static String getColor(int index) {
+        return COLOR_MAP[index % COLOR_MAP.length];
     }
 
     /**
@@ -330,14 +345,8 @@ public class PoneyModel implements Model {
     }
 
     /**
-     * Notify the controller that a sound has to be played.
-     */
-    private void playSound() {
-        Controller.CONTROLLER.playBoostSound();
-    }
-
-    /**
      * Determine la progression totale d'un poney.
+     *
      * @return progression totale d'un poney
      */
     public double totalProgress() {
@@ -346,6 +355,7 @@ public class PoneyModel implements Model {
 
     /**
      * constructeur par copie (remplace l'interface cloneable).
+     *
      * @param clone PoneyModel
      */
     public PoneyModel(PoneyModel clone) {
@@ -358,4 +368,15 @@ public class PoneyModel implements Model {
         speed = clone.getSpeed();
     }
 
+    /**
+     * Returns true if a sound must be played and turn the flag to false, else returns false.
+     * @return state of playSound
+     */
+    public boolean shouldPlaySound() {
+        if (playSound) {
+            playSound = false;
+            return true;
+        }
+        return false;
+    }
 }

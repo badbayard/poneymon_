@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
@@ -66,7 +67,7 @@ public class App extends Application {
         //Event exit game
         ButtonMenu btnExit = menu.getMainMenu().getBtnExit();
         btnExit.setOnMouseClicked(event -> {
-            System.exit(0);
+            Platform.exit();
         });
     }
 
@@ -88,10 +89,10 @@ public class App extends Application {
         // Set a default poney model to the data view
         dataView.setPoneyModel(fieldModel.getPoneyModel(0));
 
-        Controller.CONTROLLER.addModel(fieldModel);
+        Controller.CONTROLLER.setFieldModel(fieldModel);
 
         // Creates a window 1200x800 px
-        JfxView jfxView = new JfxView(stage, 1200, 800);
+        JfxView jfxView = new JfxView(stage, 800, 600);
         // Trigger the waterfall initialization
         jfxView.setModel(fieldModel);
 

@@ -13,33 +13,34 @@ import javafx.scene.shape.Rectangle;
  * Class creating the main menu.
  */
 public class MainMenu extends Parent {
-	
+
     private VBox mainMenu;
     private ButtonMenu btnSolo;
     private ButtonMenu btnMulti;
     private ButtonMenu btnExit;
-	
+
     /**
      * Constructor of MainMenu.
      */
     public MainMenu(int x, int y) {
         //La valeur 10 corresponds à l'écarts entre les différents éléments
         mainMenu = new VBox(10);
-        
+
         mainMenu.setTranslateX(x / 5);
         mainMenu.setTranslateY(y / 3);
-        
+
         btnSolo = new ButtonMenu("Play alone");
         btnMulti = new ButtonMenu("Multiplayer");
         btnExit = new ButtonMenu("Exit");
-		
+
         mainMenu.getChildren().addAll(btnSolo, btnMulti, btnExit);
-        
+
         getChildren().addAll(mainMenu);
     }
 
     /**
      * Get the button play.
+     *
      * @return field btnSolo;
      */
     public ButtonMenu getBtnPlay() {
@@ -48,14 +49,16 @@ public class MainMenu extends Parent {
 
     /**
      * Get the button multi.
+     *
      * @return field btnMulti.
      */
     public ButtonMenu getBtnPlayMulti() {
         return btnMulti;
     }
-    
+
     /**
      * Get the button exit.
+     *
      * @return field btnExit.
      */
     public ButtonMenu getBtnExit() {

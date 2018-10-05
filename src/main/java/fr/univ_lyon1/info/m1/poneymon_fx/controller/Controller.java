@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
 import javafx.animation.AnimationTimer;
 
@@ -20,7 +21,7 @@ public class Controller {
     // Subscribed views for display events
     private List<View> views = new ArrayList<>();
     // Subscribed models for update events
-    private List<Model> models = new ArrayList<>();
+    private FieldModel fieldModel;
     // Tiny window displaying data about a poney
     private DataView dataView;
     // Timer handling the time in game
@@ -55,11 +56,13 @@ public class Controller {
                     double msElapsed =
                         (currentNanoTime - lastTimerUpdate) / 1000000.0;
                     // Each time the event is triggered, update the model
-                    updateModels(msElapsed);
+                    fieldModel.update(msElapsed);
                     // refresh the views
                     notifyViews();
                     // update the last timer update
                     lastTimerUpdate = currentNanoTime;
+                    // Check if a boost sound must be played
+                    playBoostSound();
                 }
             }
         };
@@ -84,26 +87,6 @@ public class Controller {
     }
 
     /**
-     * Gives a new model to the controller.
-     *
-     * @param model the model that wants to subscribe to the update event
-     */
-    public void addModel(Model model) {
-        models.add(model);
-    }
-
-    /**
-     * Requests the models to update.
-     *
-     * @param msElapsed time elapsed since last update
-     */
-    private void updateModels(double msElapsed) {
-        for (Model m : models) {
-            m.update(msElapsed);
-        }
-    }
-
-    /**
      * Requests the views to be rendered.
      */
     private void notifyViews() {
@@ -117,9 +100,7 @@ public class Controller {
      */
     public void startTimer() {
         // Notify models of the start
-        for (Model m : models) {
-            m.start();
-        }
+        fieldModel.start();
 
         // Launch the timer
         lastTimerUpdate = System.nanoTime();
@@ -179,14 +160,19 @@ public class Controller {
      * Asks to the SoundController to play a sound.
      */
     public void playBoostSound() {
-        soundController.playBoostSound();
+        PoneyModel[] poneys = fieldModel.getPoneyModels();
+        for (PoneyModel pm : poneys) {
+            if (pm.shouldPlaySound()) {
+                soundController.playBoostSound();
+            }
+        }
     }
 
     /**
      * Gets the timerActive flag.
      *
      * @return <code>true</code> if the timer is active.
-     *     <code>false</code> otherwise.
+     * <code>false</code> otherwise.
      */
     public boolean getTimerActive() {
         return timerActive;
@@ -203,5 +189,9 @@ public class Controller {
 
     public DataView getDataView() {
         return dataView;
+    }
+
+    public void setFieldModel(FieldModel fm) {
+        fieldModel = fm;
     }
 }
