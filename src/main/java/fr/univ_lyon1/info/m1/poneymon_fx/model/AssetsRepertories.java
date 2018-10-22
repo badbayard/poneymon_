@@ -92,7 +92,7 @@ public class AssetsRepertories {
      * @param filteredFiles liste de fichier.
      * @return tableau de couleur
      */
-    public String [] filtreColor(List<String> filteredFiles) {
+    public String [] filterColor(List<String> filteredFiles) {
         String [] colors = new String [filteredFiles.size()];
         int indexColor = 0;
         String pattern = "[^a-zA-Z]+";
@@ -112,10 +112,10 @@ public class AssetsRepertories {
         pour une famille d'entitée.
      * @return tableau de couleur
      */
-    public String [] searchAndFiltre(String regexFilter) {
+    public String [] searchAndFilter(String regexFilter) {
         this.browseAssets();
         List<String> files = this.filter(regexFilter);
-        return this.filtreColor(files);
+        return this.filterColor(files);
     }
 
 }

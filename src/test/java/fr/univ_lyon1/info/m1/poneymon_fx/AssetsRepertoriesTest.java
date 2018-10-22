@@ -16,9 +16,10 @@ public class AssetsRepertoriesTest {
 
     @Before
     public void setUp () {
-        final String testPath = "/home/yann/Documents/M1/multimif/poneymon/src/main/resources/assets";
+        final String testPath = System.getProperty("user.dir") + "/src/main/resources/assets";
         repAsset = new AssetsRepertories(testPath);
     }
+
 
     @Test
     public void displayTest () {
@@ -54,32 +55,27 @@ public class AssetsRepertoriesTest {
         String regexFilter = "pony-[a-zA-Z]*(.gif)";
         List<String> test = repAsset.filter(regexFilter);
 
-        String [] colorsTest = repAsset.filtreColor(test);
+        String [] colorsTest = repAsset.filterColor(test);
+        String [] colorsExpected= new String[] {"green", "blue", "orange", "purple", "yellow"};
 
-        String [] strAttendu= new String[] {"green", "blue", "orange", "purple", "yellow"};
-
-        assertEquals(colorsTest,strAttendu);
+        assertEquals(colorsTest,colorsExpected);
 
     }
 
     @Test
-    public void testAndFiltre () {
+    public void testAndFilter () {
         String regexFilter = "pony-[a-zA-Z]*(.gif)";
-        String [] colorsTest = repAsset.searchAndFiltre(regexFilter);
+        String [] colorsTest = repAsset.searchAndFilter(regexFilter);
 
-        String [] strAttendu= new String[] {"green", "blue", "orange", "purple", "yellow"};
-        assertEquals(colorsTest,strAttendu);
+        String [] colorsExpected = new String[] {"green", "blue", "orange", "purple", "yellow"};
+        assertEquals(colorsTest,colorsExpected);
 
         String regexFilterRainbow = "pony-[a-zA-Z]*-rainbow.gif";
-        String [] colorsTestRainbow = repAsset.searchAndFiltre(regexFilterRainbow);
-        String [] strAttenduRainbow= new String[] {"yellow", "blue", "green", "purple", "orange"};
-        assertEquals(colorsTestRainbow,strAttenduRainbow);
+        String [] colorsTestRainbow = repAsset.searchAndFilter(regexFilterRainbow);
+        colorsExpected = new String[] {"yellow", "blue", "green", "purple", "orange"};
+        assertEquals(colorsTestRainbow,colorsExpected);
 
     }
-
-
-
-
 
 
 
