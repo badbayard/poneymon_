@@ -14,6 +14,8 @@ public class PoneyModel implements Model {
     private static final int NB_LAPS = 5;
     // Minimal time for the poney to complete a lap (s)
     public static final int MINIMAL_TIME = 5;
+    // Minimal speed of a poney
+    public static final double MINIMAL_SPEED = 0.3;
     // Poney's row
     private final int row;
     // Poney's color
@@ -59,8 +61,7 @@ public class PoneyModel implements Model {
         isAi = isIa;
 
         // Random speed
-        Random randomGenerator = new Random();
-        speed = randomGenerator.nextFloat();
+        setRandomSpeed();
     }
 
     /**
@@ -179,8 +180,7 @@ public class PoneyModel implements Model {
             x = 0;
 
             // Change of speed
-            Random randomGenerator = new Random();
-            speed = randomGenerator.nextFloat();
+            setRandomSpeed();
 
             nbLap++;
 
@@ -279,6 +279,17 @@ public class PoneyModel implements Model {
      */
     public void setSpeed(double s) {
         speed = s;
+    }
+    
+    /**
+     * Set the new random speed of the poney.
+     */
+    private void setRandomSpeed() {
+        speed = 0;
+        while (speed < MINIMAL_SPEED) {
+            Random randomGenerator = new Random();
+            speed = randomGenerator.nextFloat();   
+        }
     }
 
     /**
