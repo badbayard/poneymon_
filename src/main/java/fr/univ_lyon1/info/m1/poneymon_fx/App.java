@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.AssetsRepertories;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -98,6 +99,7 @@ public class App extends Application {
 
         // Launch the game
         Controller.CONTROLLER.startTimer();
+
     }
 
     public static void main(String[] args) {
