@@ -10,7 +10,7 @@ import javafx.scene.text.FontWeight;
  */
 public class RankView implements View {
     // View linked to this one
-    private final PoneyView poneyView;
+    private final MovingEntityView participantView;
     // Drawing tool
     private final GraphicsContext graphicsContext;
     // Poney image size
@@ -30,8 +30,8 @@ public class RankView implements View {
      * @param w the image width
      * @param h the image height
      */
-    RankView(PoneyView pv, GraphicsContext gc, int w, int h) {
-        poneyView = pv;
+    RankView(MovingEntityView pv, GraphicsContext gc, int w, int h) {
+        participantView = pv;
         graphicsContext = gc;
         imgWidth = w;
         imgHeight = h;
@@ -41,9 +41,9 @@ public class RankView implements View {
      * Update the view.
      */
     public void update() {
-        x = poneyView.getX() - 90 + imgWidth;
-        y = poneyView.getY() + 30;
-        rank = poneyView.getModel().getRank();
+        x = participantView.getX() - 90 + imgWidth;
+        y = participantView.getY() + 30;
+        rank = participantView.getModel().getRank();
 
         // Display parameters
         graphicsContext.setFont(Font.font("Verdana", FontWeight.BOLD, 28));

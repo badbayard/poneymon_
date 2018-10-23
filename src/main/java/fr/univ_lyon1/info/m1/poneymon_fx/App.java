@@ -1,19 +1,15 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.model.AssetsRepertories;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.ButtonMenu;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.JfxView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuView;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.JfxView;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuView;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.ButtonMenu;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
-
-import java.io.IOException;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
 /**
  * Main application class.
@@ -88,7 +84,7 @@ public class App extends Application {
         FieldModel fieldModel = new FieldModel(5);
 
         // Set a default poney model to the data view
-        dataView.setPoneyModel(fieldModel.getPoneyModel(0));
+        dataView.setParticipantModel((PoneyModel) fieldModel.getParticipantModel(0));
 
         Controller.CONTROLLER.setFieldModel(fieldModel);
 
