@@ -79,7 +79,7 @@ public class PoneyView implements View {
         y = (int) ((row + 1) * space + row * imageHeight);
 
         // Set the right image
-        if (poneyModel.isNianPoney()) {
+        if (poneyModel.isBoosted()) {
             currentPoneyImage = nianPoneyImage;
         } else {
             currentPoneyImage = classicPoneyImage;

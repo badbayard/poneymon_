@@ -92,7 +92,7 @@ public class JfxView implements View {
         for (PoneyView poneyView : fieldView.getPoneyViews()) {
             final PoneyModel poneyModel = poneyView.getModel();
             //We don't want buttons for the AIs
-            if (poneyModel.isAPlayer()) {
+            if (poneyModel.isPlayer()) {
                 Button boostPoney = new Button("Boost poney: " + poneyModel.getColor());
 
                 boostPoney.setOnMouseClicked(m -> Controller.CONTROLLER.boostButton(poneyModel));

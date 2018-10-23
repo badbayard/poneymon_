@@ -14,7 +14,7 @@ public class PoneyModelTest {
      */
     @Before
     public void setUp() {
-        poney = new PoneyModel("green", 0, true);
+        poney = new PoneyModel("green", 0, true, 5);
     }
 
 
@@ -48,7 +48,7 @@ public class PoneyModelTest {
         double returnDist;
         poney.setNbLap(1);
         poney.setX(0);
-        PoneyModel anotherPonney = new PoneyModel("blue", 0, true);
+        PoneyModel anotherPonney = new PoneyModel("blue", 0, true, 5);
 
         anotherPonney.setX(0.1);
         anotherPonney.setNbLap(1);
@@ -77,7 +77,7 @@ public class PoneyModelTest {
     @Test
     public void testEndLap() {
 
-        poney = new PoneyModel("green", 0, true);
+        poney = new PoneyModel("green", 0, true, 5);
         poney.setSpeed(0.6);
         poney.setX(0.99);
         poney.setNbLap(1);
@@ -114,7 +114,7 @@ public class PoneyModelTest {
 
         poney.update(500);
 
-        assert (poney.totalProgress() <= 5);
+        assert (poney.getTotalProgress() <= 5);
     }
 
 

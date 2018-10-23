@@ -16,7 +16,7 @@ public class PoneyImprovedTest {
      */
     @Before
     public void setUp() {
-        poney = new PoneyModel("green", 0, true);
+        poney = new PoneyModel("green", 0, true, 5);
     }
 
 
@@ -31,13 +31,13 @@ public class PoneyImprovedTest {
 
         poney.turnIntoNianPoney();
         assert (poney.getSpeed() == 0.5);
-        assert (poney.isNianPoney());
+        assert (poney.isBoosted());
         assertTrue(!poney.canBoost());
 
         poney.turnIntoNianPoney();
 
         assert (poney.getSpeed() == 0.5);
-        assert (poney.isNianPoney());
+        assert (poney.isBoosted());
         assertTrue(!poney.canBoost());
 
     }
@@ -56,7 +56,7 @@ public class PoneyImprovedTest {
 
         poney.update(500);
 
-        assertEquals(poney.isNianPoney(), false);
+        assertEquals(poney.isBoosted(), false);
         assertEquals(poney.canBoost(), false);
         assert (poney.getSpeed() < 1);
 

@@ -1,16 +1,22 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Model of the game board.
  */
 public class FieldModel implements Model {
-
+    // Number of laps to win the race
+    private static final int NB_LAPS = 5;
     private PoneyModel[] poneys;
 
     // State of the poneys. True : AI, False : Human
-    private static final boolean[] isIa = new boolean[] {true, true, true, false, false};
+    private static final boolean[] isAi = new boolean[] {true, true, true, false, false};
 
-    private int [] ranking;
+    private ArrayList<PoneyModel> rankings;
 
     /**
      * FieldModel constructor.
@@ -18,7 +24,6 @@ public class FieldModel implements Model {
      * @param nbPoneys the number of poneys in the game
      */
     public FieldModel(final int nbPoneys) {
-        ranking = new int [nbPoneys];
         // If the number of poneys is acceptable
         if (2 <= nbPoneys && nbPoneys <= 5) {
             poneys = new PoneyModel[nbPoneys];
@@ -28,8 +33,9 @@ public class FieldModel implements Model {
 
         // Initializing poneys
         for (int i = 0; i < poneys.length; i++) {
-            poneys[i] = new PoneyModel(PoneyModel.getColor(i), i, isIa[i]);
+            poneys[i] = new PoneyModel(PoneyModel.getColor(i), i, isAi[i], NB_LAPS);
         }
+
         // make them know the others
         for (int i = 0; i < poneys.length; i++) {
             for (int j = 0; j < poneys.length; j++) {
@@ -57,6 +63,8 @@ public class FieldModel implements Model {
     public void update(final double msElapsed) {
         for (PoneyModel poney : poneys) {
             poney.update(msElapsed);
+            rankPoney();
+            checkRaceFinished();
         }
     }
 
@@ -71,6 +79,7 @@ public class FieldModel implements Model {
 
     /**
      * Returns a specific poney from the field model.
+     *
      * @param index index of the poney
      * @return poney at index in the arraylist of poneys
      */
@@ -89,44 +98,32 @@ public class FieldModel implements Model {
 
     /**
      * Renvoit la liste des indices triés des PoneyModel classés par
-     progresion croissante.
+     * progresion croissante.
      */
     public void rankPoney() {
-        PoneyModel[] poneyCpy = new PoneyModel[poneys.length];
-        for (int i = 0; i < poneys.length; i++) {
-            poneyCpy[i] = new PoneyModel(poneys[i]);
-        }
-        int indiceMax;
-        for (int i = 0; i < poneyCpy.length; i++) {
-            indiceMax = max(poneyCpy);
-            ranking[i] = indiceMax;
+        rankings = new ArrayList<>(Arrays.asList(poneys));
+        Collections.sort(rankings);
+
+        int i = 1;
+        for (PoneyModel poneyModel : rankings) {
+            poneyModel.setRank(i++);
         }
     }
 
-    /**
-     * Recherche la progression maximum dans le tableau de poneyCpy.
-     *
-     * @return indice du maximum
-     */
-    private int max(PoneyModel[] poneyCpy) {
-        int indiceMax = 0;
-        double maxim = poneyCpy[0].totalProgress();
-        for (int i = 1; i < poneyCpy.length; i++) {
-            if (maxim < poneyCpy[i].totalProgress()) {
-                maxim = poneyCpy[i].totalProgress();
-                indiceMax = i;
+    private void checkRaceFinished() {
+        for (PoneyModel pm : poneys) {
+            if (!pm.getRaceFinished() && pm.getNbLap() == NB_LAPS) {
+                pm.setRaceFinished(true);
             }
         }
-        poneyCpy[indiceMax].setX(0);
-        poneyCpy[indiceMax].setNbLap(0);
-        return indiceMax;
     }
 
     /**
      * accesseur ranking.
+     *
      * @return ranking
      */
-    public int[] getRanking() {
-        return ranking;
+    public List<PoneyModel> getRankings() {
+        return rankings;
     }
 }

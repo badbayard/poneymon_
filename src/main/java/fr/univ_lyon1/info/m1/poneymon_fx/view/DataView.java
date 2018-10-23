@@ -109,7 +109,7 @@ public class DataView implements View {
         speedValue.setText("" + speed + " px/s");
 
         if (!poneyModel.canBoost()) {
-            if (poneyModel.isNianPoney()) {
+            if (poneyModel.isBoosted()) {
                 boostValue.setText("Boosted");
             } else {
                 boostValue.setText("Depleted");
@@ -118,7 +118,7 @@ public class DataView implements View {
             boostValue.setText("Available");
         }
 
-        isAiValue.setText("" + poneyModel.isAnAi());
+        isAiValue.setText("" + poneyModel.isAi());
 
         lapValue.setText("" + poneyModel.getNbLap());
     }
