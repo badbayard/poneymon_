@@ -7,8 +7,6 @@ import org.junit.Test;
 import java.io.File;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
 public class AssetsRepertoriesTest {
 
     private AssetsRepertories repAsset;
@@ -57,8 +55,7 @@ public class AssetsRepertoriesTest {
 
         String [] colorsTest = repAsset.filterColor(test);
         String [] colorsExpected= new String[] {"green", "blue", "orange", "purple", "yellow"};
-
-        assertEquals(colorsTest,colorsExpected);
+        assert(allElementsAreInTab(colorsTest,colorsExpected));
 
     }
 
@@ -66,14 +63,37 @@ public class AssetsRepertoriesTest {
     public void testAndFilter () {
         String regexFilter = "pony-[a-zA-Z]*(.gif)";
         String [] colorsTest = repAsset.searchAndFilter(regexFilter);
-
         String [] colorsExpected = new String[] {"green", "blue", "orange", "purple", "yellow"};
-        assertEquals(colorsTest,colorsExpected);
+        assert(allElementsAreInTab(colorsTest,colorsExpected));
+
+
 
         String regexFilterRainbow = "pony-[a-zA-Z]*-rainbow.gif";
-        String [] colorsTestRainbow = repAsset.searchAndFilter(regexFilterRainbow);
+        colorsTest= repAsset.searchAndFilter(regexFilterRainbow);
         colorsExpected = new String[] {"yellow", "blue", "green", "purple", "orange"};
-        assertEquals(colorsTestRainbow,colorsExpected);
+        assert(allElementsAreInTab(colorsTest,colorsExpected));
+
+    }
+
+    /**
+     * verifie que tous les elements du premier elements sont present dans le second element (mais pas forcement dans le meme ordre).
+     * @param colorsTest colorsTest
+     * @param colorsExpected colorsTestExpected
+     * @return boolean
+     */
+    private boolean allElementsAreInTab (String [] colorsTest , String [] colorsExpected) {
+
+        int colorCount = 0;
+        for (String colorExpect : colorsTest) {
+            for (String colorTest : colorsExpected) {
+                if (colorExpect.equals(colorTest)) {
+                    colorCount ++;
+                    break;
+                }
+            }
+        }
+        return ((colorsTest.length == colorsExpected.length)
+            && (colorCount == colorsExpected.length));
 
     }
 
