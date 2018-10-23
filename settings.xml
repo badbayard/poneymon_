@@ -12,7 +12,7 @@
         </activation>
         <properties>
          <sonar.host.url>
-          192.168.74.218:8080
+          http://192.168.74.218:8080
          </sonar.host.url>
         </properties>
       </profile>
