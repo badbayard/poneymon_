@@ -9,38 +9,39 @@ import java.util.List;
  * Model of the game board.
  */
 public class FieldModel implements Model {
-    // Number of laps to win the race
+
+    private MovingEntityModel[] participants;
     private static final int NB_LAPS = 5;
-    private PoneyModel[] poneys;
 
     // State of the poneys. True : AI, False : Human
     private static final boolean[] isAi = new boolean[] {true, true, true, false, false};
 
-    private ArrayList<PoneyModel> rankings;
+    private ArrayList<MovingEntityModel> rankings;
 
     /**
      * FieldModel constructor.
      *
-     * @param nbPoneys the number of poneys in the game
+     * @param nbParticipants
+     *            the number of participants in the game
      */
-    public FieldModel(final int nbPoneys) {
-        // If the number of poneys is acceptable
-        if (2 <= nbPoneys && nbPoneys <= 5) {
-            poneys = new PoneyModel[nbPoneys];
+    public FieldModel(final int nbParticipants) {
+        // If the number of participants is acceptable
+        if (2 <= nbParticipants && nbParticipants <= 5) {
+            participants = new PoneyModel[nbParticipants];
         } else { // 5 poneys by default
-            poneys = new PoneyModel[5];
+            participants = new PoneyModel[5];
         }
 
-        // Initializing poneys
-        for (int i = 0; i < poneys.length; i++) {
-            poneys[i] = new PoneyModel(PoneyModel.getColor(i), i, isAi[i], NB_LAPS);
+        // Initializing participants
+        for (int i = 0; i < participants.length; i++) {
+            participants[i] = new PoneyModel(PoneyModel.getColor(i), i, isAi[i], NB_LAPS);
         }
 
         // make them know the others
-        for (int i = 0; i < poneys.length; i++) {
-            for (int j = 0; j < poneys.length; j++) {
+        for (int i = 0; i < participants.length; i++) {
+            for (int j = 0; j < participants.length; j++) {
                 if (j != i) {
-                    poneys[i].addNeighbor(poneys[j]);
+                    participants[i].addNeighbor(participants[j]);
                 }
             }
         }
@@ -50,68 +51,70 @@ public class FieldModel implements Model {
      * Notify the model the game just started.
      */
     public void start() {
-        for (PoneyModel poney : poneys) {
-            poney.start();
+        for (MovingEntityModel participant : participants) {
+            participant.start();
         }
     }
 
     /**
      * Update the model and its components.
      *
-     * @param msElapsed time elapsed in ms
+     * @param msElapsed
+     *            time elapsed in ms
      */
     public void update(final double msElapsed) {
-        for (PoneyModel poney : poneys) {
-            poney.update(msElapsed);
-            rankPoney();
+        for (MovingEntityModel participant : participants) {
+            participant.update(msElapsed);
+            rankParticipants();
             checkRaceFinished();
         }
     }
 
     /**
-     * PoneyModels getter.
+     * MovingEntityModels getter.
      *
-     * @return the PoneyModels stored in this instance
+     * @return the MovingEntityModels stored in this instance
      */
-    public PoneyModel[] getPoneyModels() {
-        return poneys;
+    public MovingEntityModel[] getParticipantModels() {
+        return participants;
     }
 
     /**
-     * Returns a specific poney from the field model.
-     *
-     * @param index index of the poney
-     * @return poney at index in the arraylist of poneys
+     * Returns a specific participant from the field model.
+     * 
+     * @param index
+     *            index of the participant
+     * @return participant at index in the arraylist of participants
      */
-    public PoneyModel getPoneyModel(int index) {
-        return poneys[index];
+    public MovingEntityModel getParticipantModel(int index) {
+        return participants[index];
     }
 
     /**
-     * Getter on the number of PoneyModels.
+     * Getter on the number of MovingEntityModel.
      *
-     * @return the number of PoneyModels stored in this instance
+     * @return the number of MovingEntityModel stored in this instance
      */
-    public int countPoneys() {
-        return poneys.length;
+    public int countParticipants() {
+        return participants.length;
     }
 
     /**
      * Renvoit la liste des indices triés des PoneyModel classés par
      * progresion croissante.
      */
-    public void rankPoney() {
-        rankings = new ArrayList<>(Arrays.asList(poneys));
+    public void rankParticipants() {
+        rankings = new ArrayList<>(Arrays.asList(participants));
         Collections.sort(rankings);
 
         int i = 1;
-        for (PoneyModel poneyModel : rankings) {
-            poneyModel.setRank(i++);
+        for (MovingEntityModel mem : rankings) {
+            mem.setRank(i++);
         }
     }
 
     private void checkRaceFinished() {
-        for (PoneyModel pm : poneys) {
+        for (MovingEntityModel pm : participants) {
             if (!pm.getRaceFinished() && pm.getNbLap() == NB_LAPS) {
                 pm.setRaceFinished(true);
             }
@@ -123,7 +126,7 @@ public class FieldModel implements Model {
      *
      * @return ranking
      */
-    public List<PoneyModel> getRankings() {
+    public List<MovingEntityModel> getRankings() {
         return rankings;
     }
 }

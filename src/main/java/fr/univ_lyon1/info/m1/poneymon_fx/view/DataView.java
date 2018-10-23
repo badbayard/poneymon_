@@ -10,20 +10,20 @@ import javafx.scene.Scene;
 import javafx.scene.text.Text;
 
 import javafx.scene.paint.Color;
-
+import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 
 /**
- * Class printing the data of a poney.
+ * Class printing the data of a participant.
  */
 public class DataView implements View {
     // Window title
-    private static final String WINDOW_TITLE = "Poney Data";
+    private static final String WINDOW_TITLE = "participant Data";
     // Size of the dataView
     private final int width;
     private final int height;
-    // PoneyModel which has the focus of the view
-    private PoneyModel poneyModel;
+    // MovingEntityData which has the focus of the view
+    private MovingEntityModel participantModel;
 
     // Text to be displayed
     private Text colorValue = new Text();
@@ -39,9 +39,12 @@ public class DataView implements View {
     /**
      * DataView constructor.
      *
-     * @param stage the stage of the view
-     * @param w the width of the view
-     * @param h the height of the view
+     * @param stage
+     *            the stage of the view
+     * @param w
+     *            the width of the view
+     * @param h
+     *            the height of the view
      */
     public DataView(Stage stage, int w, int h) {
         Controller.CONTROLLER.addView(this);
@@ -87,12 +90,13 @@ public class DataView implements View {
     }
 
     /**
-     * Sets the new PoneyModel to focus on.
+     * Sets the new MovingEntityModel to focus on.
      *
-     * @param pm the new PoneyModel
+     * @param m
+     *            the new MovingEntityModel
      */
-    public void setPoneyModel(PoneyModel pm) {
-        poneyModel = pm;
+    public void setParticipantModel(MovingEntityModel m) {
+        participantModel = m;
     }
 
     /**
@@ -100,33 +104,36 @@ public class DataView implements View {
      */
     public void update() {
         // Update the texts
-        colorValue.setText(poneyModel.getColor());
-        colorValue.setStyle("-fx-fill:" + poneyModel.getColor());
+        colorValue.setText(participantModel.getColor());
+        colorValue.setStyle("-fx-fill:" + participantModel.getColor());
 
-        progressValue.setText("" + (int)(poneyModel.getX() * 100) + "%");
+        progressValue.setText("" + (int) (participantModel.getX() * 100) + "%");
 
-        double speed = Math.round(canvasWidth * poneyModel.getSpeed() / PoneyModel.MINIMAL_TIME);
+        double speed = Math
+                .round(canvasWidth * participantModel.getSpeed() / MovingEntityModel.MINIMAL_TIME);
         speedValue.setText("" + speed + " px/s");
 
-        if (!poneyModel.canBoost()) {
-            if (poneyModel.isBoosted()) {
-                boostValue.setText("Boosted");
+        if (participantModel instanceof PoneyModel) {
+            if (!((PoneyModel) participantModel).canBoost()) {
+                if (((PoneyModel) participantModel).isBoosted()) {
+                    boostValue.setText("Boosted");
+                } else {
+                    boostValue.setText("Depleted");
+                }
             } else {
-                boostValue.setText("Depleted");
+                boostValue.setText("Available");
             }
-        } else {
-            boostValue.setText("Available");
         }
 
-        isAiValue.setText("" + poneyModel.isAi());
-
-        lapValue.setText("" + poneyModel.getNbLap());
+        isAiValue.setText("" + participantModel.isAi());
+        lapValue.setText("" + participantModel.getNbLap());
     }
 
     /**
      * Sets the canvas width.
      *
-     * @param w the new canvas width
+     * @param w
+     *            the new canvas width
      */
     void setCanvasWidth(int w) {
         canvasWidth = w;

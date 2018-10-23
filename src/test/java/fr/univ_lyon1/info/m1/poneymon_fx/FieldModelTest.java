@@ -1,26 +1,23 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
+
 /**
  * Unit test for the FieldModel class.
  */
 public class FieldModelTest {
 
-
     private FieldModel field;
-
 
     /**
      * initialisation du terrain
@@ -29,7 +26,6 @@ public class FieldModelTest {
     public void setUp() {
         field = new FieldModel(5);
     }
-
 
     /**
      * Compare the number of poneys with the expected value
@@ -42,22 +38,21 @@ public class FieldModelTest {
         FieldModel f3 = new FieldModel(4);
         FieldModel f4 = new FieldModel(12);
 
-        //When
+        // When
 
         // Then
-        assertEquals(f1.countPoneys(), 5);
-        assertEquals(f2.countPoneys(), 2);
-        assertEquals(f3.countPoneys(), 4);
-        assertEquals(f4.countPoneys(), 5);
+        assertEquals(f1.countParticipants(), 5);
+        assertEquals(f2.countParticipants(), 2);
+        assertEquals(f3.countParticipants(), 4);
+        assertEquals(f4.countParticipants(), 5);
     }
-
 
     /**
      * test de update() sur tous les poneys du terrain
      */
     @Test
     public void StepWorksOnEveryPonys() {
-        PoneyModel[] poneys = field.getPoneyModels();
+        MovingEntityModel[] poneys = field.getParticipantModels();
         double progression;
         for (int i = 0; i < poneys.length; i++) {
             progression = poneys[i].getTotalProgress();
@@ -66,13 +61,12 @@ public class FieldModelTest {
         }
     }
 
-
     /**
      * test de partieTerminee() si un poney atteind 5 tours
      */
     @Test
     public void ReturnTrueIfGameIsOver() {
-        PoneyModel[] poneys = field.getPoneyModels();
+        MovingEntityModel[] poneys = field.getParticipantModels();
 
         poneys[0].setX(0.99999999999);
         poneys[0].setNbLap(4);
@@ -105,14 +99,12 @@ public class FieldModelTest {
 
     }
 
-
     /**
      * la fonction de classement trie bien par progression totale
      */
     @Test
     public void FieldOrderByTotalProgressionForRankingView() {
-        PoneyModel[] poneys = field.getPoneyModels();
-
+        MovingEntityModel[] poneys = field.getParticipantModels();
 
         poneys[0].setX(0.99999999999);
         poneys[0].setNbLap(4);
@@ -131,7 +123,6 @@ public class FieldModelTest {
 
         field.update(0);
 
-
         System.out.println("Classement voisin : 2 poneys equals ");
         for (int i = 0; i < poneys.length; i++) {
             System.out.println("Poney [" + i + "] rank : " + poneys[i].getRank());
@@ -139,14 +130,14 @@ public class FieldModelTest {
 
         System.out.println("\n");
 
-        ArrayList<PoneyModel> attendu = new ArrayList<>();
+        ArrayList<MovingEntityModel> attendu = new ArrayList<>();
         attendu.add(poneys[2]);
         attendu.add(poneys[0]);
         attendu.add(poneys[1]);
         attendu.add(poneys[4]);
         attendu.add(poneys[3]);
 
-        field.rankPoney();
+        field.rankParticipants();
         assertEquals(field.getRankings(), attendu);
     }
 
@@ -155,13 +146,12 @@ public class FieldModelTest {
      */
     @Test
     public void TestThreePoneyEquals() {
-        PoneyModel[] poneys = field.getPoneyModels();
+        MovingEntityModel[] poneys = field.getParticipantModels();
 
         for (int i = 0; i < poneys.length - 2; i++) {
             poneys[i].setX(0.99999999999);
             poneys[i].setNbLap(4);
             poneys[i].setSpeed(0.5);
-
         }
 
         poneys[3].setX(0.499999999999999);
@@ -180,16 +170,14 @@ public class FieldModelTest {
         }
         System.out.println("\n");
 
-
-        ArrayList<PoneyModel> attendu = new ArrayList<>();
+        ArrayList<MovingEntityModel> attendu = new ArrayList<>();
         attendu.add(poneys[0]);
         attendu.add(poneys[1]);
         attendu.add(poneys[2]);
         attendu.add(poneys[4]);
         attendu.add(poneys[3]);
 
-        field.rankPoney();
-
+        field.rankParticipants();
         assertEquals(field.getRankings(), attendu);
     }
 
@@ -199,8 +187,8 @@ public class FieldModelTest {
      */
     @Test
     public void FivePoneyEquals() {
-        PoneyModel[] poneys = field.getPoneyModels();
-        ArrayList<PoneyModel> attendu = new ArrayList<>();
+        MovingEntityModel[] poneys = field.getParticipantModels();
+        ArrayList<MovingEntityModel> attendu = new ArrayList<>();
 
         for (int i = 0; i < poneys.length; i++) {
             poneys[i].setX(0.99999999999);
@@ -216,8 +204,7 @@ public class FieldModelTest {
         }
         System.out.println("\n");
 
-
-        field.rankPoney();
+        field.rankParticipants();
         assertEquals(field.getRankings(), attendu);
 
         System.out.println("Classement Tri : Verif ravail sur Copies ");
