@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,25 +63,32 @@ public class AssetsRepertories {
      *
      */
     public void display() {
-        for (File file : this.getFiles()) {
+        for (File file : this.getFiles())
             if (file.isFile()) {
                 System.out.println(file.getName());
             }
-        }
     }
 
     /**
      * Filtre les fichiers en fonction de l'expression rationelle passée en parametre.
      * @param regexFilter String
      */
-    public List<String> filter(String regexFilter) {
-        List<String> result = new ArrayList<>();
+    public void filter(String regexFilter) {
+        List<File> result = new ArrayList<>();
+
         for (File file : this.getFiles()) {
             if (file.isFile() && file.getName().matches(regexFilter)) {
-                result.add(file.getName());
+                result.add(file);
             }
         }
-        return result;
+
+        File [] filteredFiles = new File [result.size()];
+
+        for (int i = 0; i < result.size();i++) {
+            filteredFiles [i] = result.get(i);
+        }
+
+        this.setFiles(filteredFiles);
     }
 
     /**
@@ -92,13 +100,13 @@ public class AssetsRepertories {
      * @param filteredFiles liste de fichier.
      * @return tableau de couleur
      */
-    public String [] filterColor(List<String> filteredFiles) {
-        String [] colors = new String [filteredFiles.size()];
+    public String [] filterColor(File [] filteredFiles) {
+        String [] colors = new String [filteredFiles.length];
         int indexColor = 0;
         String pattern = "[^a-zA-Z]+";
         String [] parts;
-        for (String str : filteredFiles) {
-            parts = str.split(pattern);
+        for (File str : filteredFiles) {
+            parts = str.getName().split(pattern);
             if (indexColor <= colors.length) {
                 colors[indexColor] = parts[1];
                 indexColor++;
@@ -114,8 +122,8 @@ public class AssetsRepertories {
      */
     public String [] searchAndFilter(String regexFilter) {
         this.browseAssets();
-        List<String> files = this.filter(regexFilter);
-        return this.filterColor(files);
+        this.filter(regexFilter);
+        return this.filterColor(this.getFiles());
     }
 
 }

@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.List;
 
 public class AssetsRepertoriesTest {
 
@@ -20,13 +19,6 @@ public class AssetsRepertoriesTest {
 
 
     @Test
-    public void displayTest () {
-        repAsset.browseAssets();
-        repAsset.display();
-        assert true;
-    }
-
-    @Test
     public void testPathValid() {
         File fileWithClass = new File(repAsset.getFilePath());
         assert (fileWithClass.isDirectory());
@@ -37,24 +29,20 @@ public class AssetsRepertoriesTest {
     @Test
     public void testFilter() {
         repAsset.browseAssets();
-        int nbFiles = repAsset.getFiles().length;
-        assert(nbFiles > 0);
-
         String regexFilter = "pony-[a-zA-Z]*(.gif)";
-        List<String> test = repAsset.filter(regexFilter);
-
-        assert(test.size() == 5);
-
+        repAsset.filter(regexFilter);
+        assert(repAsset.getFiles().length == 5);
     }
 
     @Test
     public void testColor () {
         repAsset.browseAssets();
         String regexFilter = "pony-[a-zA-Z]*(.gif)";
-        List<String> test = repAsset.filter(regexFilter);
+        repAsset.filter(regexFilter);
 
-        String [] colorsTest = repAsset.filterColor(test);
-        String [] colorsExpected= new String[] {"green", "blue", "orange", "purple", "yellow"};
+
+        String [] colorsTest = repAsset.filterColor(repAsset.getFiles());
+        String [] colorsExpected = new String[] {"green", "blue", "orange", "purple", "yellow"};
         assert(allElementsAreInTab(colorsTest,colorsExpected));
 
     }
@@ -65,13 +53,16 @@ public class AssetsRepertoriesTest {
         String [] colorsTest = repAsset.searchAndFilter(regexFilter);
         String [] colorsExpected = new String[] {"green", "blue", "orange", "purple", "yellow"};
         assert(allElementsAreInTab(colorsTest,colorsExpected));
+        System.out.println("apres filtre simple");
+        repAsset.display();
 
 
-
-        String regexFilterRainbow = "pony-[a-zA-Z]*-rainbow.gif";
-        colorsTest= repAsset.searchAndFilter(regexFilterRainbow);
+        regexFilter = "pony-[a-zA-Z]*-rainbow.gif";
+        colorsTest = repAsset.searchAndFilter(regexFilter);
         colorsExpected = new String[] {"yellow", "blue", "green", "purple", "orange"};
         assert(allElementsAreInTab(colorsTest,colorsExpected));
+        System.out.println("\napres filtre rainbow");
+        repAsset.display();
 
     }
 
@@ -82,11 +73,10 @@ public class AssetsRepertoriesTest {
      * @return boolean
      */
     private boolean allElementsAreInTab (String [] colorsTest , String [] colorsExpected) {
-
         int colorCount = 0;
-        for (String colorExpect : colorsTest) {
-            for (String colorTest : colorsExpected) {
-                if (colorExpect.equals(colorTest)) {
+        for (String colorTest : colorsTest) {
+            for (String colorExpect : colorsExpected) {
+                if (colorTest.equals(colorExpect)) {
                     colorCount ++;
                     break;
                 }
