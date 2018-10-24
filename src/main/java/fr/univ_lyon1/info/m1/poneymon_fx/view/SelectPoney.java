@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
  * Class allowing the player to select a poney considering different entitys.
  */
 public class SelectPoney extends Parent {
-<<<<<<< HEAD
     
     //Ajouter une VBox par categorie (faire un tableau de VBox ne fonctionne pas)
     private VBox ponyBox;
@@ -21,18 +20,7 @@ public class SelectPoney extends Parent {
     private String path;
     private String [] availableEntity;
     private String [] entityColor;
-    
-=======
 
-    private VBox poneyBox;
-    private AssetsRepertories assetsRepertories;
-    private String path;
-    private String[] availableEntity;
-    private String[] entityColor;
-
-    private VBox[] entityBox;
-
->>>>>>> 397bf8640a34bd22d4d6220ba9781fdb42c07dd4
     /**
      * Constructor.
      *
