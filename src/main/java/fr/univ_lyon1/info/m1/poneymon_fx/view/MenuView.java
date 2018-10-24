@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 public class MenuView {
 	
     private MainMenu mainMenu;
+    private SelectPoney selectMenu;
     private Scene scene;
     private int width;
     private int height;
@@ -40,7 +41,12 @@ public class MenuView {
         mainMenu = new MainMenu(width, height);
         mainMenu.setVisible(true);
         
-        root.getChildren().addAll(imgView, mainMenu);
+        
+        //Prépare le menu de sélection de poney
+        selectMenu = new SelectPoney(width, height);
+        selectMenu.setVisible(false);
+        
+        root.getChildren().addAll(imgView, mainMenu, selectMenu);
         
         scene = new Scene(root);
     }

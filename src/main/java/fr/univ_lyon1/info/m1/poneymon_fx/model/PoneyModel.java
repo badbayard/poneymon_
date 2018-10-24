@@ -136,7 +136,7 @@ public class PoneyModel implements Model {
      */
     private boolean startNianMode() {
         final int lapsLeft = NB_LAPS - nbLap - 1;
-        return Math.pow(1 - speed, lapsLeft) > 0.5;
+        return Math.pow(1 - speed, lapsLeft) > 0.65;
     }
 
     /**
