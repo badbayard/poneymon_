@@ -67,7 +67,9 @@ public class SelectPoney extends Parent {
         //poneyBox.setTranslateX(x / 5);
         //poneyBox.setTranslateY(y / 5);
         
-       /* Image image = new Image("assets/pony-blue.gif");
+        /*
+        Image image = new Image("assets/pony-blue.gif");
+
         ImageView imageV = new ImageView(image);
         imageV.setFitWidth(75);
         imageV.setFitHeight(75);

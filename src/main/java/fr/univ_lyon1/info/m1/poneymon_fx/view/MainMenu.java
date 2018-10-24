@@ -49,7 +49,7 @@ public class MainMenu extends Parent {
         poneyBox.setTranslateX(x / 2);
         poneyBox.setTranslateY(y / 2);
         
-        Image image = new Image("assets/pony-blue.gif");
+        Image image = new Image("assets/entity/pony-blue.gif");
         ImageView imageV = new ImageView(image);
         imageV.setFitWidth(75);
         imageV.setFitHeight(75);
