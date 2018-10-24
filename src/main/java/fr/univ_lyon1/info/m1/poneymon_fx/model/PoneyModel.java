@@ -60,7 +60,7 @@ public class PoneyModel extends MovingEntityModel implements Model {
      */
     private boolean aiNianMode() {
         final int lapsLeft = nbLaps - nbLap - 1;
-        return Math.pow(1 - speed, lapsLeft) > 0.5;
+        return Math.pow(1 - speed, lapsLeft) > 0.65;
     }
 
     /**
