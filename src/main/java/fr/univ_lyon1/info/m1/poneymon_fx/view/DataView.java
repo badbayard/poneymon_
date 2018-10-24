@@ -33,9 +33,6 @@ public class DataView implements View {
     private Text boostValue = new Text();
     private Text lapValue = new Text();
 
-    // Size of the canvas
-    private int canvasWidth;
-
     /**
      * DataView constructor.
      *
@@ -109,8 +106,7 @@ public class DataView implements View {
 
         progressValue.setText("" + (int) (participantModel.getX() * 100) + "%");
 
-        double speed = Math
-                .round(canvasWidth * participantModel.getSpeed() / MovingEntityModel.MINIMAL_TIME);
+        double speed = Math.round(width * participantModel.getSpeed());
         speedValue.setText("" + speed + " px/s");
 
         if (participantModel instanceof PoneyModel) {
@@ -127,15 +123,5 @@ public class DataView implements View {
 
         isAiValue.setText("" + participantModel.isAi());
         lapValue.setText("" + participantModel.getNbLap());
-    }
-
-    /**
-     * Sets the canvas width.
-     *
-     * @param w
-     *            the new canvas width
-     */
-    void setCanvasWidth(int w) {
-        canvasWidth = w;
     }
 }
