@@ -1,5 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,6 +14,7 @@ public class FieldModel implements Model {
     private StaticEntityModel[] challengers;
     private MovingEntityModel[] participants;
     private static final int NB_LAPS = 5;
+    private int participantsFinished = 0;
 
     // State of the poneys. True : AI, False : Human
     private static final boolean[] isAi = new boolean[] {true, true, true, false, false};
@@ -117,6 +120,11 @@ public class FieldModel implements Model {
         for (MovingEntityModel pm : participants) {
             if (!pm.getRaceFinished() && pm.getNbLap() == NB_LAPS) {
                 pm.setRaceFinished(true);
+                participantsFinished++;
+
+                if (participantsFinished == participants.length) {
+                    Controller.CONTROLLER.endRace();
+                }
             }
         }
     }
