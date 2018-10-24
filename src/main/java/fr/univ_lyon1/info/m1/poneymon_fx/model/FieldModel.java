@@ -9,7 +9,7 @@ import java.util.List;
  * Model of the game board.
  */
 public class FieldModel implements Model {
-
+    private StaticEntityModel[] challengers;
     private MovingEntityModel[] participants;
     private static final int NB_LAPS = 5;
 

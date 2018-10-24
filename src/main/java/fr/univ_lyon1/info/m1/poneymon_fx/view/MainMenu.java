@@ -58,7 +58,7 @@ public class MainMenu extends Parent {
         poneyBox.getChildren().addAll(tb3);
         
         getChildren().addAll(mainMenu/*, poneyBox*/);
-}
+    }
 
     /**
      * Get the button play.
