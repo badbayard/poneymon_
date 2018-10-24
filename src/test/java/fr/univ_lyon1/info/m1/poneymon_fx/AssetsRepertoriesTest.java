@@ -14,7 +14,7 @@ public class AssetsRepertoriesTest {
 
     @Before
     public void setUp () {
-        final String testPath = System.getProperty("user.dir") + "/src/main/resources/assets";
+        final String testPath = System.getProperty("user.dir") + "/src/main/resources/assets/entity";
         repAsset = new AssetsRepertories(testPath);
     }
 
@@ -110,7 +110,7 @@ public class AssetsRepertoriesTest {
     @Test
     public void TestGetUrlExists() {
         String url = repAsset.getUrl("pony","blue","running");
-        String urlExpected = repAsset.getFilePath()+"/pony-blue-running.gif";
+        String urlExpected = repAsset.getFilePath() + "/pony-blue-running.gif";
 
         assert(url.equals(urlExpected));
     }
