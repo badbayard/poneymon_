@@ -19,6 +19,9 @@ public class ProccessInServer implements Runnable {
         this.sock = sock;
     }
 
+    /**
+     * Lance le processus.
+     */
     public void run() {
         System.err.println("Lancement du traitement de la connexion cliente");
 
@@ -30,7 +33,7 @@ public class ProccessInServer implements Runnable {
 
                 String response = read(); // Attente reponse
                 InetSocketAddress remote =
-                        (InetSocketAddress) sock.getRemoteSocketAddress();
+                    (InetSocketAddress) sock.getRemoteSocketAddress();
 
                 String command = "Commande reçue : " + response;
                 System.err.println(command);
@@ -40,15 +43,15 @@ public class ProccessInServer implements Runnable {
                 switch (response.toUpperCase()) {
                     case "FULL":
                         toSend = DateFormat.getDateTimeInstance(DateFormat.FULL,
-                                DateFormat.MEDIUM).format(new Date());
+                            DateFormat.MEDIUM).format(new Date());
                         break;
                     case "DATE":
                         toSend = DateFormat.getDateInstance(DateFormat.FULL)
-                                .format(new Date());
+                            .format(new Date());
                         break;
                     case "HOUR":
                         toSend = DateFormat.getTimeInstance(DateFormat.MEDIUM)
-                                .format(new Date());
+                            .format(new Date());
                         break;
                     case "CLOSE":
                         toSend = "Communication terminée";
@@ -81,8 +84,9 @@ public class ProccessInServer implements Runnable {
 
     /**
      * Méthode de lecture de réponse temporaire.
+     *
      * @return la réponse du serveur.
-     * @throws IOException
+     * @throws IOException exception d'entrée/sortie
      */
     private String read() throws IOException {
         String response = "";

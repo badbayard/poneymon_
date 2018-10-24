@@ -10,6 +10,11 @@ public class MessagingSystem {
     private PrintWriter writer = null;
     private BufferedInputStream reader = null;
 
+    /**
+     * Constructeur avec socket.
+     *
+     * @param socket socket du système
+     */
     public MessagingSystem(Socket socket) {
         this.socket = socket;
         try {

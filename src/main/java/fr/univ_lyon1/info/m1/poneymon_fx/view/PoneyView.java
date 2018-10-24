@@ -1,35 +1,16 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 
 /**
  * Class handling the graphic side of a Poney.
  */
-public class PoneyView implements View {
-    // The rank view handled
-    private final RankView rankView;
-    // Size of the canvas
-    private final int canvasWidth;
-    private final int canvasHeight;
-    // Size of the image
-    private final double imageHeight;
-    private final double imageWidth;
-    private final double widthRatio;
-    // Model associated with the view
-    private final PoneyModel poneyModel;
-    // Graphics context
-    private final GraphicsContext graphicsContext;
-    // Poney coordinates
-    private int x;
-    private int y;
+public class PoneyView extends MovingEntityView implements View {
     // 3 images are created
-    private Image currentPoneyImage;
     private Image nianPoneyImage;
-    private Image classicPoneyImage;
 
     /**
      * PoneyView constructor.
@@ -40,26 +21,11 @@ public class PoneyView implements View {
      * @param cHeight the canvas height
      */
     public PoneyView(PoneyModel pm, GraphicsContext gc, int cWidth, int cHeight) {
-        Controller.CONTROLLER.addView(this);
+    	super(pm,gc,cWidth,cHeight,"assets/pony-" + pm.getColor() + "-running.gif");
 
-        poneyModel = pm;
-
-        graphicsContext = gc;
-        canvasWidth = cWidth;
-        canvasHeight = cHeight;
-
-        String color = poneyModel.getColor();
-
-        classicPoneyImage = new Image("assets/pony-" + color + "-running.gif");
+        String color = ((MovingEntityModel) participantModel).getColor();
         nianPoneyImage = new Image("assets/pony-" + color + "-rainbow.gif");
-
-        imageHeight = classicPoneyImage.getHeight();
-        imageWidth = classicPoneyImage.getWidth();
-
-        widthRatio = (canvasWidth + (imageWidth / 2)) / canvasWidth;
-
-        rankView = new RankView(this, graphicsContext, (int) imageWidth, (int) imageHeight);
-
+        
         // Update the variable attributes of PoneyView
         update();
     }
@@ -69,70 +35,25 @@ public class PoneyView implements View {
      */
     public void update() {
         // Get the x coordinate
-        x = (int) (canvasWidth * poneyModel.getX() * widthRatio - imageWidth);
+        x = (int) (canvasWidth * participantModel.getX() * widthRatio - imageWidth);
 
         // Get the y coordinate
-        int nbPoneys = poneyModel.countNeighbors() + 1;
+        int nbPoneys = ((MovingEntityModel) participantModel).countNeighbors() + 1;
         double poneysHeight = nbPoneys * imageHeight;
         double space = (canvasHeight - poneysHeight) / (nbPoneys + 1);
-        int row = poneyModel.getRow();
+        int row = participantModel.getRow();
         y = (int) ((row + 1) * space + row * imageHeight);
 
         // Set the right image
-        if (poneyModel.isNianPoney()) {
-            currentPoneyImage = nianPoneyImage;
+        if (((PoneyModel) participantModel).isBoosted()) {
+            currentParticipantImage = nianPoneyImage;
         } else {
-            currentPoneyImage = classicPoneyImage;
+            currentParticipantImage = classicImage;
         }
 
         // Update of the rank view
         rankView.update();
-        graphicsContext.drawImage(currentPoneyImage, x, y);
+        graphicsContext.drawImage(currentParticipantImage, x, y);
 
-    }
-
-    /**
-     * Get the model.
-     *
-     * @return the poneyModel associated
-     */
-    public PoneyModel getModel() {
-        return poneyModel;
-    }
-
-    /**
-     * Get the image width.
-     *
-     * @return the image width
-     */
-    double getImageWidth() {
-        return currentPoneyImage.getWidth();
-    }
-
-    /**
-     * Get the image height.
-     *
-     * @return the image height
-     */
-    double getImageHeight() {
-        return currentPoneyImage.getHeight();
-    }
-
-    /**
-     * Get the abscissa of the poney.
-     *
-     * @return the abscissa of the poney
-     */
-    int getX() {
-        return x;
-    }
-
-    /**
-     * Get the ordinate of the poney.
-     *
-     * @return the ordinate of the poney
-     */
-    int getY() {
-        return y;
     }
 }

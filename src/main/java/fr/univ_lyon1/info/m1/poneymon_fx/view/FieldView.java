@@ -1,16 +1,15 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
-import javafx.scene.canvas.Canvas;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 
 /**
@@ -22,8 +21,8 @@ public final class FieldView extends Canvas implements View {
     private final int height;
     // Drawing tool
     private final GraphicsContext graphicsContext;
-    // PoneyViews managed
-    private List<PoneyView> poneyViews = new ArrayList<>();
+    // MovingEntityViews managed
+    private List<MovingEntityView> participantViews = new ArrayList<>();
     // Model of this view
     private FieldModel fieldModel;
     // Background image pattern
@@ -32,8 +31,10 @@ public final class FieldView extends Canvas implements View {
     /**
      * FieldView constructor.
      *
-     * @param w the width of the view
-     * @param h the height of the view
+     * @param w
+     *            the width of the view
+     * @param h
+     *            the height of the view
      */
     FieldView(int w, int h) {
         super(w, h);
@@ -51,24 +52,31 @@ public final class FieldView extends Canvas implements View {
     /**
      * Sets the model of the view.
      *
-     * @param fm the model of the view
+     * @param fm
+     *            the model of the view
      */
     public void setModel(FieldModel fm) {
         fieldModel = fm;
 
-        // Build as many PoneyView as there is PoneyModel in FieldModel
-        poneyViews.clear();
-        PoneyModel[] poneyModels = fm.getPoneyModels();
-        for (PoneyModel poneyModel : poneyModels) {
-            poneyViews.add(new PoneyView(poneyModel, graphicsContext, width, height));
+        // Build as many MovingEntityView as there is MovingEntityModel in FieldModel
+        participantViews.clear();
+        MovingEntityModel[] participantModels = fm.getParticipantModels();
+        for (MovingEntityModel participantModel : participantModels) {
+            // TODO : add each new player created here
+            if (participantModel instanceof PoneyModel) {
+                participantViews.add(new PoneyView((PoneyModel) participantModel, graphicsContext,
+                        width, height));
+            }
         }
     }
 
     /**
-     * Determines whether the user clicked on a poney to update the data view.
+     * Determines whether the user clicked on a participant to update the data view.
      *
-     * @param xClick the abscissa of the click
-     * @param yClick the ordinate of the click
+     * @param xClick
+     *            the abscissa of the click
+     * @param yClick
+     *            the ordinate of the click
      */
     public void manageClick(double xClick, double yClick) {
         // Nothing to do if the field doesn't handle a dataView
@@ -78,24 +86,24 @@ public final class FieldView extends Canvas implements View {
             return;
         }
 
-        PoneyModel poneyModel = null;
+        MovingEntityModel participantModel = null;
 
-        // Search for the poney clicked
-        for (PoneyView poneyView : poneyViews) {
-            poneyModel = poneyView.getModel();
+        // Search for the participant clicked
+        for (MovingEntityView participantView : participantViews) {
+            participantModel = participantView.getModel();
 
-            int x = poneyView.getX();
-            int y = poneyView.getY();
-            int imgWidth = (int) poneyView.getImageWidth();
-            int imgHeight = (int) poneyView.getImageHeight();
+            int x = participantView.getX();
+            int y = participantView.getY();
+            int imgWidth = (int) participantView.getImageWidth();
+            int imgHeight = (int) participantView.getImageHeight();
 
-            boolean poneyClicked = x <= xClick && xClick <= x + imgWidth
-                && y <= yClick && yClick <= y + imgHeight;
+            boolean participantClicked = x <= xClick && xClick <= x + imgWidth && y <= yClick
+                    && yClick <= y + imgHeight;
 
-            // Add the view to the new focused poney
-            if (poneyClicked) {
-                System.out.println(poneyModel.getColor());
-                dataView.setPoneyModel(poneyModel);
+            // Add the view to the new focused participant
+            if (participantClicked) {
+                System.out.println(participantModel.getColor());
+                dataView.setParticipantModel(participantModel);
             }
         }
     }
@@ -109,30 +117,31 @@ public final class FieldView extends Canvas implements View {
     }
 
     /**
-     * Gets the poney views.
+     * Gets the participant views.
      *
-     * @return a list of PoneyViews
+     * @return a list of MovingEntityViews
      */
-    List<PoneyView> getPoneyViews() {
-        return poneyViews;
+    List<MovingEntityView> getParticipantViews() {
+        return participantViews;
     }
 
     /**
-     * Get the number of poney views.
+     * Get the number of participant views.
      *
-     * @return the number of PoneyViews
+     * @return the number of MovingEntityViews
      */
-    public int countPoneyViews() {
-        return poneyViews.size();
+    public int countParticipantViews() {
+        return participantViews.size();
     }
 
     /**
-     * Gets the poney view i.
+     * Gets the participant view i.
      *
-     * @param i the index of the view wanted
-     * @return the poneyView of index i
+     * @param i
+     *            the index of the view wanted
+     * @return the MovingEntityView of index i
      */
-    public PoneyView getPoneyView(int i) {
-        return poneyViews.get(i);
+    public MovingEntityView getParticipantView(int i) {
+        return participantViews.get(i);
     }
 }

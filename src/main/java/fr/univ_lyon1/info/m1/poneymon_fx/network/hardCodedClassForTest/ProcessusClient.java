@@ -14,6 +14,11 @@ public class ProcessusClient implements Runnable {
     private BufferedInputStream reader = null;
     private String[] listCommands = {"FULL", "DATE", "HOUR", "NONE"};
 
+    /**
+     * Constructeur de ProcessusClient avec paramètres.
+     * @param host adresse IP de l'hôte
+     * @param port port auquel se connecter sur l'hôte
+     */
     public ProcessusClient(String host, int port) {
         try {
             connexion = new Socket(host, port);
@@ -28,7 +33,7 @@ public class ProcessusClient implements Runnable {
 
 
     /**
-     * Envois des commandes random pour tester le bon fonctionnement du serveur
+     * Envois des commandes random pour tester le bon fonctionnement du serveur.
      */
     public void run() {
         for (int i = 0; i < 10; i++) {
@@ -46,7 +51,7 @@ public class ProcessusClient implements Runnable {
                 writer.flush(); // Transmet réellement la commande
 
                 System.out.println(
-                        "Commande " + commande + " envoyée au serveur");
+                    "Commande " + commande + " envoyée au serveur");
 
                 String response = read();
                 System.out.println("Réponse reçue " + response);

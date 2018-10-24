@@ -11,7 +11,10 @@ public class Server {
     private ServerSocket server = null;
     private boolean isRunning = true;
 
-    public Server(){
+    /**
+     * Constructeur par défaut du serveur.
+     */
+    public Server() {
         try {
             server = new ServerSocket(port, 100);
         } catch (UnknownHostException e) {
@@ -21,7 +24,11 @@ public class Server {
         }
     }
 
-    public Server(int port){
+    /**
+     * Constructeur du serveur avec port.
+     * @param port port du serveur
+     */
+    public Server(int port) {
         this.port = port;
         try {
             server = new ServerSocket(port, 100);
@@ -33,10 +40,13 @@ public class Server {
     }
 
 
-    public void open(){
-        Thread t = new Thread(new Runnable(){
-            public void run(){
-                while(isRunning == true){
+    /**
+     * Ouvre le serveur.
+     */
+    public void open() {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                while (isRunning == true) {
                     try {
                         Socket client = server.accept();
                         System.err.println("Connexion cliente reçue.");
@@ -57,7 +67,7 @@ public class Server {
         t.start();
     }
 
-    public void close(){
+    public void close() {
         isRunning = false;
     }
 }
