@@ -2,7 +2,6 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
 
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -208,6 +207,32 @@ public class AssetsRepertories {
             nameFiles[i] = this.getFiles()[i].getName();
         }
         return nameFiles;
+    }
+
+
+    /**
+     * retourne l'URL de l'image pour une entitee.
+     * @param family Famille
+     * @param color Couleur
+     * @param option option possible (running,rainbow,...)
+     * @return
+     */
+    public String getURL(String family,String color, String option) {
+
+        this.browseAssets();
+        String filter;
+        if (!option.equals("")) {
+            filter = family + "-" + color + "-" + option + ".gif";
+        } else {
+            filter = family + "-" + color + ".gif";
+        }
+        this.filter(filter);
+
+        if (this.getFiles().length > 0) {
+            return filePath + "/" + this.getFiles()[0].getName();
+        } else {
+            return filePath;
+        }
     }
 
 }

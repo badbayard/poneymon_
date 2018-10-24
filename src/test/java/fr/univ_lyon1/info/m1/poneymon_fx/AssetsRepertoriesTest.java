@@ -107,4 +107,20 @@ public class AssetsRepertoriesTest {
         assert(allElementsAreInTab(NameAfterFilter,NameExpected));
     }
 
+    @Test
+    public void TestGetUrlExists() {
+        String url = repAsset.getURL("pony","blue","running");
+        String urlExpected = repAsset.getFilePath()+"/pony-blue-running.gif";
+
+        assert(url.equals(urlExpected));
+    }
+
+    @Test
+    public void TestGetUrlNotExists() {
+        String url = repAsset.getURL("ponyUnknown","black","whoAmI");
+        String urlExpected = repAsset.getFilePath();
+
+        assert(url.equals(urlExpected));
+    }
+
 }
