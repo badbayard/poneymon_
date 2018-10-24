@@ -79,9 +79,9 @@ public class SelectPoney extends Parent {
         
         getChildren().addAll(poneyBox);*/
         
-        System.out.println("EntityBox: " + entityBox[0].getChildren());
+        //System.out.println("EntityBox: " + entityBox[0].getChildren());
         
-        getChildren().addAll(entityBox[0]);
+        //getChildren().addAll(entityBox[0]);
     }
 }
 

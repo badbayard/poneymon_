@@ -10,7 +10,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.MainMenu;
 /**
  * Class handling the communication between the menus and jfxView.
  */
-@SuppressWarnings("restriction")
 public class MenuView {
 	
     private MainMenu mainMenu;
@@ -41,7 +40,7 @@ public class MenuView {
         
         //Affiche le menu principal
         mainMenu = new MainMenu(width, height);
-        mainMenu.setVisible(false); 
+        mainMenu.setVisible(true); 
         
         
         //Prépare le menu de sélection de poney
