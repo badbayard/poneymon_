@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,7 +110,7 @@ public class AssetsRepertories {
     public String[] filterColor(File[] filteredFiles) {
         String[] colors = new String[filteredFiles.length];
         int indexColor = 0;
-        String pattern = "[^a-zA-Z]+";
+        String pattern = "[^a-zA-Z0-9]+";
         String[] parts;
         for (File str : filteredFiles) {
             parts = str.getName().split(pattern);
@@ -131,6 +132,82 @@ public class AssetsRepertories {
         this.browseAssets();
         this.filter(regexFilter);
         return this.filterColor(this.getFiles());
+    }
+
+    /**
+     * Liste les entites de la forme pony-green(-blablah)*.gif
+     * -> pony (si deja retourné pas de doublons)
+     * @return liste de famille
+     */
+    public String[] availableEntities() {
+        String filter = "(.)*-(.)*.gif";
+        this.browseAssets();
+        this.filter(filter);
+        this.cleanseDoubleFamilyName();
+        return this.filterNameEntity();
+    }
+
+    /**
+     * elimine les fichiers de la liste ayant le meme nom de famille.
+     */
+    public void cleanseDoubleFamilyName() {
+        List<String> tempSplit = new ArrayList<>();
+        List<File> tempFile = new ArrayList<>();
+        File[] result;
+        String pattern = "[^a-zA-Z0-9]+";
+        String[] parts;
+
+        for (File str : this.getFiles()) {
+            parts = str.getName().split(pattern);
+            if (!tempSplit.contains(parts[0])) {
+                tempSplit.add(parts[0]);
+                tempFile.add(str);
+            }
+        }
+
+        tempSplit.clear();
+        result = new File [tempFile.size()];
+
+        for (int i = 0;i < tempFile.size();i++) {
+            result[i] = tempFile.get(i);
+        }
+        tempFile.clear();
+        this.setFiles(result);
+    }
+
+
+    /**
+     * Recupere le nom des entitees dans la liste des fichiers.
+     * @return tableau de nom d'entitees
+     */
+    public String[] filterNameEntity() {
+        String pattern = "[^a-zA-Z0-9]+";
+        String[] result;
+        List<String> resulTtmp = new ArrayList<>();
+        String[] parts;
+
+        for (File fi : this.getFiles()) {
+            parts = fi.getName().split(pattern);
+            resulTtmp.add(parts[0]);
+        }
+
+        result = new String [resulTtmp.size()];
+        for (int i = 0;i < resulTtmp.size();i++) {
+            result[i] = resulTtmp.get(i);
+        }
+        return result;
+    }
+
+    /**
+     * retourne le nom des fichiers sous forme de chaine de charactere.
+     * @return tableau de nom de fichiers.
+     */
+    public String [] getFilesName() {
+        String [] nameFiles = new String [this.getFiles().length];
+        for (int i = 0; i < this.getFiles().length; i++) {
+            nameFiles[i] = this.getFiles()[i].getName();
+        }
+        return nameFiles;
     }
 
 }

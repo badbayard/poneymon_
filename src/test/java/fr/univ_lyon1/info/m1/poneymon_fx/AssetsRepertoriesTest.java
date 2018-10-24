@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.io.File;
 
+
 public class AssetsRepertoriesTest {
 
     private AssetsRepertories repAsset;
@@ -53,16 +54,13 @@ public class AssetsRepertoriesTest {
         String [] colorsTest = repAsset.searchAndFilter(regexFilter);
         String [] colorsExpected = new String[] {"green", "blue", "orange", "purple", "yellow"};
         assert(allElementsAreInTab(colorsTest,colorsExpected));
-        System.out.println("apres filtre simple");
-        repAsset.display();
+
 
 
         regexFilter = "pony-[a-zA-Z]*-rainbow.gif";
         colorsTest = repAsset.searchAndFilter(regexFilter);
         colorsExpected = new String[] {"yellow", "blue", "green", "purple", "orange"};
         assert(allElementsAreInTab(colorsTest,colorsExpected));
-        System.out.println("\napres filtre rainbow");
-        repAsset.display();
 
     }
 
@@ -87,6 +85,26 @@ public class AssetsRepertoriesTest {
 
     }
 
+    @Test
+    public void TestListAllEntitiesInAssets() {
 
+        String[] entities = repAsset.availableEntities();
+        String[] expectedEntities = {"pony","ponyClone"};
+    }
+
+
+    @Test
+    public void TestCleanseDoubleFamilyName() {
+        String filter = "(.)*-(.)*.gif";
+        repAsset.browseAssets();
+        repAsset.filter(filter);
+        repAsset.cleanseDoubleFamilyName();
+
+        String [] NameExpected = new String[] {"pony-green.gif","ponyClone-orange.gif"};
+        String [] NameAfterFilter = repAsset.getFilesName();
+
+
+        assert(allElementsAreInTab(NameAfterFilter,NameExpected));
+    }
 
 }
