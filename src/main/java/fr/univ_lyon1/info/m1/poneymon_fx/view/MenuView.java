@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.view.MainMenu;
+
 /**
  * Class handling the communication between the menus and jfxView.
  */
@@ -39,12 +41,12 @@ public class MenuView {
         
         //Affiche le menu principal
         mainMenu = new MainMenu(width, height);
-        mainMenu.setVisible(true);
+        mainMenu.setVisible(false); 
         
         
         //Prépare le menu de sélection de poney
         selectMenu = new SelectPoney(width, height);
-        selectMenu.setVisible(false);
+        selectMenu.setVisible(true);
         
         root.getChildren().addAll(imgView, mainMenu, selectMenu);
         
