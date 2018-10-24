@@ -17,7 +17,7 @@ public class PlayerAITest {
      */
     @Before
     public void setUp() {
-        poneyAI = new PoneyModel("green", 0, true);
+        poneyAI = new PoneyModel("green", 0, true, 5);
     }
 
 
@@ -35,7 +35,7 @@ public class PlayerAITest {
 
         poneyAI.boostIfNecessary();
 
-        assert(poneyAI.isNianPoney());
+        assert(poneyAI.isBoosted());
 
         poneyAI.boostIfNecessary();
 
@@ -46,7 +46,7 @@ public class PlayerAITest {
         poneyAI.update(500);
 
         assert(!poneyAI.canBoost());
-        assert(!poneyAI.isNianPoney());
+        assert(!poneyAI.isBoosted());
 
         poneyAI.setX(0);
         poneyAI.setNbLap(1);
@@ -54,7 +54,7 @@ public class PlayerAITest {
 
         poneyAI.boostIfNecessary();
 
-        assert(!poneyAI.isNianPoney());
+        assert(!poneyAI.isBoosted());
 
     }
 
@@ -75,7 +75,7 @@ public class PlayerAITest {
 
         double count = numberOfRaces;
 
-        PoneyModel RandomAi = new PoneyModel("blue", 0, true); // Champion!
+        PoneyModel RandomAi = new PoneyModel("blue", 0, true, 5); // Champion!
         double aiTime = 0.0;
         int aiPoints = 0;
 

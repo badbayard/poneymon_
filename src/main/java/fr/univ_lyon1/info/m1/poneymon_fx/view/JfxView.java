@@ -6,6 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 
 import javafx.application.Platform;
@@ -19,16 +20,19 @@ public class JfxView implements View {
     // Window title
     private static final String WINDOW_TITLE = "Poneymon";
     private final Scene scene;
-    // Field model 
+    // Field model
     private FieldView fieldView;
     private Group root;
 
     /**
      * Constructor of JfxView.
      *
-     * @param stage  the stage of the view
-     * @param width  the width of the view
-     * @param height the height of the view
+     * @param stage
+     *            the stage of the view
+     * @param width
+     *            the width of the view
+     * @param height
+     *            the height of the view
      */
     public JfxView(Stage stage, final int width, final int height) {
         Controller.CONTROLLER.addView(this);
@@ -49,7 +53,7 @@ public class JfxView implements View {
         stage.setScene(scene);
         stage.show();
 
-        //Close all the stages when the main stage is closed.
+        // Close all the stages when the main stage is closed.
         stage.setOnCloseRequest(e -> Platform.exit());
     }
 
@@ -58,9 +62,8 @@ public class JfxView implements View {
      */
     private void listenToEvent() {
         // Event Listener de la souris
-        scene.setOnMouseClicked(m ->
-            Controller.CONTROLLER.mouseClicked(m.getSceneX(), m.getSceneY(), fieldView)
-        );
+        scene.setOnMouseClicked(
+            m -> Controller.CONTROLLER.mouseClicked(m.getSceneX(), m.getSceneY(), fieldView));
     }
 
     /**
@@ -73,7 +76,8 @@ public class JfxView implements View {
     /**
      * Sets the field model.
      *
-     * @param fm the field model
+     * @param fm
+     *            the field model
      */
     public void setModel(FieldModel fm) {
         fieldView.setModel(fm);
@@ -82,24 +86,27 @@ public class JfxView implements View {
     }
 
     /**
-     * Creates a button for each poney controlled by a human and a button to
-     * pause/resume the game.
+     * Creates a button for each poney controlled by a human and a button to pause/resume the game.
      */
     private void setButtons() {
         HBox hb = new HBox();
 
-        //Buttons to boost the poneys
-        for (PoneyView poneyView : fieldView.getPoneyViews()) {
-            final PoneyModel poneyModel = poneyView.getModel();
-            //We don't want buttons for the AIs
-            if (poneyModel.isAPlayer()) {
-                Button boostPoney = new Button("Boost poney: " + poneyModel.getColor());
+        // Buttons to boost the poneys
+        for (MovingEntityView participantView : fieldView.getParticipantViews()) {
+            final MovingEntityModel participantModel = participantView.getModel();
+            // We don't want buttons for the AIs and the non poney players
+            // TODO : Maybe add "Special" button instead, used on every player
+            if (participantModel instanceof PoneyModel) {
+                if (participantModel.isPlayer()) {
+                    Button boostPoney = new Button("Boost poney: " + participantModel.getColor());
 
-                boostPoney.setOnMouseClicked(m -> Controller.CONTROLLER.boostButton(poneyModel));
-                hb.getChildren().add(boostPoney);
+                    boostPoney.setOnMouseClicked(
+                        m -> Controller.CONTROLLER.boostButton((PoneyModel) participantModel));
+                    hb.getChildren().add(boostPoney);
+                }
             }
         }
-        //Button to pause/resume the game.
+        // Button to pause/resume the game.
         final Button pauseResume = new Button("Pause");
         pauseResume.setOnMouseClicked(m -> {
             Controller.CONTROLLER.pauseResume();

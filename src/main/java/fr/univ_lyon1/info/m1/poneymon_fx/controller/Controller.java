@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
-import javafx.animation.AnimationTimer;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.view.View;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.model.Model;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.FieldView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.View;
+import javafx.animation.AnimationTimer;
 
 /**
  * Controller of the game, handle the time.
@@ -22,7 +19,7 @@ public class Controller {
     private List<View> views = new ArrayList<>();
     // Subscribed models for update events
     private FieldModel fieldModel;
-    // Tiny window displaying data about a poney
+    // Tiny window displaying data about a participant
     private DataView dataView;
     // Timer handling the time in game
     private AnimationTimer timer;
@@ -45,16 +42,15 @@ public class Controller {
     private Controller() {
         timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                //Prevent from resuming the game when the race is over
+                // Prevent from resuming the game when the race is over
                 if (!gameOver) {
-                    //Allow to resume the game to it's last position
+                    // Allow to resume the game to it's last position
                     if (resume) {
                         lastTimerUpdate = currentNanoTime;
                         resume = false;
                     }
                     // Time elapsed since the last update
-                    double msElapsed =
-                        (currentNanoTime - lastTimerUpdate) / 1000000.0;
+                    double msElapsed = (currentNanoTime - lastTimerUpdate) / 1000000.0;
                     // Each time the event is triggered, update the model
                     fieldModel.update(msElapsed);
                     // refresh the views
@@ -71,7 +67,8 @@ public class Controller {
     /**
      * Gives a new view to the controller.
      *
-     * @param view the view that wants to subscribe to the display event
+     * @param view
+     *            the view that wants to subscribe to the display event
      */
     public void addView(View view) {
         views.add(view);
@@ -80,7 +77,8 @@ public class Controller {
     /**
      * Removes a specific view from the list of views.
      *
-     * @param view the view that needs to be removed
+     * @param view
+     *            the view that needs to be removed
      */
     public void removeView(View view) {
         views.remove(view);
@@ -129,9 +127,12 @@ public class Controller {
     /**
      * Handles mouseclick.
      *
-     * @param xClick    the abscissa of the click
-     * @param yClick    the ordinate of the click
-     * @param fieldView the fieldView in which the click happened
+     * @param xClick
+     *            the abscissa of the click
+     * @param yClick
+     *            the ordinate of the click
+     * @param fieldView
+     *            the fieldView in which the click happened
      */
     public void mouseClicked(double xClick, double yClick, FieldView fieldView) {
         fieldView.manageClick(xClick, yClick);
@@ -148,7 +149,8 @@ public class Controller {
     /**
      * Turns the poney into nian poney if he can boost.
      *
-     * @param poneyModel the PoneyModel of the poney the user wants to boost
+     * @param poneyModel
+     *            the PoneyModel of the poney the user wants to boost
      */
     public void boostButton(PoneyModel poneyModel) {
         if (poneyModel.canBoost()) {
@@ -160,7 +162,7 @@ public class Controller {
      * Asks to the SoundController to play a sound.
      */
     public void playBoostSound() {
-        PoneyModel[] poneys = fieldModel.getPoneyModels();
+        PoneyModel[] poneys = (PoneyModel[]) fieldModel.getParticipantModels();
         for (PoneyModel pm : poneys) {
             if (pm.shouldPlaySound()) {
                 soundController.playBoostSound();
@@ -171,8 +173,7 @@ public class Controller {
     /**
      * Gets the timerActive flag.
      *
-     * @return <code>true</code> if the timer is active.
-     * <code>false</code> otherwise.
+     * @return <code>true</code> if the timer is active. <code>false</code> otherwise.
      */
     public boolean getTimerActive() {
         return timerActive;
@@ -181,7 +182,8 @@ public class Controller {
     /**
      * Sets the data view.
      *
-     * @param dv the dataView
+     * @param dv
+     *            the dataView
      */
     public void setDataView(DataView dv) {
         dataView = dv;

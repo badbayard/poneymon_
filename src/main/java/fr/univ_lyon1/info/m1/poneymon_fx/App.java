@@ -1,6 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.model.AssetsRepertories;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -11,9 +11,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.ButtonMenu;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.ListRoomView;
-
-import java.io.IOException;
-
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
 /**
@@ -21,8 +18,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
  * Needs JavaFx.
  */
 public class App extends Application {
-
-
     private MenuView menu;
     private ListRoomView menulistroom;
     private Stage stage;
@@ -59,11 +54,8 @@ public class App extends Application {
 
     private void setEvents() {
         //Event Play solo
-        
         ButtonMenu btnPlay = menu.getMainMenu().getBtnPlay();
-        btnPlay.setOnMouseClicked(event -> {
-            createGameSolo();
-        });
+        btnPlay.setOnMouseClicked(event -> createGameSolo());
 
         //Event Play multi
         ButtonMenu btnPlayMulti = menu.getMainMenu().getBtnPlayMulti();
@@ -75,10 +67,7 @@ public class App extends Application {
 
         //Event exit game
         ButtonMenu btnExit = menu.getMainMenu().getBtnExit();
-        btnExit.setOnMouseClicked(event -> {
-            Platform.exit();
-        });
-        
+        btnExit.setOnMouseClicked(event -> Platform.exit());
     }
 
     /**
@@ -97,7 +86,7 @@ public class App extends Application {
         FieldModel fieldModel = new FieldModel(5);
 
         // Set a default poney model to the data view
-        dataView.setPoneyModel(fieldModel.getPoneyModel(0));
+        dataView.setParticipantModel((PoneyModel) fieldModel.getParticipantModel(0));
 
         Controller.CONTROLLER.setFieldModel(fieldModel);
 

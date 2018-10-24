@@ -9,7 +9,7 @@ import java.util.List;
 public class AssetsRepertories {
 
     private String filePath;
-    private File [] files;
+    private File[] files;
 
     public AssetsRepertories(String path) {
         filePath = path;
@@ -17,6 +17,7 @@ public class AssetsRepertories {
 
     /**
      * Accesseur FilePath.
+     *
      * @return FilePath.
      */
     public String getFilePath() {
@@ -25,6 +26,7 @@ public class AssetsRepertories {
 
     /**
      * Mutateur FilePath.
+     *
      * @param newPath String
      */
     public void setFilePath(String newPath) {
@@ -33,23 +35,25 @@ public class AssetsRepertories {
 
     /**
      * Accesseur files.
+     *
      * @return files.
      */
-    public  File [] getFiles() {
+    public File[] getFiles() {
         return files;
     }
 
     /**
      * Mutateur files.
+     *
      * @param newFiles File []
      */
-    public void setFiles(File []  newFiles) {
+    public void setFiles(File[] newFiles) {
         files = newFiles;
     }
 
     /**
      * parcours les fichiers des Assets et retourne sans distinction tour le contenu.
-      */
+     */
     public void browseAssets() {
         File directory = new File(this.getFilePath());
         File[] fList = directory.listFiles();
@@ -60,17 +64,18 @@ public class AssetsRepertories {
 
     /**
      * teste le parcours repertoire.
-     *
      */
     public void display() {
-        for (File file : this.getFiles())
+        for (File file : this.getFiles()) {
             if (file.isFile()) {
                 System.out.println(file.getName());
             }
+        }
     }
 
     /**
      * Filtre les fichiers en fonction de l'expression rationelle passée en parametre.
+     *
      * @param regexFilter String
      */
     public void filter(String regexFilter) {
@@ -82,10 +87,10 @@ public class AssetsRepertories {
             }
         }
 
-        File [] filteredFiles = new File [result.size()];
+        File[] filteredFiles = new File[result.size()];
 
-        for (int i = 0; i < result.size();i++) {
-            filteredFiles [i] = result.get(i);
+        for (int i = 0; i < result.size(); i++) {
+            filteredFiles[i] = result.get(i);
         }
 
         this.setFiles(filteredFiles);
@@ -97,14 +102,15 @@ public class AssetsRepertories {
      * 1er param nom de famille
      * 2e param couleur
      * 3e param optionnel.
+     *
      * @param filteredFiles liste de fichier.
      * @return tableau de couleur
      */
-    public String [] filterColor(File [] filteredFiles) {
-        String [] colors = new String [filteredFiles.length];
+    public String[] filterColor(File[] filteredFiles) {
+        String[] colors = new String[filteredFiles.length];
         int indexColor = 0;
-        String pattern = "[^a-zA-Z]+";
-        String [] parts;
+        String pattern = "[^a-zA-Z0-9]+";
+        String[] parts;
         for (File str : filteredFiles) {
             parts = str.getName().split(pattern);
             if (indexColor <= colors.length) {
@@ -117,13 +123,116 @@ public class AssetsRepertories {
 
     /**
      * Combine les differentes fonctions de la classe et retourne le tableau de couleur
-        pour une famille d'entitée.
+     * pour une famille d'entitée.
+     *
      * @return tableau de couleur
      */
-    public String [] searchAndFilter(String regexFilter) {
+    public String[] searchAndFilter(String regexFilter) {
         this.browseAssets();
         this.filter(regexFilter);
         return this.filterColor(this.getFiles());
+    }
+
+    /**
+     * Liste les entites de la forme pony-green(-blablah)*.gif
+     * -> pony (si deja retourné pas de doublons)
+     * @return liste de famille
+     */
+    public String[] availableEntities() {
+        String filter = "(.)*-(.)*.gif";
+        this.browseAssets();
+        this.filter(filter);
+        this.cleanseDoubleFamilyName();
+        return this.filterNameEntity();
+    }
+
+    /**
+     * elimine les fichiers de la liste ayant le meme nom de famille.
+     */
+    public void cleanseDoubleFamilyName() {
+        List<String> tempSplit = new ArrayList<>();
+        List<File> tempFile = new ArrayList<>();
+        File[] result;
+        String pattern = "[^a-zA-Z0-9]+";
+        String[] parts;
+
+        for (File str : this.getFiles()) {
+            parts = str.getName().split(pattern);
+            if (!tempSplit.contains(parts[0])) {
+                tempSplit.add(parts[0]);
+                tempFile.add(str);
+            }
+        }
+
+        tempSplit.clear();
+        result = new File [tempFile.size()];
+
+        for (int i = 0;i < tempFile.size();i++) {
+            result[i] = tempFile.get(i);
+        }
+        tempFile.clear();
+        this.setFiles(result);
+    }
+
+
+    /**
+     * Recupere le nom des entitees dans la liste des fichiers.
+     * @return tableau de nom d'entitees
+     */
+    public String[] filterNameEntity() {
+        String pattern = "[^a-zA-Z0-9]+";
+        String[] result;
+        List<String> resulTtmp = new ArrayList<>();
+        String[] parts;
+
+        for (File fi : this.getFiles()) {
+            parts = fi.getName().split(pattern);
+            resulTtmp.add(parts[0]);
+        }
+
+        result = new String [resulTtmp.size()];
+        for (int i = 0;i < resulTtmp.size();i++) {
+            result[i] = resulTtmp.get(i);
+        }
+        return result;
+    }
+
+    /**
+     * retourne le nom des fichiers sous forme de chaine de charactere.
+     * @return tableau de nom de fichiers.
+     */
+    public String [] getFilesName() {
+        String [] nameFiles = new String [this.getFiles().length];
+        for (int i = 0; i < this.getFiles().length; i++) {
+            nameFiles[i] = this.getFiles()[i].getName();
+        }
+        return nameFiles;
+    }
+
+
+    /**
+     * retourne l'URL de l'image pour une entitee.
+     * @param family Famille
+     * @param color Couleur
+     * @param option option possible (running,rainbow,...)
+     * @return URL de l'entitee
+     */
+    public String getUrl(String family,String color, String option) {
+
+        this.browseAssets();
+        String filter;
+        if (!option.equals("")) {
+            filter = family + "-" + color + "-" + option + ".gif";
+        } else {
+            filter = family + "-" + color + ".gif";
+        }
+        this.filter(filter);
+
+        if (this.getFiles().length > 0) {
+            return filePath + "/" + this.getFiles()[0].getName();
+        } else {
+            return filePath;
+        }
     }
 
 }

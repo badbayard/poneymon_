@@ -1,40 +1,50 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Model of the game board.
  */
 public class FieldModel implements Model {
-
-    private PoneyModel[] poneys;
+    private StaticEntityModel[] challengers;
+    private MovingEntityModel[] participants;
+    private static final int NB_LAPS = 5;
+    private int participantsFinished = 0;
 
     // State of the poneys. True : AI, False : Human
-    private static final boolean[] isIa = new boolean[] {true, true, true, false, false};
+    private static final boolean[] isAi = new boolean[] {true, true, true, false, false};
 
-    private int [] ranking;
+    private ArrayList<MovingEntityModel> rankings;
 
     /**
      * FieldModel constructor.
      *
-     * @param nbPoneys the number of poneys in the game
+     * @param nbParticipants
+     *            the number of participants in the game
      */
-    public FieldModel(final int nbPoneys) {
-        ranking = new int [nbPoneys];
-        // If the number of poneys is acceptable
-        if (2 <= nbPoneys && nbPoneys <= 5) {
-            poneys = new PoneyModel[nbPoneys];
+    public FieldModel(final int nbParticipants) {
+        // If the number of participants is acceptable
+        if (2 <= nbParticipants && nbParticipants <= 5) {
+            participants = new PoneyModel[nbParticipants];
         } else { // 5 poneys by default
-            poneys = new PoneyModel[5];
+            participants = new PoneyModel[5];
         }
 
-        // Initializing poneys
-        for (int i = 0; i < poneys.length; i++) {
-            poneys[i] = new PoneyModel(PoneyModel.getColor(i), i, isIa[i]);
+        // Initializing participants
+        for (int i = 0; i < participants.length; i++) {
+            participants[i] = new PoneyModel(PoneyModel.getColor(i), i, isAi[i], NB_LAPS);
         }
+
         // make them know the others
-        for (int i = 0; i < poneys.length; i++) {
-            for (int j = 0; j < poneys.length; j++) {
+        for (int i = 0; i < participants.length; i++) {
+            for (int j = 0; j < participants.length; j++) {
                 if (j != i) {
-                    poneys[i].addNeighbor(poneys[j]);
+                    participants[i].addNeighbor(participants[j]);
                 }
             }
         }
@@ -44,89 +54,87 @@ public class FieldModel implements Model {
      * Notify the model the game just started.
      */
     public void start() {
-        for (PoneyModel poney : poneys) {
-            poney.start();
+        for (MovingEntityModel participant : participants) {
+            participant.start();
         }
     }
 
     /**
      * Update the model and its components.
      *
-     * @param msElapsed time elapsed in ms
+     * @param msElapsed
+     *            time elapsed in ms
      */
     public void update(final double msElapsed) {
-        for (PoneyModel poney : poneys) {
-            poney.update(msElapsed);
+        for (MovingEntityModel participant : participants) {
+            participant.update(msElapsed);
+            rankParticipants();
+            checkRaceFinished();
         }
     }
 
     /**
-     * PoneyModels getter.
+     * MovingEntityModels getter.
      *
-     * @return the PoneyModels stored in this instance
+     * @return the MovingEntityModels stored in this instance
      */
-    public PoneyModel[] getPoneyModels() {
-        return poneys;
+    public MovingEntityModel[] getParticipantModels() {
+        return participants;
     }
 
     /**
-     * Returns a specific poney from the field model.
-     * @param index index of the poney
-     * @return poney at index in the arraylist of poneys
+     * Returns a specific participant from the field model.
+     * 
+     * @param index
+     *            index of the participant
+     * @return participant at index in the arraylist of participants
      */
-    public PoneyModel getPoneyModel(int index) {
-        return poneys[index];
+    public MovingEntityModel getParticipantModel(int index) {
+        return participants[index];
     }
 
     /**
-     * Getter on the number of PoneyModels.
+     * Getter on the number of MovingEntityModel.
      *
-     * @return the number of PoneyModels stored in this instance
+     * @return the number of MovingEntityModel stored in this instance
      */
-    public int countPoneys() {
-        return poneys.length;
+    public int countParticipants() {
+        return participants.length;
     }
 
     /**
      * Renvoit la liste des indices triés des PoneyModel classés par
-     progresion croissante.
+     * progresion croissante.
      */
-    public void rankPoney() {
-        PoneyModel[] poneyCpy = new PoneyModel[poneys.length];
-        for (int i = 0; i < poneys.length; i++) {
-            poneyCpy[i] = new PoneyModel(poneys[i]);
-        }
-        int indiceMax;
-        for (int i = 0; i < poneyCpy.length; i++) {
-            indiceMax = max(poneyCpy);
-            ranking[i] = indiceMax;
+    public void rankParticipants() {
+        rankings = new ArrayList<>(Arrays.asList(participants));
+        Collections.sort(rankings);
+
+        int i = 1;
+        for (MovingEntityModel mem : rankings) {
+            mem.setRank(i++);
         }
     }
 
-    /**
-     * Recherche la progression maximum dans le tableau de poneyCpy.
-     *
-     * @return indice du maximum
-     */
-    private int max(PoneyModel[] poneyCpy) {
-        int indiceMax = 0;
-        double maxim = poneyCpy[0].totalProgress();
-        for (int i = 1; i < poneyCpy.length; i++) {
-            if (maxim < poneyCpy[i].totalProgress()) {
-                maxim = poneyCpy[i].totalProgress();
-                indiceMax = i;
+    private void checkRaceFinished() {
+        for (MovingEntityModel pm : participants) {
+            if (!pm.getRaceFinished() && pm.getNbLap() == NB_LAPS) {
+                pm.setRaceFinished(true);
+                participantsFinished++;
+
+                if (participantsFinished == participants.length) {
+                    Controller.CONTROLLER.endRace();
+                }
             }
         }
-        poneyCpy[indiceMax].setX(0);
-        poneyCpy[indiceMax].setNbLap(0);
-        return indiceMax;
     }
 
     /**
      * accesseur ranking.
+     *
      * @return ranking
      */
-    public int[] getRanking() {
-        return ranking;
+    public List<MovingEntityModel> getRankings() {
+        return rankings;
     }
 }
