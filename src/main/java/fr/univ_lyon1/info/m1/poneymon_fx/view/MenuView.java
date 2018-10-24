@@ -10,7 +10,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.MainMenu;
 /**
  * Class handling the communication between the menus and jfxView.
  */
-@SuppressWarnings("restriction")
 public class MenuView {
 	
     private MainMenu mainMenu;
