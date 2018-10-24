@@ -40,12 +40,12 @@ public class MenuView {
         
         //Affiche le menu principal
         mainMenu = new MainMenu(width, height);
-        mainMenu.setVisible(true); 
+        mainMenu.setVisible(true);
         
         
         //Prépare le menu de sélection de poney
         selectMenu = new SelectPoney(width, height);
-        selectMenu.setVisible(true);
+        selectMenu.setVisible(false);
         
         root.getChildren().addAll(imgView, mainMenu, selectMenu);
         
