@@ -12,13 +12,14 @@ import javafx.scene.image.ImageView;
  */
 public class SelectPoney extends Parent {
     
-    private VBox poneyBox;
+    //Ajouter une VBox par categorie (faire un tableau de VBox ne fonctionne pas)
+    private VBox ponyBox;
+    private VBox ponyCloneBox;
+    
     private AssetsRepertories assetsRepertories;
     private String path;
     private String [] availableEntity;
     private String [] entityColor;
-    
-    private VBox [] entityBox;
     
     /**
      * Constructor.
@@ -27,28 +28,26 @@ public class SelectPoney extends Parent {
      */
     public SelectPoney(int x, int y) {
         
-        path = System.getProperty("user.dir") + "/src/main/resources/assets";
+        path = System.getProperty("user.dir") + "/src/main/resources/assets/entity";
         
         assetsRepertories  = new AssetsRepertories(path);
-        
-        //entityName = assetsRepertories.filterNameEntity();
         availableEntity = assetsRepertories.availableEntities();
         
-        //entityColor = new String [availableEntity.length];
+        ponyBox = new VBox(10);
+        ponyCloneBox = new VBox(10);
         
-        entityBox = new VBox[availableEntity.length];
+        ponyBox.setTranslateX(x / 8);
+        ponyBox.setTranslateY(y / 6);
         
-        for (int i = 0; i < availableEntity.length - 1; ++i) {
-            entityBox[i] = new VBox(10);
-            
-            entityBox[i].setTranslateX(x / (i+1));
-            entityBox[i].setTranslateY(y/ (i+1));
-            
+        ponyCloneBox.setTranslateX(x / 3);
+        ponyCloneBox.setTranslateY(y / 6);
+        
+        for (int i = 0; i < availableEntity.length; ++i) {
             entityColor = assetsRepertories.searchAndFilter(availableEntity[i] + "-[a-zA-Z]*(.gif)");
             System.out.println(availableEntity[i]);
             
             for (int j = 0; j < entityColor.length; ++j) {
-                Image entityImage = new Image("assets/" + availableEntity[i] + "-" + entityColor[j] + ".gif");
+                Image entityImage = new Image("assets/entity/" + availableEntity[i] + "-" + entityColor[j] + ".gif");
                 ImageView imageView = new ImageView(entityImage);
                 imageView.setFitWidth(75);
                 imageView.setFitHeight(75);
@@ -57,32 +56,24 @@ public class SelectPoney extends Parent {
                 
                 System.out.println("J : " + j + " ," + entityColor[j]);
                 
-                entityBox[i].getChildren().add(newButton);
+                switch (availableEntity[i]) {
+                case "pony" :
+                    ponyBox.getChildren().add(newButton);
+                    break;
+                case "ponyClone" :
+                    ponyCloneBox.getChildren().add(newButton);
+                    break;
+                default:
+                    System.out.println("Erreur, ce type n'existe pas. Modifier le fichier SelectPoney.java");
+                    break;
+                }
+                
+                
             }
-            //getChildren().add(entityBox[i]);
         }
-        
-        //poneyBox = new VBox(10);
-        
-        //poneyBox.setTranslateX(x / 5);
-        //poneyBox.setTranslateY(y / 5);
-        
-        /*
-        Image image = new Image("assets/pony-blue.gif");
 
-        ImageView imageV = new ImageView(image);
-        imageV.setFitWidth(75);
-        imageV.setFitHeight(75);
-        ToggleButton tb3 = new ToggleButton("", imageV);
         
-        poneyBox.getChildren().addAll(tb3);
-        
-        getChildren().addAll(poneyBox);*/
-        
-        System.out.println("EntityBox: " + entityBox[0].getChildren());
-        
-        getChildren().addAll(entityBox[0]);
+        //Penser à ajouter les VBox lorsque l'on ajoute un nouveau type
+        getChildren().addAll(ponyBox, ponyCloneBox);
     }
 }
-
-// Créer 1 ToggleButton par image récupéré

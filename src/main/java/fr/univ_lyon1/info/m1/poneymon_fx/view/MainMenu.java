@@ -25,8 +25,6 @@ public class MainMenu extends Parent {
     private ButtonMenu btnSolo;
     private ButtonMenu btnMulti;
     private ButtonMenu btnExit;
-    
-    private VBox poneyBox;
 
     /**
      * Constructor of MainMenu.
@@ -44,20 +42,7 @@ public class MainMenu extends Parent {
 
         mainMenu.getChildren().addAll(btnSolo, btnMulti, btnExit);
         
-        poneyBox = new VBox(10);
-        
-        poneyBox.setTranslateX(x / 2);
-        poneyBox.setTranslateY(y / 2);
-        
-        Image image = new Image("assets/entity/pony-blue.gif");
-        ImageView imageV = new ImageView(image);
-        imageV.setFitWidth(75);
-        imageV.setFitHeight(75);
-        ToggleButton tb3 = new ToggleButton("", imageV);
-
-        poneyBox.getChildren().addAll(tb3);
-        
-        getChildren().addAll(mainMenu/*, poneyBox*/);
+        getChildren().addAll(mainMenu);
     }
 
     /**
