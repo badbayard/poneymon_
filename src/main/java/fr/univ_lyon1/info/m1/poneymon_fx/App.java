@@ -10,6 +10,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.JfxView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.ButtonMenu;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.ListRoomView;
 
 import java.io.IOException;
 
@@ -23,7 +24,9 @@ public class App extends Application {
 
 
     private MenuView menu;
+    private ListRoomView menulistroom;
     private Stage stage;
+    private Stage stage2;
 
     /**
      * Start() launch the application.
@@ -36,6 +39,7 @@ public class App extends Application {
     @Override
     public void start(Stage s) throws Exception {
         stage = s;
+        stage2 = s;
 
         // Secondary view
         /*Stage s3 = new Stage();
@@ -45,6 +49,7 @@ public class App extends Application {
         v2.setController(c);*/
 
         menu = new MenuView(800, 600);
+        menulistroom = new ListRoomView(800,600);
 
         stage.setScene(menu.getScene());
         stage.show();
@@ -54,6 +59,7 @@ public class App extends Application {
 
     private void setEvents() {
         //Event Play solo
+        
         ButtonMenu btnPlay = menu.getMainMenu().getBtnPlay();
         btnPlay.setOnMouseClicked(event -> {
             createGameSolo();
@@ -62,7 +68,9 @@ public class App extends Application {
         //Event Play multi
         ButtonMenu btnPlayMulti = menu.getMainMenu().getBtnPlayMulti();
         btnPlayMulti.setOnMouseClicked(event -> {
-            //Menu suivant ?
+            stage2.setScene(menulistroom.getScene2());
+            stage.close();
+            stage2.show();
         });
 
         //Event exit game
@@ -70,6 +78,7 @@ public class App extends Application {
         btnExit.setOnMouseClicked(event -> {
             Platform.exit();
         });
+        
     }
 
     /**
