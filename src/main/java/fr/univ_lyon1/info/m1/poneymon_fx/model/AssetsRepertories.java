@@ -215,9 +215,9 @@ public class AssetsRepertories {
      * @param family Famille
      * @param color Couleur
      * @param option option possible (running,rainbow,...)
-     * @return
+     * @return URL de l'entitee
      */
-    public String getURL(String family,String color, String option) {
+    public String getUrl(String family,String color, String option) {
 
         this.browseAssets();
         String filter;
