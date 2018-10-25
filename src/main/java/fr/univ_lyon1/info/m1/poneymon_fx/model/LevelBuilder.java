@@ -3,12 +3,14 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.List;
 import java.util.Random;
 
 
 public class LevelBuilder {
 
     private AssetsRepertories repLevels;
+    private List<FixedEntityModel> fixedEntities;
 
     /**
      * constructeur LevelBuilder.
@@ -39,21 +41,17 @@ public class LevelBuilder {
      */
     public boolean readFile(File level) {
 
-        int charsRead = 0;
+        int lineRead = 0;
         try (BufferedReader input = new BufferedReader(new FileReader(level))) {
             String line;
-            String[] parts;
             while ((line = input.readLine()) != null) {
-                parts = line.split(" ");
-                for (String s : parts) {
-                    System.out.println(s);
-                    charsRead++;
-                }
+                lineRead++;
+                this.addFixedEntity(line);
             }
         } catch (Exception e) {
             return false;
         }
-        return (charsRead > 0);
+        return (lineRead > 0);
     }
 
     /**
@@ -70,6 +68,50 @@ public class LevelBuilder {
      */
     public void setRepLevels(AssetsRepertories newFilesLevel) {
         repLevels = newFilesLevel;
+    }
+
+    /**
+     * Ajoute une nouvelle entitee a la liste.
+     */
+    public void addFixedEntity(String line) {
+        String familyName = "";
+        double posX = -1.0;
+        int posY = -1;
+        int nbLap = -1;
+        String[] parts;
+        parts = line.split(" ");
+        for (int i = 0; i < parts.length; i++) {
+            switch (i) {
+                case 0: familyName = parts[i];
+                break;
+                case 1: posX = Double.parseDouble(parts[i]);
+                break;
+                case 2: posY = Integer.parseInt(parts[i]);
+                break;
+                case 3: nbLap = Integer.parseInt(parts[i]);
+                break;
+                default : break;
+            }
+        }
+
+        System.out.println("Family name : " + familyName + " PosX : "
+            + posX + " PosY : " + posY + " nbLap : " + nbLap);
+    }
+
+    /**
+     * Accesseur fixedEntities.
+     * @return liste de FixedEntityModel
+     */
+    public  List<FixedEntityModel>  getOponnentsToRead() {
+        return fixedEntities;
+    }
+
+    /**
+     * Mutateur fixedEntities.
+     * @param newOpponents liste de FixedEntityModel
+     */
+    public void setOponnentsToRead(List<FixedEntityModel>  newOpponents) {
+        fixedEntities = newOpponents;
     }
 
 }

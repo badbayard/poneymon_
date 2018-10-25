@@ -20,7 +20,7 @@ public class LevelBuilderTest {
     @Test
     public void readTestFile() {
         File file = lvBuild.chooseRandomLevelFile();
-        System.out.print("lecture du fichier : ");
+        System.out.print("lecture du fichier : \n");
         assert(lvBuild.readFile(file));
     }
 
@@ -29,7 +29,7 @@ public class LevelBuilderTest {
     public void readTestFileThatNotExist()  {
         String path = lvBuild.getRepLevels().getFilePath();
         File file = new File (path + "/definitlyNotExist.txt");
-        System.out.print("lecture d'un fichier : \n");
+        System.out.print("lecture du fichier : \n");
         assert(!lvBuild.readFile(file));
     }
 
