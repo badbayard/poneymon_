@@ -1,4 +1,4 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest.request;
+package fr.univ_lyon1.info.m1.poneymon_fx.network.request;
 
 import java.io.Serializable;
 

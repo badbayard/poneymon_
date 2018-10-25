@@ -39,7 +39,7 @@ public class Controller {
     /**
      * Controller constructor.
      */
-    private Controller() {
+    Controller() {
         timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // Prevent from resuming the game when the race is over
