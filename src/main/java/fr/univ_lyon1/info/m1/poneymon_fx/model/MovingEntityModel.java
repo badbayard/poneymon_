@@ -37,10 +37,11 @@ public class MovingEntityModel extends EntityModel implements Model, Comparable<
     /**
      * Moving Entity Model constructor.
      */
-    public MovingEntityModel(String entityColor, int row) {
+    public MovingEntityModel(String entityColor, int row, int nbLaps) {
         super(row);
         this.entityColor = entityColor;
         nbLap = 0;
+        this.nbLaps = nbLaps;
     }
 
     /**

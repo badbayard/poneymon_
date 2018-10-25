@@ -19,6 +19,10 @@ public class ProccessInServer implements Runnable {
         this.sock = sock;
     }
 
+    private int[][] rooms;
+    private int nbRooms = 0;
+    private int roomSize = 4;
+
     /**
      * Lance le processus.
      */
@@ -41,6 +45,8 @@ public class ProccessInServer implements Runnable {
                 // Traiement de la réponse
                 String toSend = "";
                 switch (response.toUpperCase()) {
+                    case "join":
+                        break;
                     case "FULL":
                         toSend = DateFormat.getDateTimeInstance(DateFormat.FULL,
                             DateFormat.MEDIUM).format(new Date());
