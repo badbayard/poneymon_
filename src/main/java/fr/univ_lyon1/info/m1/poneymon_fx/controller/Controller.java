@@ -13,26 +13,17 @@ import javafx.animation.AnimationTimer;
 /**
  * Controller of the game, handle the time.
  */
-public class Controller {
-
-    // Subscribed views for display events
-    private List<View> views = new ArrayList<>();
+public abstract class Controller {
     // Subscribed models for update events
     private FieldModel fieldModel;
-    // Tiny window displaying data about a participant
-    private DataView dataView;
     // Timer handling the time in game
     private AnimationTimer timer;
     // Store the timestamps of the last timer update
     private long lastTimerUpdate;
     // The game is launched
     private boolean timerActive;
-    // The game is paused
-    private boolean resume;
     // The game is finished
     private boolean gameOver = false;
-    // Sound controller managed by this controller
-    private SoundController soundController = new SoundController();
 
     public static final Controller CONTROLLER = new Controller();
 
@@ -65,35 +56,6 @@ public class Controller {
     }
 
     /**
-     * Gives a new view to the controller.
-     *
-     * @param view
-     *            the view that wants to subscribe to the display event
-     */
-    public void addView(View view) {
-        views.add(view);
-    }
-
-    /**
-     * Removes a specific view from the list of views.
-     *
-     * @param view
-     *            the view that needs to be removed
-     */
-    public void removeView(View view) {
-        views.remove(view);
-    }
-
-    /**
-     * request the views to be rendered.
-     */
-    private void notifyViews() {
-        for (View v : views) {
-            v.update();
-        }
-    }
-
-    /**
      * Starts the controller's timer.
      */
     public void startTimer() {
@@ -104,7 +66,6 @@ public class Controller {
         lastTimerUpdate = System.nanoTime();
         timer.start();
         timerActive = true;
-        resume = false;
     }
 
     /**
