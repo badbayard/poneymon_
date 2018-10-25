@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Random;
@@ -36,33 +37,53 @@ public class ProcessusClient implements Runnable {
      * Envois des commandes random pour tester le bon fonctionnement du serveur.
      */
     public void run() {
-        for (int i = 0; i < 10; i++) {
-            try {
-                // On envois toute les secondes un message
-                Thread.currentThread().sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            try {
-                //On envoie la commande au serveur
+//        for (int i = 0; i < 10; i++) {
+//            try {
+//                // On envois toute les secondes un message
+//                Thread.currentThread().sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                //On envoie la commande au serveur
+//
+//                String commande = sendRandomCommand();
+//                writer.write(commande);
+//                writer.flush(); // Transmet réellement la commande
+//
+//                System.out.println(
+//                    "Commande " + commande + " envoyée au serveur");
+//
+//                String response = read();
+//                System.out.println("Réponse reçue " + response);
+//            } catch (IOException e1) {
+//                e1.printStackTrace();
+//            }
+//            try {
+//                Thread.currentThread().sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
-                String commande = sendRandomCommand();
-                writer.write(commande);
-                writer.flush(); // Transmet réellement la commande
+        try {
+            String join = "join";
+            writer.write(join);
+            writer.flush();
 
-                System.out.println(
-                    "Commande " + commande + " envoyée au serveur");
+            System.out.println("Commande join envoyée au serveur");
 
-                String response = read();
-                System.out.println("Réponse reçue " + response);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            try {
-                Thread.currentThread().sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            String rep = read();
+
+            System.out.println("Réponse " + rep + " reçue");
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         writer.write("CLOSE");

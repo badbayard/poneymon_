@@ -17,10 +17,9 @@ public class PoneyModel extends MovingEntityModel implements Model {
      *              <code>false</code> otherwise.
      */
     public PoneyModel(String color, int r, boolean isIa, int nbLaps) {
-        super(color, r);
+        super(color, r, nbLaps);
         x = 0.0;
         nbLap = 0;
-        this.nbLaps = nbLaps;
         boosted = usedBoost = raceFinished = false;
         isAi = isIa;
 

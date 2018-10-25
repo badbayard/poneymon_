@@ -85,7 +85,7 @@ public class Controller {
     }
 
     /**
-     * Requests the views to be rendered.
+     * request the views to be rendered.
      */
     private void notifyViews() {
         for (View v : views) {

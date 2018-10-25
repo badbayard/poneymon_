@@ -26,6 +26,7 @@ public class Server {
 
     /**
      * Constructeur du serveur avec port.
+     *
      * @param port port du serveur
      */
     public Server(int port) {
