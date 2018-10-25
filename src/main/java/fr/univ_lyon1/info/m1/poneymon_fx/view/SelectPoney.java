@@ -5,7 +5,11 @@ import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Toggle;
 import javafx.scene.image.ImageView;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 /**
  * Class allowing the player to select a poney considering different entitys.
@@ -36,6 +40,8 @@ public class SelectPoney extends Parent {
         ponyBox = new VBox(10);
         ponyCloneBox = new VBox(10);
         
+        final ToggleGroup group = new ToggleGroup();
+        
         ponyBox.setTranslateX(x / 8);
         ponyBox.setTranslateY(y / 6);
         
@@ -53,6 +59,9 @@ public class SelectPoney extends Parent {
                 imageView.setFitHeight(75);
 
                 ToggleButton newButton = new ToggleButton("", imageView);
+                newButton.setToggleGroup(group);
+                
+                newButton.setUserData(availableEntity[i] + "-" + entityColor[j] + ".gif");
 
                 System.out.println("J : " + j + " ," + entityColor[j]);
                 
@@ -72,5 +81,16 @@ public class SelectPoney extends Parent {
 
         //Penser à ajouter les VBox lorsque l'on ajoute un nouveau type
         getChildren().addAll(ponyBox, ponyCloneBox);
+        
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+            public void changed(ObservableValue<? extends Toggle> ov,
+                Toggle toggle, Toggle new_toggle) {
+                    if (new_toggle == null)
+                        System.out.println("No toggle selected ?"); 
+                    else
+                        System.out.println("Toggle selected: " + new_toggle.getUserData());
+                    
+                 }
+        });
     }
 }
