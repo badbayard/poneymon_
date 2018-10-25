@@ -72,9 +72,9 @@ public class AssetsRepertoriesTest {
      */
     private boolean allElementsAreInTab (String [] colorsTest , String [] colorsExpected) {
         int colorCount = 0;
-        for (String colorTest : colorsTest) {
-            for (String colorExpect : colorsExpected) {
-                if (colorTest.equals(colorExpect)) {
+        for (String strTest : colorsTest) {
+            for (String strExpect : colorsExpected) {
+                if (strTest.equals(strExpect)) {
                     colorCount ++;
                     break;
                 }
@@ -85,11 +85,39 @@ public class AssetsRepertoriesTest {
 
     }
 
+
+    /**
+     * verifie que tous les elements du premier elements sont present dans le second element (mais pas forcement dans le meme ordre).
+     * @param FilesToTest tableau de fichiers a tester
+     * @param FilesExpected tableau de fichiers attendu
+     * @return boolean
+     */
+    private boolean allFilesAreInTab (File [] FilesToTest , File [] FilesExpected) {
+        int colorCount = 0;
+        for (File fiToTest : FilesToTest) {
+            for (File fiExpect : FilesExpected) {
+                if (fiToTest.equals(fiExpect)) {
+                    colorCount ++;
+                    break;
+                }
+            }
+        }
+        return ((FilesToTest.length == FilesExpected.length)
+            && (colorCount == FilesExpected.length));
+
+    }
+
+
+
     @Test
     public void TestListAllEntitiesInAssets() {
 
         String[] entities = repAsset.availableEntities();
         String[] expectedEntities = {"pony","ponyClone"};
+
+        //for (String s : entities) System.out.println(s);
+
+        assert(allElementsAreInTab(entities,expectedEntities));
     }
 
 
@@ -100,11 +128,10 @@ public class AssetsRepertoriesTest {
         repAsset.filter(filter);
         repAsset.cleanseDoubleFamilyName();
 
-        String [] NameExpected = new String[] {"pony-green.gif","ponyClone-orange.gif"};
-        String [] NameAfterFilter = repAsset.getFilesName();
+        File [] FilesExpected = {new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")};
 
-
-        assert(allElementsAreInTab(NameAfterFilter,NameExpected));
+        assert(allFilesAreInTab(repAsset.getFiles(),FilesExpected));
     }
 
     @Test
