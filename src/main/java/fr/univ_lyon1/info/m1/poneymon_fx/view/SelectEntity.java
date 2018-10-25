@@ -14,7 +14,7 @@ import javafx.beans.value.ObservableValue;
 /**
  * Class allowing the player to select a poney considering different entitys.
  */
-public class SelectPoney extends Parent {
+public class SelectEntity extends Parent {
     
     //Ajouter une VBox par categorie (faire un tableau de VBox ne fonctionne pas)
     private VBox ponyBox;
@@ -24,6 +24,9 @@ public class SelectPoney extends Parent {
     private String path;
     private String [] availableEntity;
     private String [] entityColor;
+    
+    final ToggleGroup group;
+    private String selectedEntity;
 
     /**
      * Constructor.
@@ -31,7 +34,7 @@ public class SelectPoney extends Parent {
      * @param x coord
      * @param y coord
      */
-    public SelectPoney(int x, int y) {       
+    public SelectEntity(int x, int y) {       
         path = System.getProperty("user.dir") + "/src/main/resources/assets/entity";
         
         assetsRepertories  = new AssetsRepertories(path);
@@ -40,7 +43,7 @@ public class SelectPoney extends Parent {
         ponyBox = new VBox(10);
         ponyCloneBox = new VBox(10);
         
-        final ToggleGroup group = new ToggleGroup();
+        group = new ToggleGroup();
         
         ponyBox.setTranslateX(x / 8);
         ponyBox.setTranslateY(y / 6);
@@ -81,16 +84,31 @@ public class SelectPoney extends Parent {
 
         //Penser à ajouter les VBox lorsque l'on ajoute un nouveau type
         getChildren().addAll(ponyBox, ponyCloneBox);
-        
+        setEvent();
+    }
+    
+    /**
+     * Set the events for when the user clic on an Entity.
+     */
+    private void setEvent() {
         group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
             public void changed(ObservableValue<? extends Toggle> ov,
                 Toggle toggle, Toggle new_toggle) {
                     if (new_toggle == null)
                         System.out.println("No toggle selected ?"); 
                     else
-                        System.out.println("Toggle selected: " + new_toggle.getUserData());
+                        selectedEntity = new_toggle.getUserData().toString();
+                        System.out.println("Selected entity: " + selectedEntity);
                     
                  }
         });
+    }
+    
+    /**
+     * Getters of the selectedEntity.
+     * @return the field selectedEntity
+     */
+    public String getSelectedEntity() {
+        return selectedEntity;
     }
 }

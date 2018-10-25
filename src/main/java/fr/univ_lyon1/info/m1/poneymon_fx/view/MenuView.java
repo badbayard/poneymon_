@@ -13,7 +13,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.MainMenu;
 public class MenuView {
 	
     private MainMenu mainMenu;
-    private SelectPoney selectMenu;
+    private SelectEntity selectMenu;
     private Scene scene;
     private int width;
     private int height;
@@ -44,7 +44,7 @@ public class MenuView {
         
         
         //Prépare le menu de sélection de poney
-        selectMenu = new SelectPoney(width, height);
+        selectMenu = new SelectEntity(width, height);
         selectMenu.setVisible(false);
         
         root.getChildren().addAll(imgView, mainMenu, selectMenu);
@@ -66,5 +66,13 @@ public class MenuView {
      */
     public MainMenu getMainMenu() {
         return mainMenu;
+    }
+    
+    /**
+     * Get the select menu.
+     * @return field selectMenu;
+     */
+    public SelectEntity getSelectMenu() {
+        return selectMenu;
     }
 }
