@@ -44,7 +44,7 @@ public class AssetsRepertoriesTest {
 
         String [] colorsTest = repAsset.filterColor(repAsset.getFiles());
         String [] colorsExpected = new String[] {"green", "blue", "orange", "purple", "yellow"};
-        assert(allElementsAreInTab(colorsTest,colorsExpected));
+        assert(repAsset.allElementsAreInTab(colorsTest,colorsExpected));
 
     }
 
@@ -53,61 +53,16 @@ public class AssetsRepertoriesTest {
         String regexFilter = "pony-[a-zA-Z]*(.gif)";
         String [] colorsTest = repAsset.searchAndFilter(regexFilter);
         String [] colorsExpected = new String[] {"green", "blue", "orange", "purple", "yellow"};
-        assert(allElementsAreInTab(colorsTest,colorsExpected));
+        assert(repAsset.allElementsAreInTab(colorsTest,colorsExpected));
 
 
 
         regexFilter = "pony-[a-zA-Z]*-rainbow.gif";
         colorsTest = repAsset.searchAndFilter(regexFilter);
         colorsExpected = new String[] {"yellow", "blue", "green", "purple", "orange"};
-        assert(allElementsAreInTab(colorsTest,colorsExpected));
+        assert(repAsset.allElementsAreInTab(colorsTest,colorsExpected));
 
     }
-
-    /**
-     * verifie que tous les elements du premier elements sont present dans le second element (mais pas forcement dans le meme ordre).
-     * @param colorsTest colorsTest
-     * @param colorsExpected colorsTestExpected
-     * @return boolean
-     */
-    private boolean allElementsAreInTab (String [] colorsTest , String [] colorsExpected) {
-        int colorCount = 0;
-        for (String strTest : colorsTest) {
-            for (String strExpect : colorsExpected) {
-                if (strTest.equals(strExpect)) {
-                    colorCount ++;
-                    break;
-                }
-            }
-        }
-        return ((colorsTest.length == colorsExpected.length)
-            && (colorCount == colorsExpected.length));
-
-    }
-
-
-    /**
-     * verifie que tous les elements du premier elements sont present dans le second element (mais pas forcement dans le meme ordre).
-     * @param FilesToTest tableau de fichiers a tester
-     * @param FilesExpected tableau de fichiers attendu
-     * @return boolean
-     */
-    private boolean allFilesAreInTab (File [] FilesToTest , File [] FilesExpected) {
-        int colorCount = 0;
-        for (File fiToTest : FilesToTest) {
-            for (File fiExpect : FilesExpected) {
-                if (fiToTest.equals(fiExpect)) {
-                    colorCount ++;
-                    break;
-                }
-            }
-        }
-        return ((FilesToTest.length == FilesExpected.length)
-            && (colorCount == FilesExpected.length));
-
-    }
-
-
 
     @Test
     public void TestListAllEntitiesInAssets() {
@@ -117,7 +72,7 @@ public class AssetsRepertoriesTest {
 
         //for (String s : entities) System.out.println(s);
 
-        assert(allElementsAreInTab(entities,expectedEntities));
+        assert(repAsset.allElementsAreInTab(entities,expectedEntities));
     }
 
 
@@ -131,7 +86,7 @@ public class AssetsRepertoriesTest {
         File [] FilesExpected = {new File (repAsset.getFilePath() + "/pony-green.gif"),
             new File (repAsset.getFilePath() + "/ponyClone-orange.gif")};
 
-        assert(allFilesAreInTab(repAsset.getFiles(),FilesExpected));
+        assert(repAsset.allFilesAreInTab(FilesExpected));
     }
 
     @Test
@@ -148,6 +103,45 @@ public class AssetsRepertoriesTest {
         String urlExpected = repAsset.getFilePath();
 
         assert(url.equals(urlExpected));
+    }
+
+    @Test
+    public void allFilesAreInTabTest() {
+        repAsset.browseAssets();
+
+        File [] FilesNotExpected = {new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")};
+
+        assert(!repAsset.allFilesAreInTab(FilesNotExpected));
+
+        String filter = "ponyClone-orange.gif";
+        repAsset.filter(filter);
+        File [] FilesExpected =  {new File (repAsset.getFilePath() + "/ponyClone-orange.gif")};
+
+        assert(repAsset.allFilesAreInTab(FilesExpected));
+
+    }
+
+    @Test
+    public void allElementsAreInTabTest() {
+        String [] stringToTest = {"1","2","3","4","5"};
+        String [] stringNotValid;
+        String [] stringValid;
+
+        //cas des tests valides
+        stringNotValid = new String[] {"2", "2", "2", "3", "4", "5"};
+        assert(!repAsset.allElementsAreInTab(stringToTest, stringNotValid));
+
+        stringNotValid = new String[] {"1","2","2","4","5"};;
+        assert(!repAsset.allElementsAreInTab(stringToTest,stringNotValid));
+
+
+        //cas des tests non valides
+        stringValid = new String[] {"1", "2", "3", "4", "5"};
+        assert(repAsset.allElementsAreInTab(stringToTest, stringValid));
+
+        stringValid = new String[] {"5", "4", "3", "2", "1"};
+        assert(repAsset.allElementsAreInTab(stringToTest, stringValid));
     }
 
 }

@@ -235,5 +235,48 @@ public class AssetsRepertories {
         }
     }
 
+    /**
+     * verifie que tous les elements du premier elements sont present dans le second element
+        (mais pas forcement dans le meme ordre).
+     * @param colorsTest colorsTest
+     * @param colorsExpected colorsTestExpected
+     * @return boolean
+     */
+    public boolean allElementsAreInTab(String [] colorsTest, String [] colorsExpected) {
+        int colorCount = 0;
+        for (String strTest : colorsTest) {
+            for (String strExpect : colorsExpected) {
+                if (strTest.equals(strExpect)) {
+                    colorCount++;
+                    break;
+                }
+            }
+        }
+        return ((colorsTest.length == colorsExpected.length)
+            && (colorCount == colorsExpected.length));
+    }
+
+
+    /**
+     * verifie que le tableau de fichiers passer en parametres sont présents dans la liste des
+     fichiers des assets (pas forcement dans le meme ordre).
+     * @param filesExpected tableau de fichiers attendu
+     * @return boolean
+     */
+    public boolean allFilesAreInTab(File [] filesExpected) {
+        int filesCount = 0;
+        for (File fiToTest : this.getFiles()) {
+            for (File fiExpect : filesExpected) {
+                if (fiToTest.equals(fiExpect)) {
+                    filesCount++;
+                    break;
+                }
+            }
+        }
+        return ((this.getFiles()).length == filesExpected.length)
+            && (filesCount == filesExpected.length);
+    }
+
+
 }
 
