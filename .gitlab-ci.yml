@@ -14,16 +14,6 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
 
 
-sonarqube:
-  image: usommerl/maven-javafx # docker image with Maven + JavaFX
-
-  before_script:
-    - . setup-mvn-proxy.sh
-    - cat ~/.m2/settings.xml
-
-  script:
-    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent compile --global-settings settings.xml sonar:sonar clean
-
 junit:
 
   image: usommerl/maven-javafx # docker image with Maven + JavaFX
@@ -39,4 +29,5 @@ junit:
     - cat ~/.m2/settings.xml
 
   script:
+    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent compile --global-settings settings.xml sonar:sonar clean
     - mvn test --batch-mode
