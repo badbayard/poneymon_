@@ -1,7 +1,7 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest.room;
+package fr.univ_lyon1.info.m1.poneymon_fx.network.room;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest.Player;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest.util.Password;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.util.Password;
 
 public abstract class Room {
     Player[] players;
