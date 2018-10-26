@@ -78,7 +78,7 @@ public class AssetsRepertoriesTest {
 
     @Test
     public void TestCleanseDoubleFamilyNameNormalOrder() {
-        String filter = "(.)*-(.)*.gif";
+        String filter = "[a-zA-Z]*-[a-z]*.gif";
         repAsset.browseAssets();
         repAsset.filter(filter);
         repAsset.cleanseDoubleFamilyName();
@@ -101,9 +101,12 @@ public class AssetsRepertoriesTest {
 
     @Test
     public void TestCleanseDoubleFamilyNameInvertOrder() {
-        String filter = "(.)*-(.)*.gif";
+        String filter = "[a-zA-Z]*-[a-z]*.gif";
         repAsset.browseAssets();
         repAsset.filter(filter);
+        System.out.println("Ordre du repertoire apres le filtre : \n");
+        repAsset.display();
+
         repAsset.cleanseDoubleFamilyName();
 
         File [] FilesExpected = {
@@ -111,7 +114,7 @@ public class AssetsRepertoriesTest {
             new File (repAsset.getFilePath() + "/ponyClone-orange.gif")
         };
 
-        System.out.println("Curent Rep : ");
+        System.out.println("\nCurent Rep : ");
         repAsset.display();
 
         System.out.println("\nExpected Content Rep : ");
