@@ -37,8 +37,12 @@ public class SoundController {
     }
 
     public void playchunk() {
+        chunk.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                chunk.seek(Duration.ZERO);
+            }
+        });
         chunk.play();
-
     }
 
     /**

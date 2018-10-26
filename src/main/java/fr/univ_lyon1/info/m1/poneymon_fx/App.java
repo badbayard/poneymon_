@@ -12,6 +12,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.ButtonMenu;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.ListRoomView;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.SoundController;
 
 /**
  * Main application class.
@@ -22,6 +23,7 @@ public class App extends Application {
     private ListRoomView menulistroom;
     private Stage stage;
     private Stage stage2;
+    private SoundController m;
 
     /**
      * Start() launch the application.
@@ -35,6 +37,7 @@ public class App extends Application {
     public void start(Stage s) throws Exception {
         stage = s;
         stage2 = s;
+        m = new SoundController();
 
         // Secondary view
         /*Stage s3 = new Stage();
@@ -48,6 +51,7 @@ public class App extends Application {
 
         stage.setScene(menu.getScene());
         stage.show();
+        m.playchunk();
 
         setEvents();
     }
