@@ -1,11 +1,8 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
-
 import javafx.scene.Parent;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.VBox;
-
-
 
 public class ListRoom extends Parent {
     private VBox listroom;
@@ -15,13 +12,12 @@ public class ListRoom extends Parent {
     private RadioButton essai1;
     private RadioButton essai2;
     private RadioButton essai3;
-    
-    public ListRoom (int x, int y) {
-        listroom  = new VBox(10);
+
+    public ListRoom(int x, int y) {
+        listroom = new VBox(10);
         listroom.setTranslateX(x / 10);
-        listroom.setTranslateY(y/11);
-        
-        
+        listroom.setTranslateY(y / 11);
+
         btnjoin = new ButtonMenu("join");
         btnhost = new ButtonMenu("host");
         btnrefresh = new ButtonMenu("refresh");
@@ -29,13 +25,13 @@ public class ListRoom extends Parent {
         essai1 = new RadioButton("essai1");
         essai2 = new RadioButton("essai2");
         essai3 = new RadioButton("essai3");
-             
-        listroom.getChildren().addAll(btnjoin, btnhost, btnrefresh,essai1,essai2,essai3);
-        
+
+        listroom.getChildren().addAll(btnjoin, btnhost, btnrefresh, essai1, essai2, essai3);
+
         getChildren().addAll(listroom);
-           
+
     }
-    
+
     /**
      * Get the button join.
      *
@@ -44,7 +40,7 @@ public class ListRoom extends Parent {
     public ButtonMenu getBtnJoin() {
         return btnjoin;
     }
-    
+
     /**
      * Get the button play.
      *
@@ -53,7 +49,7 @@ public class ListRoom extends Parent {
     public ButtonMenu getBtnHost() {
         return btnhost;
     }
-    
+
     /**
      * Get the button play.
      *
@@ -62,6 +58,5 @@ public class ListRoom extends Parent {
     public ButtonMenu getBtnRefresh() {
         return btnrefresh;
     }
-    
 
 }
