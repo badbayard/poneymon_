@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.EntityModel;
 import javafx.scene.canvas.GraphicsContext;
@@ -29,7 +30,9 @@ public class EntityView implements View {
      * @param imgUrl Url of the Entity image.
      */
     public EntityView(EntityModel m, GraphicsContext gc, int cWidth, int cHeight, String imgUrl) {
-        Controller.CONTROLLER.addView(this);
+        ClientController cc = (ClientController) Controller.getInstance();
+        cc.addView(this);
+
         graphicsContext = gc;
         participantModel = m;
         canvasWidth = cWidth;

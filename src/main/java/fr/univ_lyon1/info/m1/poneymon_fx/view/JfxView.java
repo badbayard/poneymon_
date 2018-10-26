@@ -1,5 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientController;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientSoloController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -35,7 +37,8 @@ public class JfxView implements View {
      *            the height of the view
      */
     public JfxView(Stage stage, final int width, final int height) {
-        Controller.CONTROLLER.addView(this);
+        ClientController cc = (ClientController) Controller.getInstance();
+        cc.addView(this);
 
         stage.setTitle(WINDOW_TITLE);
 
@@ -62,8 +65,10 @@ public class JfxView implements View {
      */
     private void listenToEvent() {
         // Event Listener de la souris
+        ClientController cc = (ClientController) Controller.getInstance();
+
         scene.setOnMouseClicked(
-            m -> Controller.CONTROLLER.mouseClicked(m.getSceneX(), m.getSceneY(), fieldView));
+            m -> cc.mouseClicked(m.getSceneX(), m.getSceneY(), fieldView));
     }
 
     /**
@@ -90,6 +95,7 @@ public class JfxView implements View {
      */
     private void setButtons() {
         HBox hb = new HBox();
+        ClientController cc = (ClientController) Controller.getInstance();
 
         // Buttons to boost the poneys
         for (MovingEntityView participantView : fieldView.getParticipantViews()) {
@@ -101,24 +107,30 @@ public class JfxView implements View {
                     Button boostPoney = new Button("Boost poney: " + participantModel.getColor());
 
                     boostPoney.setOnMouseClicked(
-                        m -> Controller.CONTROLLER.boostButton((PoneyModel) participantModel));
+                        m -> cc.boostButton((PoneyModel) participantModel));
                     hb.getChildren().add(boostPoney);
                 }
             }
         }
-        // Button to pause/resume the game.
-        final Button pauseResume = new Button("Pause");
-        pauseResume.setOnMouseClicked(m -> {
-            Controller.CONTROLLER.pauseResume();
 
-            if (Controller.CONTROLLER.getTimerActive()) {
-                pauseResume.setText("Pause");
-            } else {
-                pauseResume.setText("Resume");
-            }
+        if (cc instanceof ClientSoloController) {
+            ClientSoloController csc = (ClientSoloController) cc;
 
-        });
-        hb.getChildren().add(pauseResume);
+            // Button to pause/resume the game.
+            final Button pauseResume = new Button("Pause");
+            pauseResume.setOnMouseClicked(m -> {
+                csc.pauseResume();
+
+                if (csc.getTimerActive()) {
+                    pauseResume.setText("Pause");
+                } else {
+                    pauseResume.setText("Resume");
+                }
+
+            });
+            hb.getChildren().add(pauseResume);
+        }
+
         root.getChildren().add(hb);
     }
 

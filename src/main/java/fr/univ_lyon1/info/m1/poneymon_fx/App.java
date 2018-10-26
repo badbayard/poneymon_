@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientSoloController;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -44,7 +45,7 @@ public class App extends Application {
         v2.setController(c);*/
 
         menu = new MenuView(800, 600);
-        menulistroom = new ListRoomView(800,600);
+        menulistroom = new ListRoomView(800, 600);
 
         stage.setScene(menu.getScene());
         stage.show();
@@ -74,13 +75,16 @@ public class App extends Application {
      * Create a one-player game.
      */
     private void createGameSolo() {
+        ClientSoloController csc =
+            (ClientSoloController) Controller.setInstance(new ClientSoloController());
+
         // Second window (stats)
         Stage s2 = new Stage();
         s2.setX(stage.getX() + stage.getWidth());
         s2.setY(stage.getY());
 
         DataView dataView = new DataView(s2, 210, 180);
-        Controller.CONTROLLER.setDataView(dataView);
+        csc.setDataView(dataView);
 
         // Creates five poneys in the game field
         FieldModel fieldModel = new FieldModel(5);
@@ -88,7 +92,7 @@ public class App extends Application {
         // Set a default poney model to the data view
         dataView.setParticipantModel((PoneyModel) fieldModel.getParticipantModel(0));
 
-        Controller.CONTROLLER.setFieldModel(fieldModel);
+        csc.setFieldModel(fieldModel);
 
         // Creates a window 1200x800 px
         JfxView jfxView = new JfxView(stage, 800, 600);
@@ -96,7 +100,7 @@ public class App extends Application {
         jfxView.setModel(fieldModel);
 
         // Launch the game
-        Controller.CONTROLLER.startTimer();
+        csc.startTimer();
 
     }
 

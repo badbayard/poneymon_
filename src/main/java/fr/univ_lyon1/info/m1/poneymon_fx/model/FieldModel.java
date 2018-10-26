@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientSoloController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
 import java.util.ArrayList;
@@ -24,8 +25,7 @@ public class FieldModel implements Model {
     /**
      * FieldModel constructor.
      *
-     * @param nbParticipants
-     *            the number of participants in the game
+     * @param nbParticipants the number of participants in the game
      */
     public FieldModel(final int nbParticipants) {
         // If the number of participants is acceptable
@@ -62,8 +62,7 @@ public class FieldModel implements Model {
     /**
      * Update the model and its components.
      *
-     * @param msElapsed
-     *            time elapsed in ms
+     * @param msElapsed time elapsed in ms
      */
     public void update(final double msElapsed) {
         for (MovingEntityModel participant : participants) {
@@ -71,6 +70,25 @@ public class FieldModel implements Model {
             rankParticipants();
             checkRaceFinished();
         }
+    }
+
+    /**
+     * If the model in parameters is different from the current FieldModel, it means we are in a
+     * multiplayer context and we only have to assign the current FieldModel to the received one.
+     * Else it means we have to update like usual.
+     *
+     * @param msElapsed time elapsed since last update in ms
+     * @param fm other FieldModel to assign
+     */
+    public void update(final double msElapsed, FieldModel fm) {
+        if (this == fm) {
+            update(msElapsed);
+            return;
+        }
+
+        participants = fm.participants;
+        participantsFinished = fm.participantsFinished;
+        rankings = fm.rankings;
     }
 
     /**
@@ -84,9 +102,8 @@ public class FieldModel implements Model {
 
     /**
      * Returns a specific participant from the field model.
-     * 
-     * @param index
-     *            index of the participant
+     *
+     * @param index index of the participant
      * @return participant at index in the arraylist of participants
      */
     public MovingEntityModel getParticipantModel(int index) {
@@ -123,7 +140,7 @@ public class FieldModel implements Model {
                 participantsFinished++;
 
                 if (participantsFinished == participants.length) {
-                    Controller.CONTROLLER.endRace();
+                    Controller.getInstance().endRace();
                 }
             }
         }
