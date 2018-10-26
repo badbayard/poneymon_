@@ -277,6 +277,5 @@ public class AssetsRepertories {
             && (filesCount == filesExpected.length);
     }
 
-
 }
 
