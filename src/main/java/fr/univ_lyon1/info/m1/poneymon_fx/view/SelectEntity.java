@@ -58,11 +58,13 @@ public class SelectEntity extends Parent {
         ponyCloneBox.setTranslateY(y / 6);
         
         for (int i = 0; i < availableEntity.length; ++i) {
-            entityColor = assetsRepertories.searchAndFilter(availableEntity[i] + "-[a-zA-Z]*(.gif)");
+            entityColor = assetsRepertories.searchAndFilter(availableEntity[i] 
+                    + "-[a-zA-Z]*(.gif)");
             System.out.println(availableEntity[i]);
 
             for (int j = 0; j < entityColor.length; ++j) {
-                Image entityImage = new Image("assets/entity/" + availableEntity[i] + "-" + entityColor[j] + ".gif");
+                Image entityImage = new Image("assets/entity/" 
+            + availableEntity[i] + "-" + entityColor[j] + ".gif");
                 ImageView imageView = new ImageView(entityImage);
                 imageView.setFitWidth(75);
                 imageView.setFitHeight(75);
@@ -75,21 +77,22 @@ public class SelectEntity extends Parent {
                 System.out.println("J : " + j + " ," + entityColor[j]);
                 
                 switch (availableEntity[i]) {
-                case "pony" :
-                    ponyBox.getChildren().add(newButton);
-                    break;
-                case "ponyClone" :
-                    ponyCloneBox.getChildren().add(newButton);
-                    break;
-                default:
-                    System.out.println("Erreur, ce type n'existe pas. Modifier le fichier SelectPoney.java");
-                    break;
+                    case "pony" :
+                        ponyBox.getChildren().add(newButton);
+                        break;
+                    case "ponyClone" :
+                        ponyCloneBox.getChildren().add(newButton);
+                        break;
+                    default:
+                        System.out.println("Erreur, ce type n'existe pas. "
+                                + "Modifier le fichier SelectPoney.java");
+                        break;
                 }
             }
         }
 
-        Text text = new Text(x/8, y/8, "Select your player !");
-        text.setFont(Font.font ("Verdana", 20));
+        Text text = new Text(x / 8, y / 8, "Select your player !");
+        text.setFont(Font.font("Verdana", 20));
         text.setFill(Color.BLUE);
         
         //Penser à ajouter les VBox lorsque l'on ajoute un nouveau type
@@ -101,16 +104,17 @@ public class SelectEntity extends Parent {
      * Set the events for when the user clic on an Entity.
      */
     private void setEvent() {
-        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             public void changed(ObservableValue<? extends Toggle> ov,
-                Toggle toggle, Toggle new_toggle) {
-                    if (new_toggle == null)
+                Toggle toggle, Toggle newToggle) {
+                    if (newToggle == null) {
                         System.out.println("No toggle selected ?"); 
-                    else
-                        selectedEntity = new_toggle.getUserData().toString();
+                    } else {
+                        selectedEntity = newToggle.getUserData().toString();
                         System.out.println("Selected entity: " + selectedEntity);
                         setColor();
                         setType();
+                    }
                  }
         });
     }
