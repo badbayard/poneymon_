@@ -10,6 +10,9 @@ import javafx.scene.control.Toggle;
 import javafx.scene.image.ImageView;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 /**
  * Class allowing the player to select a poney considering different entitys.
@@ -27,6 +30,9 @@ public class SelectEntity extends Parent {
     
     final ToggleGroup group;
     private String selectedEntity;
+    
+    private String type;
+    private String color;
 
     /**
      * Constructor.
@@ -82,8 +88,12 @@ public class SelectEntity extends Parent {
             }
         }
 
+        Text text = new Text(x/8, y/8, "Select your player !");
+        text.setFont(Font.font ("Verdana", 20));
+        text.setFill(Color.BLUE);
+        
         //Penser à ajouter les VBox lorsque l'on ajoute un nouveau type
-        getChildren().addAll(ponyBox, ponyCloneBox);
+        getChildren().addAll(ponyBox, ponyCloneBox, text);
         setEvent();
     }
     
@@ -99,7 +109,8 @@ public class SelectEntity extends Parent {
                     else
                         selectedEntity = new_toggle.getUserData().toString();
                         System.out.println("Selected entity: " + selectedEntity);
-                    
+                        setColor();
+                        setType();
                  }
         });
     }
@@ -110,5 +121,35 @@ public class SelectEntity extends Parent {
      */
     public String getSelectedEntity() {
         return selectedEntity;
+    }
+    
+    /**
+     * Getters of the type.
+     * @return field type
+     */
+    public String getType() {
+        return type;
+    }
+    
+    /**
+     * Getters of the color.
+     * @return field color
+     */
+    public String getColor() {
+        return color;
+    }
+    
+    /**
+     * Setters of the type.
+     */
+    public void setType() {
+        type = assetsRepertories.getEntityName(selectedEntity);
+    }
+    
+    /**
+     * Setters of the color.
+     */
+    public void setColor() {
+        color = assetsRepertories.getEntityColor(selectedEntity);
     }
 }
