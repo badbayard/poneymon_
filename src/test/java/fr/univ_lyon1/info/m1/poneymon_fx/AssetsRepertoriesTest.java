@@ -109,7 +109,7 @@ public class AssetsRepertoriesTest {
 
     @Test
     public void TestCleanseDoubleFamilyNameInvertOrder() {
-        
+
         File [] Files = {
             new File (repAsset.getFilePath() + "/ponyClone-orange.gif"),
             new File (repAsset.getFilePath() + "/pony-green.gif"),
@@ -226,6 +226,13 @@ public class AssetsRepertoriesTest {
 
         stringValid = new String[] {"5", "4", "3", "2", "1"};
         assert(repAsset.allElementsAreInTab(stringToTest,stringValid));
+    }
+
+    @Test
+    public void getEntityColorTest() {
+        String color = repAsset.getEntityColor("ponyClone-orange.gif");
+
+        assert(color.equals("orange"));
     }
 
 }
