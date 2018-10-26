@@ -78,9 +78,17 @@ public class AssetsRepertoriesTest {
 
     @Test
     public void TestCleanseDoubleFamilyNameNormalOrder() {
-        String filter = "[a-zA-Z]*-[a-z]*.gif";
-        repAsset.browseAssets();
-        repAsset.filter(filter);
+        File [] Files = {
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/pony-blue.gif"),
+            new File (repAsset.getFilePath() + "/pony-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-purple.gif"),
+            new File (repAsset.getFilePath() + "/pony-purple.gif"),
+            new File (repAsset.getFilePath() + "/pony-yellow.gif")
+        };
+        repAsset.setFiles(Files);
         repAsset.cleanseDoubleFamilyName();
 
         File [] FilesExpected = {
@@ -101,26 +109,24 @@ public class AssetsRepertoriesTest {
 
     @Test
     public void TestCleanseDoubleFamilyNameInvertOrder() {
-        String filter = "[a-zA-Z]*-[a-z]*.gif";
-        repAsset.browseAssets();
-        repAsset.filter(filter);
-        System.out.println("Ordre du repertoire apres le filtre : \n");
-        repAsset.display();
-
+        
+        File [] Files = {
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/pony-blue.gif"),
+            new File (repAsset.getFilePath() + "/pony-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-purple.gif"),
+            new File (repAsset.getFilePath() + "/pony-purple.gif"),
+            new File (repAsset.getFilePath() + "/pony-yellow.gif")
+        };
+        repAsset.setFiles(Files);
         repAsset.cleanseDoubleFamilyName();
 
         File [] FilesExpected = {
             new File (repAsset.getFilePath() + "/pony-green.gif"),
             new File (repAsset.getFilePath() + "/ponyClone-orange.gif")
         };
-
-        System.out.println("\nCurent Rep : ");
-        repAsset.display();
-
-        System.out.println("\nExpected Content Rep : ");
-        for(File fi : FilesExpected) {
-            System.out.println(fi.getName());
-        }
 
         assert(repAsset.allFilesAreInTab(FilesExpected));
     }
