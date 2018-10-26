@@ -122,7 +122,7 @@ public class AssetsRepertories {
     }
 
     /**
-     * Retourne la couleur d'une d'un fichier.
+     * Retourne la couleur d'un fichier.
      * @param fileName nom du fichier
      * @return String
      */
@@ -131,13 +131,45 @@ public class AssetsRepertories {
         String pattern = "[^a-zA-Z0-9]+";
         String[] parts;
         parts = fileName.split(pattern);
-        for (int i = 0; i < parts.length;i++) {
-            if (i == 1) {
-                color = parts[i];
-            }
+        if (parts.length >= 3) {
+            color = parts[1];
         }
         return color;
     }
+
+    /**
+     * Retourne le nom de famille d'un fichier.
+     * @param fileName nom du fichier
+     * @return String
+     */
+    public String getEntityName(String fileName) {
+        String familyName = "";
+        String pattern = "[^a-zA-Z0-9]+";
+        String[] parts;
+        parts = fileName.split(pattern);
+        if (parts.length >= 3) {
+            familyName = parts[0];
+        }
+        return familyName;
+    }
+
+
+    /**
+     * Retourne l'option (running,rainbow,...) d'un fichier.
+     * @param fileName nom du fichier
+     * @return String
+     */
+    public String getEntityOption(String fileName) {
+        String option = "";
+        String pattern = "[^a-zA-Z0-9]+";
+        String[] parts;
+        parts = fileName.split(pattern);
+        if (parts.length >= 4) {
+            option = parts[2];
+        }
+        return option;
+    }
+
 
     /**
      * Combine les differentes fonctions de la classe et retourne le tableau de couleur

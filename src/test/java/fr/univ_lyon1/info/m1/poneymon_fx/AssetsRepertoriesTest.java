@@ -96,14 +96,6 @@ public class AssetsRepertoriesTest {
             new File (repAsset.getFilePath() + "/pony-green.gif")
         };
 
-        System.out.println("Curent Rep : ");
-        repAsset.display();
-
-        System.out.println("\nExpected Content Rep : ");
-        for(File fi : FilesExpected) {
-            System.out.println(fi.getName());
-        }
-
         assert(repAsset.allFilesAreInTab(FilesExpected));
     }
 
@@ -142,7 +134,6 @@ public class AssetsRepertoriesTest {
         repAsset.setFiles(FilesForRep);
         repAsset.cleanseDoubleFamilyName();
 
-        repAsset.display();
         assert(repAsset.allFilesAreInTab(FilesForRep));
     }
 
@@ -231,8 +222,35 @@ public class AssetsRepertoriesTest {
     @Test
     public void getEntityColorTest() {
         String color = repAsset.getEntityColor("ponyClone-orange.gif");
-
         assert(color.equals("orange"));
     }
+    @Test
+    public void getEntityColorTestNotValidString() {
+        String color = repAsset.getEntityColor("ponyClone-orange");
+        assert(color.equals(""));
+    }
+
+    @Test
+    public void getEntityNameTest() {
+        String name = repAsset.getEntityName("ponyClone-orange.gif");
+        assert(name.equals("ponyClone"));
+    }
+    @Test
+    public void getEntityNameTestNotValidString() {
+        String name = repAsset.getEntityName("ponyClone-orange");
+        assert(name.equals(""));
+    }
+
+    @Test
+    public void getEntityOptionTest() {
+        String option = repAsset.getEntityOption("pony-blue-rainbow.gif");
+        assert(option.equals("rainbow"));
+    }
+    @Test
+    public void getEntityOptionTestNotValidString() {
+        String option = repAsset.getEntityOption("pony-blue-rainbow");
+        assert(option.equals(""));
+    }
+
 
 }
