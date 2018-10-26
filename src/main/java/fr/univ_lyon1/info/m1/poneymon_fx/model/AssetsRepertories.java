@@ -122,6 +122,56 @@ public class AssetsRepertories {
     }
 
     /**
+     * Retourne la couleur d'un fichier.
+     * @param fileName nom du fichier
+     * @return String
+     */
+    public String getEntityColor(String fileName) {
+        String color = "";
+        String pattern = "[^a-zA-Z0-9]+";
+        String[] parts;
+        parts = fileName.split(pattern);
+        if (parts.length >= 3) {
+            color = parts[1];
+        }
+        return color;
+    }
+
+    /**
+     * Retourne le nom de famille d'un fichier.
+     * @param fileName nom du fichier
+     * @return String
+     */
+    public String getEntityName(String fileName) {
+        String familyName = "";
+        String pattern = "[^a-zA-Z0-9]+";
+        String[] parts;
+        parts = fileName.split(pattern);
+        if (parts.length >= 3) {
+            familyName = parts[0];
+        }
+        return familyName;
+    }
+
+
+    /**
+     * Retourne l'option (running,rainbow,...) d'un fichier.
+     * @param fileName nom du fichier
+     * @return String
+     */
+    public String getEntityOption(String fileName) {
+        String option = "";
+        String pattern = "[^a-zA-Z0-9]+";
+        String[] parts;
+        parts = fileName.split(pattern);
+        if (parts.length >= 4) {
+            option = parts[2];
+        }
+        return option;
+    }
+
+
+    /**
      * Combine les differentes fonctions de la classe et retourne le tableau de couleur
      * pour une famille d'entitée.
      *
@@ -150,9 +200,9 @@ public class AssetsRepertories {
      * elimine les fichiers de la liste ayant le meme nom de famille.
      */
     public void cleanseDoubleFamilyName() {
-        List<String> tempSplit = new ArrayList<>();
-        List<File> tempFile = new ArrayList<>();
-        File[] result;
+        List<String> tempSplit = new ArrayList<>(); //familles deja ajoutées
+        List<File> tempFile = new ArrayList<>(); // liste de fichier temporaire
+        File[] result; // tableau de fichier pour le set
         String pattern = "[^a-zA-Z0-9]+";
         String[] parts;
 

@@ -77,16 +77,64 @@ public class AssetsRepertoriesTest {
 
 
     @Test
-    public void TestCleanseDoubleFamilyName() {
-        String filter = "(.)*-(.)*.gif";
-        repAsset.browseAssets();
-        repAsset.filter(filter);
+    public void TestCleanseDoubleFamilyNameNormalOrder() {
+        File [] Files = {
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/pony-blue.gif"),
+            new File (repAsset.getFilePath() + "/pony-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-purple.gif"),
+            new File (repAsset.getFilePath() + "/pony-purple.gif"),
+            new File (repAsset.getFilePath() + "/pony-yellow.gif")
+        };
+        repAsset.setFiles(Files);
         repAsset.cleanseDoubleFamilyName();
 
-        File [] FilesExpected = {new File (repAsset.getFilePath() + "/pony-green.gif"),
-            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")};
+        File [] FilesExpected = {
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-green.gif")
+        };
 
         assert(repAsset.allFilesAreInTab(FilesExpected));
+    }
+
+    @Test
+    public void TestCleanseDoubleFamilyNameInvertOrder() {
+
+        File [] Files = {
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/pony-blue.gif"),
+            new File (repAsset.getFilePath() + "/pony-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-purple.gif"),
+            new File (repAsset.getFilePath() + "/pony-purple.gif"),
+            new File (repAsset.getFilePath() + "/pony-yellow.gif")
+        };
+        repAsset.setFiles(Files);
+        repAsset.cleanseDoubleFamilyName();
+
+        File [] FilesExpected = {
+            new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")
+        };
+
+        assert(repAsset.allFilesAreInTab(FilesExpected));
+    }
+
+
+
+    @Test
+    public void TestCleanseDoubleFamilyNameNoDouble() {
+        File [] FilesForRep = {
+            new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")
+        };
+        repAsset.setFiles(FilesForRep);
+        repAsset.cleanseDoubleFamilyName();
+
+        assert(repAsset.allFilesAreInTab(FilesForRep));
     }
 
     @Test
@@ -170,5 +218,39 @@ public class AssetsRepertoriesTest {
         stringValid = new String[] {"5", "4", "3", "2", "1"};
         assert(repAsset.allElementsAreInTab(stringToTest,stringValid));
     }
+
+    @Test
+    public void getEntityColorTest() {
+        String color = repAsset.getEntityColor("ponyClone-orange.gif");
+        assert(color.equals("orange"));
+    }
+    @Test
+    public void getEntityColorTestNotValidString() {
+        String color = repAsset.getEntityColor("ponyClone-orange");
+        assert(color.equals(""));
+    }
+
+    @Test
+    public void getEntityNameTest() {
+        String name = repAsset.getEntityName("ponyClone-orange.gif");
+        assert(name.equals("ponyClone"));
+    }
+    @Test
+    public void getEntityNameTestNotValidString() {
+        String name = repAsset.getEntityName("ponyClone-orange");
+        assert(name.equals(""));
+    }
+
+    @Test
+    public void getEntityOptionTest() {
+        String option = repAsset.getEntityOption("pony-blue-rainbow.gif");
+        assert(option.equals("rainbow"));
+    }
+    @Test
+    public void getEntityOptionTestNotValidString() {
+        String option = repAsset.getEntityOption("pony-blue-rainbow");
+        assert(option.equals(""));
+    }
+
 
 }
