@@ -57,4 +57,14 @@ public class EntityModel implements Model {
 
     }
 
+    /**
+     * Teste l'egalitée entre l'EntityModel courante et une autre EntityModel.
+     * @param entityToTest EntityModel a tester
+     * @return boolean
+     */
+    public boolean entityModelEquals(EntityModel entityToTest) {
+        return ((this.getRow() == entityToTest.getRow())
+                && (this.getX() == entityToTest.getX()));
+    }
+
 }

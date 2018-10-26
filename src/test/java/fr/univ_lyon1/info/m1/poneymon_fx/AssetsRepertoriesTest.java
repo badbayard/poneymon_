@@ -108,16 +108,43 @@ public class AssetsRepertoriesTest {
     @Test
     public void allFilesAreInTabTest() {
         repAsset.browseAssets();
+        File [] FilesNotExpected;
+        File [] FilesExpected;
 
-        File [] FilesNotExpected = {new File (repAsset.getFilePath() + "/pony-green.gif"),
-            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")};
+        //files not valid
+        FilesNotExpected = new File [] {
+            new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")
+        };
 
         assert(!repAsset.allFilesAreInTab(FilesNotExpected));
 
+        FilesNotExpected = new File [] {};
+        assert(!repAsset.allFilesAreInTab(FilesNotExpected));
+
+        //files valid
         String filter = "ponyClone-orange.gif";
         repAsset.filter(filter);
-        File [] FilesExpected =  {new File (repAsset.getFilePath() + "/ponyClone-orange.gif")};
+        FilesExpected = new File []  {
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")
+        };
 
+        assert(repAsset.allFilesAreInTab(FilesExpected));
+
+        filter = "(.)*-orange.gif";
+        repAsset.browseAssets();
+        repAsset.filter(filter);
+        FilesExpected = new File []  {
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-orange.gif")
+        };
+
+        assert(repAsset.allFilesAreInTab(FilesExpected));
+
+        FilesExpected = new File []  {
+            new File (repAsset.getFilePath() + "/pony-orange.gif"),
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")
+        };
         assert(repAsset.allFilesAreInTab(FilesExpected));
 
     }
@@ -141,7 +168,7 @@ public class AssetsRepertoriesTest {
         assert(repAsset.allElementsAreInTab(stringToTest, stringValid));
 
         stringValid = new String[] {"5", "4", "3", "2", "1"};
-        assert(repAsset.allElementsAreInTab(stringToTest, stringValid));
+        assert(repAsset.allElementsAreInTab(stringToTest,stringValid));
     }
 
 }

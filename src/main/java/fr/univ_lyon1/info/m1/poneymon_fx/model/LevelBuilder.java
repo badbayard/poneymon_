@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -19,6 +20,7 @@ public class LevelBuilder {
         final String testPath = System.getProperty("user.dir")
             + "/src/main/resources/assets/levels";
         repLevels = new AssetsRepertories(testPath);
+        fixedEntities = new ArrayList<>();
     }
 
 
@@ -40,18 +42,15 @@ public class LevelBuilder {
      * @return vrai si le fichier existe et si lecture sans erreurs
      */
     public boolean readFile(File level) {
-
-        int lineRead = 0;
         try (BufferedReader input = new BufferedReader(new FileReader(level))) {
             String line;
             while ((line = input.readLine()) != null) {
-                lineRead++;
                 this.addFixedEntity(line);
             }
         } catch (Exception e) {
             return false;
         }
-        return (lineRead > 0);
+        return true;
     }
 
     /**
@@ -94,15 +93,20 @@ public class LevelBuilder {
             }
         }
 
-        System.out.println("Family name : " + familyName + " PosX : "
-            + posX + " PosY : " + posY + " nbLap : " + nbLap);
+        /*System.out.println("Family name : " + familyName + " PosX : "
+            + posX + " PosY : " + posY + " nbLap : " + nbLap);*/
+
+        //TODO verifier family name valide
+        System.out.println(familyName + " <- TODO verifier family name valide ");
+        FixedEntityModel entityHardCoded = new FixedEntityModel(posY, posX + nbLap);
+        fixedEntities.add(entityHardCoded);
     }
 
     /**
      * Accesseur fixedEntities.
      * @return liste de FixedEntityModel
      */
-    public  List<FixedEntityModel>  getOponnentsToRead() {
+    public  List<FixedEntityModel>  getFixedEntities() {
         return fixedEntities;
     }
 
@@ -110,8 +114,28 @@ public class LevelBuilder {
      * Mutateur fixedEntities.
      * @param newOpponents liste de FixedEntityModel
      */
-    public void setOponnentsToRead(List<FixedEntityModel>  newOpponents) {
+    public void setFixedEntities(List<FixedEntityModel>  newOpponents) {
         fixedEntities = newOpponents;
     }
+
+    /**
+     * egalité si tous les elem sont egaux.
+     * @param expectedEntities liste de FixedEntityModel.
+     * @return boolean
+     */
+    public boolean fixedEntitiesEquals(List<FixedEntityModel> expectedEntities) {
+
+        if (this.getFixedEntities().size() != expectedEntities.size()) {
+            return false;
+        }
+        for (int i = 0;i < this.getFixedEntities().size(); i++) {
+            if (!this.getFixedEntities().get(i).entityModelEquals(expectedEntities.get(i))) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
 
 }
