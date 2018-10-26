@@ -77,16 +77,64 @@ public class AssetsRepertoriesTest {
 
 
     @Test
-    public void TestCleanseDoubleFamilyName() {
+    public void TestCleanseDoubleFamilyNameNormalOrder() {
         String filter = "(.)*-(.)*.gif";
         repAsset.browseAssets();
         repAsset.filter(filter);
         repAsset.cleanseDoubleFamilyName();
 
-        File [] FilesExpected = {new File (repAsset.getFilePath() + "/pony-green.gif"),
-            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")};
+        File [] FilesExpected = {
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif"),
+            new File (repAsset.getFilePath() + "/pony-green.gif")
+        };
+
+        System.out.println("Curent Rep : ");
+        repAsset.display();
+
+        System.out.println("\nExpected Content Rep : ");
+        for(File fi : FilesExpected) {
+            System.out.println(fi.getName());
+        }
 
         assert(repAsset.allFilesAreInTab(FilesExpected));
+    }
+
+    @Test
+    public void TestCleanseDoubleFamilyNameInvertOrder() {
+        String filter = "(.)*-(.)*.gif";
+        repAsset.browseAssets();
+        repAsset.filter(filter);
+        repAsset.cleanseDoubleFamilyName();
+
+        File [] FilesExpected = {
+            new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")
+        };
+
+        System.out.println("Curent Rep : ");
+        repAsset.display();
+
+        System.out.println("\nExpected Content Rep : ");
+        for(File fi : FilesExpected) {
+            System.out.println(fi.getName());
+        }
+
+        assert(repAsset.allFilesAreInTab(FilesExpected));
+    }
+
+
+
+    @Test
+    public void TestCleanseDoubleFamilyNameNoDouble() {
+        File [] FilesForRep = {
+            new File (repAsset.getFilePath() + "/pony-green.gif"),
+            new File (repAsset.getFilePath() + "/ponyClone-orange.gif")
+        };
+        repAsset.setFiles(FilesForRep);
+        repAsset.cleanseDoubleFamilyName();
+
+        repAsset.display();
+        assert(repAsset.allFilesAreInTab(FilesForRep));
     }
 
     @Test

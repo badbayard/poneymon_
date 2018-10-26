@@ -150,9 +150,9 @@ public class AssetsRepertories {
      * elimine les fichiers de la liste ayant le meme nom de famille.
      */
     public void cleanseDoubleFamilyName() {
-        List<String> tempSplit = new ArrayList<>();
-        List<File> tempFile = new ArrayList<>();
-        File[] result;
+        List<String> tempSplit = new ArrayList<>(); //familles deja ajoutées
+        List<File> tempFile = new ArrayList<>(); // liste de fichier temporaire
+        File[] result; // tableau de fichier pour le set
         String pattern = "[^a-zA-Z0-9]+";
         String[] parts;
 
