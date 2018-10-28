@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communicationSystem.MessagingSystem;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -91,8 +92,8 @@ public class ProcessusClient implements Runnable {
 
         System.out.println("C'est partis pour les commandes");
 
-        Command cmd1 = new Command(1);
-        StringCommand cmd2 = new StringCommand(2, "Lol");
+        Command cmd1 = new Command();
+        StringCommand cmd2 = new StringCommand("Lol");
 
         messagingSystem.sendCommand(cmd1);
         System.out.println("Client : J'ai Envoyé !");

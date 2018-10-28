@@ -1,16 +1,18 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest;
+package fr.univ_lyon1.info.m1.poneymon_fx.network.client;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communicationSystem.MessagingSystem;
 
 /**
  * Class permettant de représenter un joueur humain aux yeux du serveur.
  */
-public class Player {
+public class ClientManger {
     private boolean isChief = false;
-    String username = "player";
-    MovingEntityModel playerCharacter;
+    private String username = "client";
+    private MovingEntityModel playerCharacter;
+    private MessagingSystem messagingSystem;
 
-    Player(String username) {
+    ClientManger(String username) {
         this.username = username;
     }
 
@@ -18,11 +20,11 @@ public class Player {
         this.playerCharacter = playerCharacter;
     }
 
-    public void setChief(boolean chief) {
-        isChief = chief;
-    }
-
     public boolean getChief() {
         return isChief;
+    }
+
+    public void setChief(boolean chief) {
+        isChief = chief;
     }
 }

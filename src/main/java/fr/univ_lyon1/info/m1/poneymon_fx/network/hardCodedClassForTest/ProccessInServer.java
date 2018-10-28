@@ -1,14 +1,9 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communicationSystem.MessagingSystem;
 
-import java.awt.*;
-import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
-import java.text.DateFormat;
-import java.util.Date;
 
 public class ProccessInServer implements Runnable {
 
@@ -17,6 +12,7 @@ public class ProccessInServer implements Runnable {
     private int[][] rooms;
     private int nbRooms = 0;
     private int roomSize = 4;
+
     public ProccessInServer(Socket sock) {
         this.sock = sock;
     }
