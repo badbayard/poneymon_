@@ -36,35 +36,35 @@ public class ProcessusClient implements Runnable {
     /**
      * Envois des commandes random pour tester le bon fonctionnement du serveur.
      */
-    public void run() {
-//        for (int i = 0; i < 10; i++) {
-//            try {
-//                // On envois toute les secondes un message
-//                Thread.currentThread().sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                //On envoie la commande au serveur
-//
-//                String commande = sendRandomCommand();
-//                writer.write(commande);
-//                writer.flush(); // Transmet réellement la commande
-//
-//                System.out.println(
-//                    "Commande " + commande + " envoyée au serveur");
-//
-//                String response = read();
-//                System.out.println("Réponse reçue " + response);
-//            } catch (IOException e1) {
-//                e1.printStackTrace();
-//            }
-//            try {
-//                Thread.currentThread().sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-        //}
+    public void run() {/*
+          for (int i = 0; i < 10; i++) {
+              try {
+                  // On envois toute les secondes un message
+                  Thread.currentThread().sleep(1000);
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              }
+              try {
+                  //On envoie la commande au serveur
+  
+                  String commande = sendRandomCommand();
+                  writer.write(commande);
+                  writer.flush(); // Transmet réellement la commande
+  
+                  System.out.println(
+                      "Commande " + commande + " envoyée au serveur");
+  
+                  String response = read();
+                  System.out.println("Réponse reçue " + response);
+              } catch (IOException e1) {
+                  e1.printStackTrace();
+              }
+              try {
+                  Thread.currentThread().sleep(1000);
+              } catch (InterruptedException e) {
+                  e.printStackTrace();
+              }
+          }*/
 
         try {
             String join = "join";
