@@ -98,7 +98,7 @@ public class LevelBuilder {
 
         //TODO verifier family name valide
         System.out.println(familyName + " <- TODO verifier family name valide ");
-        FixedEntityModel entityHardCoded = new FixedEntityModel(posY, posX + nbLap);
+        FixedEntityModel entityHardCoded = new FixedEntityModel(posY, posX + nbLap, nbLap);
         fixedEntities.add(entityHardCoded);
     }
 

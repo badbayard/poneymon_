@@ -11,7 +11,7 @@ import java.util.List;
  * Model of the game board.
  */
 public class FieldModel implements Model {
-    private FixedEntityModel[] challengers;
+    private LaneEntityModel[] lanes;
     private MovingEntityModel[] participants;
     private static final int NB_LAPS = 5;
     private int participantsFinished = 0;
@@ -31,13 +31,17 @@ public class FieldModel implements Model {
         // If the number of participants is acceptable
         if (2 <= nbParticipants && nbParticipants <= 5) {
             participants = new PoneyModel[nbParticipants];
+            lanes = new LaneEntityModel[nbParticipants];
         } else { // 5 poneys by default
             participants = new PoneyModel[5];
+            lanes = new LaneEntityModel[5];
         }
 
-        // Initializing participants
+        // Initializing participants and their specific lanes
         for (int i = 0; i < participants.length; i++) {
             participants[i] = new PoneyModel(PoneyModel.getColor(i), i, isAi[i], NB_LAPS);
+            lanes[i] = new LaneEntityModel(i, participants[i]);
+            lanes[i].addFixedEntity(new ObstacleModel(i, 0.5, i));
         }
 
         // make them know the others
@@ -66,13 +70,20 @@ public class FieldModel implements Model {
      *            time elapsed in ms
      */
     public void update(final double msElapsed) {
-        for (MovingEntityModel participant : participants) {
-            participant.update(msElapsed);
+        for (int i = 0; i < participants.length;i++) {
+            participants[i].update(msElapsed);
+            lanes[i].update(msElapsed,participants[i].getNbLap());
             rankParticipants();
             checkRaceFinished();
         }
     }
-
+    
+    /** Return the lanes.
+     */
+    public LaneEntityModel[] getLanes() {
+        return lanes;
+    }
+    
     /**
      * MovingEntityModels getter.
      *

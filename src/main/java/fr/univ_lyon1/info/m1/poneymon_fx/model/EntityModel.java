@@ -1,6 +1,10 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
-public class EntityModel implements Model {
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Transform;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+
+public class EntityModel implements Model,Transform {
 
     // Abscissa of the entity
     protected double x;
@@ -8,6 +12,7 @@ public class EntityModel implements Model {
     protected final int row;
 
     public EntityModel(int r) {
+        Controller.COLLISIONMANAGER.addToTransforms(this);
         x = 0.0;
         row = r;
     }
@@ -65,6 +70,11 @@ public class EntityModel implements Model {
     public boolean entityModelEquals(EntityModel entityToTest) {
         return ((this.getRow() == entityToTest.getRow())
                 && (this.getX() == entityToTest.getX()));
+    }
+
+    @Override
+    public void onCollision(Collider col) {
+        System.out.println("I collided with something ! Ouch :(");
     }
 
 }

@@ -5,7 +5,10 @@ import java.util.List;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FixedEntityModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.LaneEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.ObstacleModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,6 +26,8 @@ public final class FieldView extends Canvas implements View {
     private final GraphicsContext graphicsContext;
     // MovingEntityViews managed
     private List<MovingEntityView> participantViews = new ArrayList<>();
+    // FixedEntityViews managed
+    private List<FixedEntityView> objectViews = new ArrayList<>();
     // Model of this view
     private FieldModel fieldModel;
     // Background image pattern
@@ -61,11 +66,31 @@ public final class FieldView extends Canvas implements View {
         // Build as many MovingEntityView as there is MovingEntityModel in FieldModel
         participantViews.clear();
         MovingEntityModel[] participantModels = fm.getParticipantModels();
+        buildFixedEntities(fm.getLanes());
         for (MovingEntityModel participantModel : participantModels) {
             // TODO : add each new player created here
             if (participantModel instanceof PoneyModel) {
                 participantViews.add(new PoneyView((PoneyModel) participantModel, graphicsContext,
                         width, height));
+            }
+        }
+    }
+
+    /**
+     * Building the FixedEntities from LaneEntityModel Objects.
+     * 
+     * @param le
+     *            lanes list
+     */
+    void buildFixedEntities(LaneEntityModel[] le) {
+        ArrayList<FixedEntityModel> temp;
+        for (LaneEntityModel lane : le) {
+            temp = lane.getFixedEntities();
+            for (FixedEntityModel fe : temp) {
+                // TODO : with each new Object
+                if (fe instanceof ObstacleModel) {
+                    objectViews.add(new ObstacleView(fe, graphicsContext, width, height));
+                }
             }
         }
     }

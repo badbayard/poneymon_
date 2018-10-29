@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.CollisionManager;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
@@ -35,11 +36,11 @@ public class Controller {
     private SoundController soundController = new SoundController();
 
     public static final Controller CONTROLLER = new Controller();
-
+    public static final CollisionManager COLLISIONMANAGER = new CollisionManager();
     /**
      * Controller constructor.
      */
-    Controller() {
+    public Controller() {
         timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 // Prevent from resuming the game when the race is over
@@ -53,6 +54,8 @@ public class Controller {
                     double msElapsed = (currentNanoTime - lastTimerUpdate) / 1000000.0;
                     // Each time the event is triggered, update the model
                     fieldModel.update(msElapsed);
+                    //Check for collisions
+                    COLLISIONMANAGER.checkCollision();
                     // refresh the views
                     notifyViews();
                     // update the last timer update
