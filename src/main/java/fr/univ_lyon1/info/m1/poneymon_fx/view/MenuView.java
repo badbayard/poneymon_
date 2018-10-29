@@ -18,10 +18,13 @@ public class MenuView {
     private int width;
     private int height;
     
+    private boolean isSolo;
+    
     /**
 	 * Constructor of MenuView.
 	 */
     public MenuView(int x, int y) {
+		isSolo = false;
 		
         width = x;
         height = y;
@@ -90,5 +93,21 @@ public class MenuView {
     public void backToMainMenu() {
         mainMenu.setVisible(true);
         selectMenu.setVisible(false);
+    }
+    
+    /**
+     * Get field indicating wether a game is solo or multiplayer.
+     * @return isSolo
+     */
+    public boolean getIsSolo() {
+        return isSolo;
+    }
+    
+    /**
+     * Set the field isSolo to the new value.
+     * @param newValue
+     */
+    public void setIsSolo(boolean newValue) {
+        isSolo = newValue;
     }
 }
