@@ -9,7 +9,7 @@ import javafx.animation.AnimationTimer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientController extends Controller {
+public abstract class ClientController extends Controller {
     // Subscribed views for display events
     private List<View> views = new ArrayList<>();
     // Tiny window displaying data about a participant
