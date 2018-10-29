@@ -50,7 +50,8 @@ public class CollisionManager {
             for (int j = i + 1; j < colliders.size(); j++) {
                 // if the two collider are on the same layer and are active
                 if ((colliders.get(i).getCollisionLayer() == colliders.get(j).getCollisionLayer())
-                        && (colliders.get(i).isActive() == colliders.get(j).isActive() &&  colliders.get(j).isActive() == true)) {
+                        && (colliders.get(i).isActive() == colliders.get(j).isActive()
+                                && colliders.get(j).isActive() == true)) {
                     // If the two collider are colliding
                     if (areColliding(colliders.get(i), colliders.get(j))) {
                         transforms.get(i).onCollision(colliders.get(j));

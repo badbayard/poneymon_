@@ -7,7 +7,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.EntityModel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class EntityView implements View,Collider{
+public class EntityView implements View, Collider {
 
     // Graphics context
     protected final GraphicsContext graphicsContext;
@@ -25,10 +25,12 @@ public class EntityView implements View,Collider{
     protected final double imageHeight;
     protected final double imageWidth;
     protected final double widthRatio;
-    
+
     /**
      * Entity View Constructor.
-     * @param imgUrl Url of the Entity image.
+     * 
+     * @param imgUrl
+     *            Url of the Entity image.
      */
     public EntityView(EntityModel m, GraphicsContext gc, int cWidth, int cHeight, String imgUrl) {
         Controller.CONTROLLER.addView(this);
