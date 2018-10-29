@@ -36,13 +36,9 @@ public interface Collider {
     /**
      * If the collider is active or not.
      * 
-     * @return boolean
+     * @return
      */
     boolean isActive();
 
-    /**
-     * get Transform.
-     * @return Transform
-     */
     Transform getTransform();
 }
