@@ -15,8 +15,8 @@ public class ListRoom extends Parent {
 
     /**
      * Constructor.
-     * @param x
-     * @param y
+     * @param x int
+     * @param y int
      */
     public ListRoom(int x, int y) {
         listroom = new VBox(10);

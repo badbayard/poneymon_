@@ -31,8 +31,8 @@ public abstract class Room {
 
     /**
      * Doc to pass the checkstyle.
-     * @param player
-     * @return
+     * @param player TODO
+     * @return TODO
      */
     public boolean join(Player player) {
         if (nbPlayers < maxNbPlayers) {
