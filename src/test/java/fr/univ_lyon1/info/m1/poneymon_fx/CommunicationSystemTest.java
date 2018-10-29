@@ -1,8 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.communicationSystem.CommunicationSystem;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,6 @@ public class CommunicationSystemTest {
 
     @Before
     public void setUp() {
-        System.out.println("HI");
         port = 4242;
         answer = "";
         try {
@@ -38,7 +36,6 @@ public class CommunicationSystemTest {
 
     @After
     public void close() {
-        System.out.println("YO");
         try {
             serverSocket.close();
         } catch (IOException e) {

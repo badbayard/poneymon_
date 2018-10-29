@@ -82,7 +82,7 @@ public final class FieldView extends Canvas implements View {
      */
     public void manageClick(double xClick, double yClick) {
         ClientController cc = (ClientController) Controller.getInstance();
-        cc.addView(this);
+        
         // Nothing to do if the field doesn't handle a dataView
         DataView dataView = cc.getDataView();
 
