@@ -1,7 +1,9 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class ListRoom extends Parent {
@@ -12,6 +14,7 @@ public class ListRoom extends Parent {
     private RadioButton essai1;
     private RadioButton essai2;
     private RadioButton essai3;
+    private GridPane yolo;
 
     public ListRoom(int x, int y) {
         listroom = new VBox(10);
@@ -25,8 +28,14 @@ public class ListRoom extends Parent {
         essai1 = new RadioButton("essai1");
         essai2 = new RadioButton("essai2");
         essai3 = new RadioButton("essai3");
+        
+        
+        // ----------> changement d'élement
+        yolo = new GridPane();
+        Label labelTitle = new Label ("List");
+        yolo.add(labelTitle, 2, 2);
 
-        listroom.getChildren().addAll(btnjoin, btnhost, btnrefresh, essai1, essai2, essai3);
+        listroom.getChildren().addAll(btnjoin, btnhost, btnrefresh, essai1, essai2, essai3,yolo);
 
         getChildren().addAll(listroom);
 
