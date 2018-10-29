@@ -16,7 +16,7 @@ public class AssetsRepertoriesTest {
     @Before
     public void setUp() {
         final String testPath = System.getProperty("user.dir")
-                + "/src/main/resources/assets/entity";
+                + "/src/main/resources/assets/entity/moving";
         repAsset = new AssetsRepertories(testPath);
     }
 

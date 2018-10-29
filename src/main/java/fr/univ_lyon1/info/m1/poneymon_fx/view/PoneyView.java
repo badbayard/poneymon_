@@ -21,10 +21,10 @@ public class PoneyView extends MovingEntityView implements View {
      * @param cHeight the canvas height
      */
     public PoneyView(PoneyModel pm, GraphicsContext gc, int cWidth, int cHeight) {
-    	super(pm,gc,cWidth,cHeight,"assets/entity/pony-" + pm.getColor() + "-running.gif");
+    	super(pm,gc,cWidth,cHeight,"assets/entity/moving/pony-" + pm.getColor() + "-running.gif");
 
         String color = ((MovingEntityModel) participantModel).getColor();
-        nianPoneyImage = new Image("assets/entity/pony-" + color + "-rainbow.gif");
+        nianPoneyImage = new Image("assets/entity/moving/pony-" + color + "-rainbow.gif");
         
         // Update the variable attributes of PoneyView
         update();

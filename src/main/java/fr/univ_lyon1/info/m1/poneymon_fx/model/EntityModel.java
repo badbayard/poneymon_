@@ -25,6 +25,7 @@ public class EntityModel implements Model,Transform {
     public void addSelfToTransforms() {
         FieldModel.COLLISIONMANAGER.addToTransforms(this);
     }
+    
     /**
      * Sets the poney abscissa.
      *
