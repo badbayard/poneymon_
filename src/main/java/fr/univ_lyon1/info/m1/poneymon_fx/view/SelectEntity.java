@@ -45,7 +45,7 @@ public class SelectEntity extends Parent {
      * @param y coord
      */
     public SelectEntity(int x, int y) {       
-        path = System.getProperty("user.dir") + "/src/main/resources/assets/entity";
+        path = System.getProperty("user.dir") + "/src/main/resources/assets/entity/moving";
         
         assetsRepertories  = new AssetsRepertories(path);
         availableEntity = assetsRepertories.availableEntities();
@@ -76,7 +76,7 @@ public class SelectEntity extends Parent {
             System.out.println(availableEntity[i]);
 
             for (int j = 0; j < entityColor.length; ++j) {
-                Image entityImage = new Image("assets/entity/" 
+                Image entityImage = new Image("assets/entity/moving/"
                         + availableEntity[i] + "-" + entityColor[j] + ".gif");
                 ImageView imageView = new ImageView(entityImage);
                 imageView.setFitWidth(75);

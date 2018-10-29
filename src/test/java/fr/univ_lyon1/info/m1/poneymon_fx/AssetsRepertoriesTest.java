@@ -16,7 +16,7 @@ public class AssetsRepertoriesTest {
     @Before
     public void setUp() {
         final String testPath = System.getProperty("user.dir")
-                + "/src/main/resources/assets/entity";
+                + "/src/main/resources/assets/entity/moving";
         repAsset = new AssetsRepertories(testPath);
     }
 
@@ -184,7 +184,6 @@ public class AssetsRepertoriesTest {
         assert (!repAsset.allElementsAreInTab(stringToTest, stringNotValid));
 
         stringNotValid = new String[] { "1", "2", "2", "4", "5" };
-        ;
         assert (!repAsset.allElementsAreInTab(stringToTest, stringNotValid));
 
         // cas des tests non valides

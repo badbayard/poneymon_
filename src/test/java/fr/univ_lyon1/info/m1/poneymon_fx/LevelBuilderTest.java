@@ -87,7 +87,7 @@ public class LevelBuilderTest {
         expectedFixedEntities.add(new FixedEntityModel(2, 3.6, 3));
         expectedFixedEntities.add(new FixedEntityModel(0, 4.8, 4));
 
-        /**
+        /*
          * mur 0.1 3 0 mur 0.3 4 0 mur 0.6 2 0 mur 0.8 0 0 mur 0.1 3 1 mur 0.3 4 2 mur 0.6 2 3 mur
          * 0.8 0 4
          */
