@@ -22,6 +22,7 @@ public class SelectEntity extends Parent {
     //Ajouter une VBox par categorie (faire un tableau de VBox ne fonctionne pas)
     private VBox ponyBox;
     private VBox ponyCloneBox;
+    private VBox buttonBox;
     
     private AssetsRepertories assetsRepertories;
     private String path;
@@ -33,6 +34,9 @@ public class SelectEntity extends Parent {
     
     private String type;
     private String color;
+    
+    private ButtonMenu btnConfirm;
+    private ButtonMenu btnBack;
 
     /**
      * Constructor.
@@ -48,6 +52,7 @@ public class SelectEntity extends Parent {
         
         ponyBox = new VBox(10);
         ponyCloneBox = new VBox(10);
+        buttonBox = new VBox(10);
         
         group = new ToggleGroup();
         
@@ -56,6 +61,14 @@ public class SelectEntity extends Parent {
         
         ponyCloneBox.setTranslateX(x / 3);
         ponyCloneBox.setTranslateY(y / 6);
+        
+        buttonBox.setTranslateX(x / 2);
+        buttonBox.setTranslateY(y / 8);
+        
+        btnConfirm = new ButtonMenu("Confirm");
+        btnBack = new ButtonMenu("Back");
+        
+        buttonBox.getChildren().addAll(btnConfirm, btnBack);
         
         for (int i = 0; i < availableEntity.length; ++i) {
             entityColor = assetsRepertories.searchAndFilter(availableEntity[i] 
@@ -96,7 +109,7 @@ public class SelectEntity extends Parent {
         text.setFill(Color.BLUE);
         
         //Penser à ajouter les VBox lorsque l'on ajoute un nouveau type
-        getChildren().addAll(ponyBox, ponyCloneBox, text);
+        getChildren().addAll(ponyBox, ponyCloneBox, buttonBox, text);
         setEvent();
     }
     
@@ -155,5 +168,21 @@ public class SelectEntity extends Parent {
      */
     public void setColor() {
         color = assetsRepertories.getEntityColor(selectedEntity);
+    }
+
+    /**
+     * Getters of the button confirm.
+     * @return field btnConfirm
+     */
+    public ButtonMenu getBtnConfirm() {
+        return btnConfirm;
+    }
+    
+    /**
+     * Getters of the button back.
+     * @return field btnBack
+     */
+    public ButtonMenu getBtnBack() {
+        return btnBack;
     }
 }

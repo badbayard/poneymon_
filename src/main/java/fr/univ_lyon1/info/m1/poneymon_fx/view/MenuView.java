@@ -75,4 +75,20 @@ public class MenuView {
     public SelectEntity getSelectMenu() {
         return selectMenu;
     }
+    
+    /**
+     * Display the select menu.
+     */
+    public void activateSelectMenu() {
+        mainMenu.setVisible(false);
+        selectMenu.setVisible(true);
+    }
+    
+    /**
+     * Display the main menu.
+     */
+    public void backToMainMenu() {
+        mainMenu.setVisible(true);
+        selectMenu.setVisible(false);
+    }
 }
