@@ -36,7 +36,7 @@ public class ProcessusClient implements Runnable {
     /**
      * Envois des commandes random pour tester le bon fonctionnement du serveur.
      */
-    public void run() {/*
+    public void run() { /*
           for (int i = 0; i < 10; i++) {
               try {
                   // On envois toute les secondes un message
@@ -64,7 +64,7 @@ public class ProcessusClient implements Runnable {
               } catch (InterruptedException e) {
                   e.printStackTrace();
               }
-          }*/
+          } */
 
         try {
             String join = "join";
