@@ -11,4 +11,8 @@ public class StringCommand extends Command {
     public void affichage() {
         System.err.println("Je suis une string command : " + mot);
     }
+
+    public String getMot() {
+        return mot;
+    }
 }

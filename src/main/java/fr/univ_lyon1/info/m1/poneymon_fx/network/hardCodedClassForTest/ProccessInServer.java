@@ -1,14 +1,14 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.communicationSystem.MessagingSystem;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communicationSystem.CommunicationSystem;
 
 import java.net.Socket;
 
 public class ProccessInServer implements Runnable {
 
     private Socket sock;
-    private MessagingSystem messagingSystem;
+    private CommunicationSystem messagingSystem;
     private int[][] rooms;
     private int nbRooms = 0;
     private int roomSize = 4;
@@ -27,7 +27,7 @@ public class ProccessInServer implements Runnable {
         boolean closeConnexion = false;
         while (!sock.isClosed()) {
             try {
-                messagingSystem = new MessagingSystem(sock);
+                messagingSystem = new CommunicationSystem(sock);
 
                 String response = messagingSystem.receiveMessage();
                 InetSocketAddress remote =
@@ -80,7 +80,7 @@ public class ProccessInServer implements Runnable {
         */
 
 
-        messagingSystem = new MessagingSystem(sock);
+        messagingSystem = new CommunicationSystem(sock);
         System.out.println("Serveur : J'attends");
         Command cmd = messagingSystem.receiveCommand();
         System.out.println("Serveur : J'ai reçu !");

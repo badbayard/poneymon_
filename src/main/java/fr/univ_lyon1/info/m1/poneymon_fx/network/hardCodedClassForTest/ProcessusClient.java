@@ -2,7 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.communicationSystem.MessagingSystem;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communicationSystem.CommunicationSystem;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -13,7 +13,7 @@ public class ProcessusClient implements Runnable {
 
     private Socket connexion = null;
     private String[] listCommands = {"FULL", "DATE", "HOUR", "NONE"};
-    private MessagingSystem messagingSystem;
+    private CommunicationSystem messagingSystem;
 
     /**
      * Constructeur de ProcessusClient avec paramètres.
@@ -24,7 +24,7 @@ public class ProcessusClient implements Runnable {
     public ProcessusClient(String host, int port) {
         try {
             connexion = new Socket(host, port);
-            messagingSystem = new MessagingSystem(connexion);
+            messagingSystem = new CommunicationSystem(connexion);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
