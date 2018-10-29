@@ -1,6 +1,5 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientSoloController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.List;
  * Model of the game board.
  */
 public class FieldModel implements Model {
-    private StaticEntityModel[] challengers;
+    private StaticEntityModel[] obstacles;
     private MovingEntityModel[] participants;
     private static final int NB_LAPS = 5;
     private int participantsFinished = 0;

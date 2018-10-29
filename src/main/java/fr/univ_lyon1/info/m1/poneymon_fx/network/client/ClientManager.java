@@ -1,18 +1,18 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.client;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.communicationSystem.MessagingSystem;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.MessagingSystem;
 
 /**
  * Class permettant de représenter un joueur humain aux yeux du serveur.
  */
-public class ClientManger {
+public class ClientManager {
     private boolean isChief = false;
     private String username = "client";
     private MovingEntityModel playerCharacter;
     private MessagingSystem messagingSystem;
 
-    ClientManger(String username) {
+    ClientManager(String username) {
         this.username = username;
     }
 

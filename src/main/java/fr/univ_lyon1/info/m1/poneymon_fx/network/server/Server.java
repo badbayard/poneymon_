@@ -1,7 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.server;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.ProcessClientWaitingRoom;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.room.WaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.room.ListRoom;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,7 +13,7 @@ public class Server {
     private int port;
     private ServerSocket server = null;
     private boolean isRunning = true;
-    private WaitingRoom waitingRoom;
+    private ListRoom listRoom;
 
     /**
      * Constructeur par défaut du serveur, écotant sur toutes les adresses IP.
@@ -29,7 +29,7 @@ public class Server {
      */
     public Server(int port) {
         this.port = port;
-        waitingRoom = WaitingRoom.getInstance();
+        listRoom = ListRoom.getInstance();
         try {
             server = new ServerSocket(port, 100);
         } catch (UnknownHostException e) {

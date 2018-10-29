@@ -1,7 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.communicationSystem.MessagingSystem;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.MessagingSystem;
 
 import java.net.Socket;
 
