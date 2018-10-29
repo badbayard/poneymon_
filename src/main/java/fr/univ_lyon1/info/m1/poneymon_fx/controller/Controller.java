@@ -36,7 +36,6 @@ public class Controller {
     private SoundController soundController = new SoundController();
 
     public static final Controller CONTROLLER = new Controller();
-    public static final CollisionManager COLLISIONMANAGER = new CollisionManager();
 
     /**
      * Controller constructor.
@@ -56,7 +55,7 @@ public class Controller {
                     // Each time the event is triggered, update the model
                     fieldModel.update(msElapsed);
                     // Check for collisions
-                    COLLISIONMANAGER.checkCollision();
+                    FieldModel.COLLISIONMANAGER.checkCollision();
                     // refresh the views
                     notifyViews();
                     // update the last timer update

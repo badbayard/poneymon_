@@ -23,7 +23,7 @@ public class EntityModel implements Model,Transform {
      * Add self to transform.
      */
     public void addSelfToTransforms() {
-        Controller.COLLISIONMANAGER.addToTransforms(this);
+        FieldModel.COLLISIONMANAGER.addToTransforms(this);
     }
     /**
      * Sets the poney abscissa.

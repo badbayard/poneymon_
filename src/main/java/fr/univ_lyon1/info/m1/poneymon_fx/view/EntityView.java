@@ -4,6 +4,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Transform;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.EntityModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -34,7 +35,7 @@ public class EntityView implements View, Collider {
      */
     public EntityView(EntityModel m, GraphicsContext gc, int cWidth, int cHeight, String imgUrl) {
         Controller.CONTROLLER.addView(this);
-        Controller.COLLISIONMANAGER.addToColliders(this);
+        FieldModel.COLLISIONMANAGER.addToColliders(this);
         graphicsContext = gc;
         participantModel = m;
         canvasWidth = cWidth;

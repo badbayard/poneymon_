@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.CollisionManager;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class FieldModel implements Model {
     private static final int NB_LAPS = 5;
     private int participantsFinished = 0;
 
+    public static final CollisionManager COLLISIONMANAGER = new CollisionManager();
     // State of the poneys. True : AI, False : Human
     private static final boolean[] isAi = new boolean[] {true, true, true, false, false};
 
@@ -35,7 +37,7 @@ public class FieldModel implements Model {
         } else { // 5 poneys by default
             participants = new PoneyModel[5];
             lanes = new LaneEntityModel[5];
-        }
+        } 
 
         // Initializing participants and their specific lanes
         for (int i = 0; i < participants.length; i++) {
