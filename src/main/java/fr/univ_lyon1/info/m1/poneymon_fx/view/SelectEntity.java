@@ -77,7 +77,7 @@ public class SelectEntity extends Parent {
 
             for (int j = 0; j < entityColor.length; ++j) {
                 Image entityImage = new Image("assets/entity/" 
-            + availableEntity[i] + "-" + entityColor[j] + ".gif");
+                        + availableEntity[i] + "-" + entityColor[j] + ".gif");
                 ImageView imageView = new ImageView(entityImage);
                 imageView.setFitWidth(75);
                 imageView.setFitHeight(75);
@@ -128,7 +128,7 @@ public class SelectEntity extends Parent {
                         setColor();
                         setType();
                     }
-                 }
+                }
         });
     }
     

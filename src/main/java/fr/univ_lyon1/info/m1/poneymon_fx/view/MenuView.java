@@ -24,7 +24,8 @@ public class MenuView {
 	 * Constructor of MenuView.
 	 */
     public MenuView(int x, int y) {
-		isSolo = false;
+    
+        isSolo = false;
 		
         width = x;
         height = y;
@@ -105,7 +106,7 @@ public class MenuView {
     
     /**
      * Set the field isSolo to the new value.
-     * @param newValue
+     * @param newValue true if solo, false otherwise
      */
     public void setIsSolo(boolean newValue) {
         isSolo = newValue;

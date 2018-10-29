@@ -29,6 +29,11 @@ public abstract class Room {
         players = new Player[nbPlayers];
     }
 
+    /**
+     * Doc to pass the checkstyle.
+     * @param player
+     * @return
+     */
     public boolean join(Player player) {
         if (nbPlayers < maxNbPlayers) {
             if (nbPlayers == 0) {

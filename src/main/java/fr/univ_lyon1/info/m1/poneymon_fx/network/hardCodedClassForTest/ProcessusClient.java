@@ -64,7 +64,7 @@ public class ProcessusClient implements Runnable {
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
-//        }
+        //}
 
         try {
             String join = "join";
