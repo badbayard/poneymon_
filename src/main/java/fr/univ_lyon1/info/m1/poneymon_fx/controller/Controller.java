@@ -37,6 +37,7 @@ public class Controller {
 
     public static final Controller CONTROLLER = new Controller();
     public static final CollisionManager COLLISIONMANAGER = new CollisionManager();
+
     /**
      * Controller constructor.
      */
@@ -54,7 +55,7 @@ public class Controller {
                     double msElapsed = (currentNanoTime - lastTimerUpdate) / 1000000.0;
                     // Each time the event is triggered, update the model
                     fieldModel.update(msElapsed);
-                    //Check for collisions
+                    // Check for collisions
                     COLLISIONMANAGER.checkCollision();
                     // refresh the views
                     notifyViews();

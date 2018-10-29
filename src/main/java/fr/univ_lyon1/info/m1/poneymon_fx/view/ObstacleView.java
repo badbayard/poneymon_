@@ -32,6 +32,7 @@ public class ObstacleView extends FixedEntityView {
             graphicsContext.drawImage(classicImage, x, y);
         }
     }
+
     @Override
     public boolean isActive() {
         return ((ObstacleModel) participantModel).isVisible();

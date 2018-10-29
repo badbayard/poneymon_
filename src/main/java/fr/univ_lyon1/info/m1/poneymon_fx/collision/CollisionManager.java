@@ -62,7 +62,7 @@ public class CollisionManager {
     }
 
     /**
-     * Check if 2 colliders are touching
+     * Check if 2 colliders are touching.
      */
     public boolean areColliding(Collider colA, Collider colB) {
         return rangeIntersect(colA.getX(), colA.getX() + colA.getWidth(), colB.getX(),
@@ -73,7 +73,7 @@ public class CollisionManager {
     }
 
     /**
-     * Check if two ranges are overlapping
+     * Check if two ranges are overlapping.
      */
     private boolean rangeIntersect(double min1, double max1, double min2, double max2) {
         return Math.max(min1, max1) >= Math.min(min2, max2)

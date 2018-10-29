@@ -11,6 +11,9 @@ public class EntityModel implements Model,Transform {
     // Entity's row
     protected final int row;
 
+    /**
+     * generic Constructor for entities.
+     */
     public EntityModel(int r) {
         Controller.COLLISIONMANAGER.addToTransforms(this);
         x = 0.0;
