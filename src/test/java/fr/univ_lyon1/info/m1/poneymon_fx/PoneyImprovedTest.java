@@ -12,7 +12,7 @@ public class PoneyImprovedTest {
     private PoneyModel poney;
 
     /**
-     * initialisation PoneyModel
+     * initialisation PoneyModel.
      */
     @Before
     public void setUp() {
@@ -21,7 +21,7 @@ public class PoneyImprovedTest {
 
 
     /**
-     * Test for the boost
+     * Test for the boost.
      */
     @Test
     public void testBoost() {

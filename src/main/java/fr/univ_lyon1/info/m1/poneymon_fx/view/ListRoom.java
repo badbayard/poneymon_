@@ -16,6 +16,11 @@ public class ListRoom extends Parent {
     private RadioButton essai3;
     private GridPane yolo;
 
+    /**
+     * Constructor.
+     * @param x int
+     * @param y int
+     */
     public ListRoom(int x, int y) {
         listroom = new VBox(10);
         listroom.setTranslateX(x / 10);

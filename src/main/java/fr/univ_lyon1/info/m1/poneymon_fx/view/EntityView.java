@@ -1,11 +1,14 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Transform;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.EntityModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class EntityView implements View {
+public class EntityView implements View, Collider {
 
     // Graphics context
     protected final GraphicsContext graphicsContext;
@@ -23,13 +26,16 @@ public class EntityView implements View {
     protected final double imageHeight;
     protected final double imageWidth;
     protected final double widthRatio;
-    
+
     /**
      * Entity View Constructor.
-     * @param imgUrl Url of the Entity image.
+     * 
+     * @param imgUrl
+     *            Url of the Entity image.
      */
     public EntityView(EntityModel m, GraphicsContext gc, int cWidth, int cHeight, String imgUrl) {
         Controller.CONTROLLER.addView(this);
+        FieldModel.COLLISIONMANAGER.addToColliders(this);
         graphicsContext = gc;
         participantModel = m;
         canvasWidth = cWidth;
@@ -84,7 +90,7 @@ public class EntityView implements View {
      *
      * @return the abscissa of the poney
      */
-    int getX() {
+    public int getX() {
         return x;
     }
 
@@ -93,7 +99,32 @@ public class EntityView implements View {
      *
      * @return the ordinate of the poney
      */
-    int getY() {
+    public int getY() {
         return y;
+    }
+
+    @Override
+    public int getCollisionLayer() {
+        return participantModel.getRow();
+    }
+
+    @Override
+    public double getWidth() {
+        return imageWidth;
+    }
+
+    @Override
+    public double getHeight() {
+        return imageHeight;
+    }
+
+    @Override
+    public Transform getTransform() {
+        return (Transform) participantModel;
+    }
+
+    @Override
+    public boolean isActive() {
+        return true;
     }
 }

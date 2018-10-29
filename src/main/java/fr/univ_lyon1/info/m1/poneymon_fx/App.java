@@ -59,7 +59,7 @@ public class App extends Application {
     private void setEvents() {
         //Event Play solo
         ButtonMenu btnPlay = menu.getMainMenu().getBtnPlay();
-        btnPlay.setOnMouseClicked(event -> createGameSolo());
+        btnPlay.setOnMouseClicked(event -> openSelectMenuSolo());
 
         //Event Play multi
         ButtonMenu btnPlayMulti = menu.getMainMenu().getBtnPlayMulti();
@@ -72,6 +72,37 @@ public class App extends Application {
         //Event exit game
         ButtonMenu btnExit = menu.getMainMenu().getBtnExit();
         btnExit.setOnMouseClicked(event -> Platform.exit());
+        
+        //Event confirm selected poney
+        ButtonMenu btnConfirm = menu.getSelectMenu().getBtnConfirm();
+        btnConfirm.setOnMouseClicked(event -> soloOrMulti());
+        
+        //Event back to main menu
+        ButtonMenu btnBack = menu.getSelectMenu().getBtnBack();
+        btnBack.setOnMouseClicked(event -> backToMain());
+    }
+
+    private void soloOrMulti() {
+        if (menu.getIsSolo()) {
+            createGameSolo();
+        } else {
+            //TODO send data to the serv
+        }
+    }
+
+    /**
+     * Hide the current menu and display the main menu.
+     */
+    private void backToMain() {
+        menu.backToMainMenu();
+    }
+
+    /**
+     * Display the SelectEntity menu.
+     */
+    private void openSelectMenuSolo() {
+        menu.setIsSolo(true);
+        menu.activateSelectMenu();
     }
 
     /**
