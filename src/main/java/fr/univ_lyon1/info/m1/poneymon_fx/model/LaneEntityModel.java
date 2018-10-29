@@ -36,6 +36,7 @@ public class LaneEntityModel {
 
     public void addFixedEntity(FixedEntityModel fe) {
         fixedEntities.add(fe);
+        fe.addSelfToTransforms();
     }
 
     public void removeFixedEntity(FixedEntityModel fe) {

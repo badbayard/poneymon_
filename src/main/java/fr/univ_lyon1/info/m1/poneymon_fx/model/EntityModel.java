@@ -15,11 +15,16 @@ public class EntityModel implements Model,Transform {
      * generic Constructor for entities.
      */
     public EntityModel(int r) {
-        Controller.COLLISIONMANAGER.addToTransforms(this);
         x = 0.0;
         row = r;
     }
 
+    /**
+     * Add self to transform.
+     */
+    public void addSelfToTransforms() {
+        Controller.COLLISIONMANAGER.addToTransforms(this);
+    }
     /**
      * Sets the poney abscissa.
      *

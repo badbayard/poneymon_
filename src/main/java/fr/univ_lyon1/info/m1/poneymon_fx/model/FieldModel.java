@@ -40,6 +40,7 @@ public class FieldModel implements Model {
         // Initializing participants and their specific lanes
         for (int i = 0; i < participants.length; i++) {
             participants[i] = new PoneyModel(PoneyModel.getColor(i), i, isAi[i], NB_LAPS);
+            participants[i].addSelfToTransforms();
             lanes[i] = new LaneEntityModel(i, participants[i]);
             lanes[i].addFixedEntity(new ObstacleModel(i, 0.5, i));
         }
