@@ -81,14 +81,14 @@ public class LevelBuilderTest {
         lvBuild.readFile(fileValid);
 
 
-        ExpectedFixedEntities.add(new FixedEntityModel(3, 0.1));
-        ExpectedFixedEntities.add(new FixedEntityModel(4, 0.3));
-        ExpectedFixedEntities.add(new FixedEntityModel(2, 0.6));
-        ExpectedFixedEntities.add(new FixedEntityModel(0, 0.8));
-        ExpectedFixedEntities.add(new FixedEntityModel(3, 1.1));
-        ExpectedFixedEntities.add(new FixedEntityModel(4, 2.3));
-        ExpectedFixedEntities.add(new FixedEntityModel(2, 3.6));
-        ExpectedFixedEntities.add(new FixedEntityModel(0, 4.8));
+        ExpectedFixedEntities.add(new FixedEntityModel(3, 0.1, 0));
+        ExpectedFixedEntities.add(new FixedEntityModel(4, 0.3, 0));
+        ExpectedFixedEntities.add(new FixedEntityModel(2, 0.6, 0));
+        ExpectedFixedEntities.add(new FixedEntityModel(0, 0.8, 0));
+        ExpectedFixedEntities.add(new FixedEntityModel(3, 1.1, 1));
+        ExpectedFixedEntities.add(new FixedEntityModel(4, 2.3, 2));
+        ExpectedFixedEntities.add(new FixedEntityModel(2, 3.6, 3));
+        ExpectedFixedEntities.add(new FixedEntityModel(0, 4.8, 4));
 
 
         /**
