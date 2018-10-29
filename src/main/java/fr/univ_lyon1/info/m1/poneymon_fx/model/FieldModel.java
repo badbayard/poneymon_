@@ -86,6 +86,14 @@ public class FieldModel implements Model {
     public LaneEntityModel[] getLanes() {
         return lanes;
     }
+
+    /**
+     * Mutateur lanes.
+     * @param newLanes tableau de LaneEntityModel
+     */
+    public void setLanes(LaneEntityModel[] newLanes) {
+        lanes = newLanes;
+    }
     
     /**
      * MovingEntityModels getter.
@@ -95,6 +103,15 @@ public class FieldModel implements Model {
     public MovingEntityModel[] getParticipantModels() {
         return participants;
     }
+
+    /**
+     * Mutateur participant.
+     * @param newParticipant tableau de MovingEntityModel
+     */
+    public void setParticipantModels(MovingEntityModel[] newParticipant) {
+        participants = newParticipant;
+    }
+
 
     /**
      * Returns a specific participant from the field model.

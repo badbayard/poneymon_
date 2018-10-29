@@ -80,4 +80,38 @@ public class CollisionManager {
         return Math.max(min1, max1) >= Math.min(min2, max2)
                 && Math.min(min1, max1) <= Math.max(min2, max2);
     }
+
+    /**
+     * Accesseur transforms.
+     * @return List Transform
+     */
+    public ArrayList<Transform> getTransforms() {
+        return transforms;
+    }
+
+    /**
+     * Accesseur colliders.
+     * @return List Collider
+     */
+    public ArrayList<Collider> getColliders() {
+        return colliders;
+    }
+
+    /**
+     * Mutateur transforms.
+     * @param newTransform List Transform
+     */
+    public void setTransforms(ArrayList<Transform> newTransform) {
+        transforms = newTransform;
+    }
+
+    /**
+     * Mutateur collider.
+     * @param newColliders List Collider.
+     */
+    public void setColliders(ArrayList<Collider> newColliders) {
+        colliders = newColliders;
+    }
+
+
 }
