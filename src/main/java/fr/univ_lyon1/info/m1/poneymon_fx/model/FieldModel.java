@@ -25,6 +25,33 @@ public class FieldModel implements Model {
 
     /**
      * FieldModel constructor.
+     * @param nbParticipants the number of participants in the game
+     * @param soloGame wether this is a solo or multiplayer game
+     */
+    public FieldModel(final int nbParticipants, final boolean soloGame) {
+     // If the number of participants is acceptable
+        if (2 <= nbParticipants && nbParticipants <= 5) {
+            participants = new PoneyModel[nbParticipants];
+            lanes = new LaneEntityModel[nbParticipants];
+        } else { // 5 poneys by default
+            participants = new PoneyModel[5];
+            lanes = new LaneEntityModel[5];
+        }
+        
+        if (soloGame) {
+            // Initializing participants and their specific lanes except for the first one.
+            for (int i = 1; i < participants.length; i++) {
+                participants[i] = new PoneyModel(PoneyModel.getColor(i), i, true, NB_LAPS);
+                participants[i].addSelfToTransforms();
+                lanes[i] = new LaneEntityModel(i, participants[i]);
+                lanes[i].addFixedEntity(new ObstacleModel(i, 0.5, i));
+            }
+        }
+    }
+    
+    
+    /**
+     * FieldModel constructor.
      *
      * @param nbParticipants
      *            the number of participants in the game
@@ -56,10 +83,54 @@ public class FieldModel implements Model {
             }
         }
     }
-
+ 
     /**
-     * Notify the model the game just started.
+     * Set a new participant for the race.
+     * @param entityType string
+     * @param color string
+     * @param indice int
      */
+    public void setParticipant(String entityType, String color, int indice) {
+     
+     if (indice < 0 || indice >= 5) {
+         indice = 0;
+     }
+        switch (entityType) {
+        case "pony" :
+            participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
+            participants[indice].addSelfToTransforms();
+            lanes[indice] = new LaneEntityModel(indice, participants[indice]);
+            lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
+            break;
+        case "ponyClone" :
+            //TODO mettre PonyClone au lieu de PoneyModel
+            participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
+            participants[indice].addSelfToTransforms();
+            lanes[indice] = new LaneEntityModel(indice, participants[indice]);
+            lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
+            break;
+        //Cas par defaut si le type n'existe pas
+        default :
+            participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
+            participants[indice].addSelfToTransforms();
+            lanes[indice] = new LaneEntityModel(indice, participants[indice]);
+            lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
+            break;
+        }
+        
+    }
+    
+    public void setNeighbor() {
+        // make them know the others
+        for (int i = 0; i < participants.length; i++) {
+            for (int j = 0; j < participants.length; j++) {
+                if (j != i) {
+                    participants[i].addNeighbor(participants[j]);
+                }
+            }
+        }
+    }
+ 
     public void start() {
         for (MovingEntityModel participant : participants) {
             participant.start();

@@ -82,6 +82,9 @@ public class App extends Application {
         btnBack.setOnMouseClicked(event -> backToMain());
     }
 
+    /**
+     * Launch a solo game or send data to the server.
+     */
     private void soloOrMulti() {
         if (menu.getIsSolo()) {
             createGameSolo();
@@ -118,7 +121,10 @@ public class App extends Application {
         Controller.CONTROLLER.setDataView(dataView);
 
         // Creates five poneys in the game field
-        FieldModel fieldModel = new FieldModel(5);
+        FieldModel fieldModel = new FieldModel(5, true);
+        
+        fieldModel.setParticipant(menu.getSelectMenu().getType(),menu.getSelectMenu().getColor() , 0);
+        fieldModel.setNeighbor();
 
         // Set a default poney model to the data view
         dataView.setParticipantModel((PoneyModel) fieldModel.getParticipantModel(0));
