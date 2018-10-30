@@ -14,6 +14,10 @@ public class Receiver {
         this.socket = socket;
     }
 
+    public ObjectInputStream getObjectReader() {
+        return objectReader;
+    }
+
     public Command receiveCommand() {
         try {
             if (objectReader == null) {
