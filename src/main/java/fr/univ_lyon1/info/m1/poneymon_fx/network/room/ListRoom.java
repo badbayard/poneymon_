@@ -18,7 +18,7 @@ public class ListRoom extends Room {
     }
 
     @Override
-    public boolean join(ClientManager player) {
+    public synchronized boolean join(ClientManager player) {
         // TODO waiting sans nombre max de joueurs
         return super.join(player);
     }
