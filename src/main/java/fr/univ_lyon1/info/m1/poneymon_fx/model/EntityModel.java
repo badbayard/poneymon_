@@ -1,13 +1,15 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
-public class EntityModel implements Model {
+import java.io.Serializable;
+
+public abstract class EntityModel implements Model, Serializable {
 
     // Abscissa of the entity
     protected double x;
     // Entity's row
     protected final int row;
 
-    public EntityModel(int r) {
+    EntityModel(int r) {
         x = 0.0;
         row = r;
     }

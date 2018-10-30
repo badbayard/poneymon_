@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MovingEntityModel extends EntityModel implements Model, Comparable<MovingEntityModel> {
+public abstract class MovingEntityModel extends EntityModel implements Model, Comparable<MovingEntityModel> {
     // Number of laps to win the race
     int nbLaps;
     // Minimal time for the Entity to complete a lap (s)
