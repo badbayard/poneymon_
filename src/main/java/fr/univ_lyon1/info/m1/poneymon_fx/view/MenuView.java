@@ -88,7 +88,7 @@ public class MenuView {
     }
 
     /**
-     * Get the listroom menu
+     * Get the listroom menu.
      * 
      * @return field listroom;
      */
