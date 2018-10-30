@@ -35,7 +35,7 @@ public class MenuView {
         root.setPrefSize(width, height);
         
         //Chargement du background.
-        Image background = new Image("assets/bgMenu.jpg");
+        Image background = new Image("assets/menu/bgMenu.jpg");
         
         //Adapte l'image a la taille de la fenêtre
         ImageView imgView = new ImageView(background);

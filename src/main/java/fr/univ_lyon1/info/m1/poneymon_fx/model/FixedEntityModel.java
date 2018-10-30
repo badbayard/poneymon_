@@ -40,4 +40,22 @@ public class FixedEntityModel extends EntityModel {
         return visible;
     }
 
+    /**
+     * Accesseur lapPosition.
+     * @return lapPosition
+     */
+    public int getLapPosition() {
+        return lapPosition;
+    }
+
+    /**
+     * Teste l'egalitée entre l'FixedEntityModel courante et une autre FixedEntityModel.
+     * @param fixedEnt FixedEntityModel a tester
+     * @return boolean
+     */
+    public boolean fixedEntityEquals(FixedEntityModel fixedEnt) {
+        return (this.entityModelEquals(fixedEnt)
+                && (this.getLapPosition() == fixedEnt.getLapPosition())
+                && (this.isVisible() == fixedEnt.isVisible()));
+    }
 }

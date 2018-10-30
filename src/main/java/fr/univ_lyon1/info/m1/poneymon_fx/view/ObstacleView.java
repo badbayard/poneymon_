@@ -14,7 +14,7 @@ public class ObstacleView extends FixedEntityView {
      */
     public ObstacleView(EntityModel m, GraphicsContext gc, int cWidth, int cHeight) {
         // TODO Insert Image for the Obstacle
-        super(m, gc, cWidth, cHeight, "assets/entity/fixed/obstacle-fence.gif");
+        super(m, gc, cWidth, cHeight, "assets/entity/fixed/fence-brown.gif");
         // TODO Auto-generated constructor stub
     }
 

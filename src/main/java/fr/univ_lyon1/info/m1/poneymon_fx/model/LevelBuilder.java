@@ -81,25 +81,42 @@ public class LevelBuilder {
         parts = line.split(" ");
         for (int i = 0; i < parts.length; i++) {
             switch (i) {
-                case 0: familyName = parts[i];
-                break;
-                case 1: posX = Double.parseDouble(parts[i]);
-                break;
-                case 2: posY = Integer.parseInt(parts[i]);
-                break;
-                case 3: nbLap = Integer.parseInt(parts[i]);
-                break;
-                default : break;
+                case 0:
+                    try {
+                        familyName = parts[i];
+                    } catch (Exception e) {
+                        return;
+                    }
+                    break;
+                case 1:
+                    try {
+                        posX = Double.parseDouble(parts[i]);
+                    } catch (Exception e) {
+                        return;
+                    }
+                    break;
+                case 2:
+                    try {
+                        posY = Integer.parseInt(parts[i]);
+                    } catch (Exception e) {
+                        return;
+                    }
+                    break;
+                case 3:
+                    try {
+                        nbLap = Integer.parseInt(parts[i]);
+                    } catch (Exception e) {
+                        return;
+                    }
+                    break;
+                default:
+                    break;
             }
         }
 
-        /*System.out.println("Family name : " + familyName + " PosX : "
-            + posX + " PosY : " + posY + " nbLap : " + nbLap);*/
-
-        //TODO verifier family name valide
-        System.out.println(familyName + " <- TODO verifier family name valide ");
-        FixedEntityModel entityHardCoded = new FixedEntityModel(posY, posX + nbLap, nbLap);
-        fixedEntities.add(entityHardCoded);
+        if (obstacleExistInRepertories(familyName)) {
+            fixedEntities.add(createSpecificObstacle(familyName, posY, posX, nbLap));
+        }
     }
 
     /**
@@ -137,5 +154,63 @@ public class LevelBuilder {
 
     }
 
+    /**
+     * Teste si l'obstacle existe dans le repertoire des obstacles.
+     * @param familyName nom de famille de l'obstacle
+     * @return Boolean
+     */
+    public boolean obstacleExistInRepertories(String familyName) {
 
+        final String obstaclePath = System.getProperty("user.dir")
+            + "/src/main/resources/assets/entity/fixed";
+
+        AssetsRepertories repObstacles = new AssetsRepertories(obstaclePath);
+        repObstacles.browseAssets();
+        String[] obsDispo = repObstacles.availableEntities();
+
+        for (String str : obsDispo) {
+            if (str.equals(familyName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * choisis le bon constructeur en fonction du familyName
+     (si le cas n'est pas sp&eacute;cifi&eacute; genere un obstacleModel).
+     * @param familyName nom de famille
+     * @param posY rang&eacute;e de l'obstacle
+     * @param posX position verticale de l'obstacle
+     * @param nbLap numero du tour d'apparition de l'obstacle
+     */
+    public FixedEntityModel createSpecificObstacle(String familyName, int posY,
+                                                   double posX, int nbLap) {
+
+        FixedEntityModel obstacle;
+        switch (familyName) {
+            case "puddle": obstacle = new ObstacleModel(posY, posX, nbLap);
+                break;
+            case "fence": obstacle = new ObstacleModel(posY, posX, nbLap);
+                break;
+            default : obstacle = new ObstacleModel(posY, posX, nbLap);
+                break;
+        }
+        return obstacle;
+    }
+
+    /**
+     * Retourne l'egalité entre deux List de FixedEntityModel.
+     * @param levelBuild LevelBuilder
+     * @return boolean
+     */
+    public boolean listFixedEntityModelEquals(LevelBuilder levelBuild) {
+        for (int i = 0; i < this.getFixedEntities().size(); i++) {
+            if (!this.getFixedEntities().get(i).fixedEntityEquals(
+                levelBuild.getFixedEntities().get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
