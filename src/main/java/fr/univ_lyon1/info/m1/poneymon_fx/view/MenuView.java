@@ -90,7 +90,7 @@ public class MenuView {
     /**
      * Get the listroom menu
      * 
-     * @return field listroom
+     * @return field listroom;
      */
     public ListRoom getListroom() {
         return listroom;

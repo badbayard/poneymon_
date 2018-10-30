@@ -42,7 +42,7 @@ public class ListRoom extends Parent {
         Label labelTitle = new Label("List");
         yolo.add(labelTitle, 2, 2);
 
-        listroom.getChildren().addAll(btnjoin, btnhost, btnrefresh, btnback, essai1, essai2, essai3, yolo);
+        listroom.getChildren().addAll(btnjoin, btnhost, btnrefresh, btnback, yolo);
 
         getChildren().addAll(listroom);
 
