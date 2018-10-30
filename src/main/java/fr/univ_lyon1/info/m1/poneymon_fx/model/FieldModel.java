@@ -29,7 +29,7 @@ public class FieldModel implements Model {
      * @param soloGame wether this is a solo or multiplayer game
      */
     public FieldModel(final int nbParticipants, final boolean soloGame) {
-     // If the number of participants is acceptable
+        // If the number of participants is acceptable
         if (2 <= nbParticipants && nbParticipants <= 5) {
             participants = new PoneyModel[nbParticipants];
             lanes = new LaneEntityModel[nbParticipants];
@@ -120,6 +120,9 @@ public class FieldModel implements Model {
         
     }
     
+    /**
+     * Set the neighbor for each entity.
+     */
     public void setNeighbor() {
         // make them know the others
         for (int i = 0; i < participants.length; i++) {
@@ -131,6 +134,9 @@ public class FieldModel implements Model {
         }
     }
  
+    /**
+     * Start.
+     */
     public void start() {
         for (MovingEntityModel participant : participants) {
             participant.start();
