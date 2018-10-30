@@ -92,30 +92,30 @@ public class FieldModel implements Model {
      */
     public void setParticipant(String entityType, String color, int indice) {
      
-     if (indice < 0 || indice >= 5) {
-         indice = 0;
-     }
+        if (indice < 0 || indice >= 5) {
+            indice = 0;
+        }
         switch (entityType) {
-        case "pony" :
-            participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
-            participants[indice].addSelfToTransforms();
-            lanes[indice] = new LaneEntityModel(indice, participants[indice]);
-            lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
-            break;
-        case "ponyClone" :
-            //TODO mettre PonyClone au lieu de PoneyModel
-            participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
-            participants[indice].addSelfToTransforms();
-            lanes[indice] = new LaneEntityModel(indice, participants[indice]);
-            lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
-            break;
-        //Cas par defaut si le type n'existe pas
-        default :
-            participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
-            participants[indice].addSelfToTransforms();
-            lanes[indice] = new LaneEntityModel(indice, participants[indice]);
-            lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
-            break;
+            case "pony" :
+                participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
+                participants[indice].addSelfToTransforms();
+                lanes[indice] = new LaneEntityModel(indice, participants[indice]);
+                lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
+                break;
+            case "ponyClone" :
+                //TODO mettre PonyClone au lieu de PoneyModel
+                participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
+                participants[indice].addSelfToTransforms();
+                lanes[indice] = new LaneEntityModel(indice, participants[indice]);
+                lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
+                break;
+            //Cas par defaut si le type n'existe pas
+            default :
+                participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
+                participants[indice].addSelfToTransforms();
+                lanes[indice] = new LaneEntityModel(indice, participants[indice]);
+                lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
+                break;
         }
         
     }

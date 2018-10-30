@@ -131,7 +131,8 @@ public class App extends Application {
         // Creates five poneys in the game field
         FieldModel fieldModel = new FieldModel(5, true);
         
-        fieldModel.setParticipant(menu.getSelectMenu().getType(),menu.getSelectMenu().getColor() , 0);
+        fieldModel.setParticipant(menu.getSelectMenu().getType(),
+                menu.getSelectMenu().getColor(), 0);
         fieldModel.setNeighbor();
 
         // Set a default poney model to the data view
