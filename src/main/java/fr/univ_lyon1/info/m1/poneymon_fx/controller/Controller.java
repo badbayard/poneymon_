@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 
 /**
  * Controller of the game, handle the time.
@@ -98,5 +99,11 @@ public abstract class Controller {
     public static Controller setInstance(Controller _controller) {
         controller = _controller;
         return controller;
+    }
+
+    public void exit() {
+        System.out.println("ON FERME");
+
+        Platform.exit();
     }
 }

@@ -31,34 +31,34 @@ public class ClientMultiController extends ClientController implements Runnable 
 
     @Override
     public void run() {
-        System.out.println("C'est parti pour les commandes");
-
-        Command cmd1 = new Command();
-        StringCommand cmd2 = new StringCommand("Lol");
-
-        messagingSystem.sendCommand(cmd1);
-        System.out.println("Client : J'ai Envoyé !");
-        System.out.println("Client : J'attends");
-        Command rep1 = messagingSystem.receiveCommand();
-        System.out.println("Client : J'ai Reçu !");
-        rep1.affichage();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        messagingSystem.sendCommand(cmd2);
-        System.out.println("Client : J'ai Envoyé !");
-        System.out.println("Client : J'attends");
-        Command rep2 = messagingSystem.receiveCommand();
-
-        System.out.println("Client : J'ai Reçu !");
-        rep2.affichage();
-
-
-        System.err.println("C'est finis pour les commandes");
-        messagingSystem.close();
+//        System.out.println("C'est parti pour les commandes");
+//
+//        Command cmd1 = new Command();
+//        StringCommand cmd2 = new StringCommand("Lol");
+//
+//        messagingSystem.sendCommand(cmd1);
+//        System.out.println("Client : J'ai Envoyé !");
+//        System.out.println("Client : J'attends");
+//        Command rep1 = messagingSystem.receiveCommand();
+//        System.out.println("Client : J'ai Reçu !");
+//        rep1.affichage();
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        messagingSystem.sendCommand(cmd2);
+//        System.out.println("Client : J'ai Envoyé !");
+//        System.out.println("Client : J'attends");
+//        Command rep2 = messagingSystem.receiveCommand();
+//
+//        System.out.println("Client : J'ai Reçu !");
+//        rep2.affichage();
+//
+//
+//        System.err.println("C'est finis pour les commandes");
+//        messagingSystem.close();
     }
 
     /**
@@ -71,5 +71,18 @@ public class ClientMultiController extends ClientController implements Runnable 
     void updateFieldModel(double msElapsed, FieldModel fm) {
         // Each time the event is triggered, update the model
         fieldModel.update(msElapsed, fm);
+    }
+
+    @Override
+    public void exit() {
+        if (socket != null) {
+            try {
+                socket.close();
+                System.out.println("ON FERME AUSSI LE SOCKET");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        super.exit();
     }
 }

@@ -7,7 +7,7 @@ public class ListRoom extends Room {
     private static ListRoom instance = null;
 
     private ListRoom() {
-        super(100);
+        super(1);
     }
 
     public static synchronized ListRoom getInstance() {

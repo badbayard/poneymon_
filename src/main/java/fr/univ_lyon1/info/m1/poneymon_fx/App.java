@@ -2,7 +2,6 @@ package fr.univ_lyon1.info.m1.poneymon_fx;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientMultiController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientSoloController;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -23,10 +22,9 @@ public class App extends Application {
     private MenuView menu;
     private ListRoomView menulistroom;
     private Stage stage;
-    private Stage stage2;
 
-    String host = "127.0.0.1";
-    int port = 4242;
+    private String host = "127.0.0.1";
+    private int port = 4242;
 
     /**
      * Start() launch the application.
@@ -39,9 +37,11 @@ public class App extends Application {
     @Override
     public void start(Stage s) throws Exception {
         stage = s;
-        stage2 = s;
 
-        // Secondary view
+        // Close all the stages when the main stage is closed.
+        stage.setOnCloseRequest(e -> Controller.getInstance().exit());
+
+        // Secondary view (useless)
         /*Stage s3 = new Stage();
         JfxView v2 = new JfxView(s3, 1000, 600);
         c.addView(v2);
@@ -80,19 +80,9 @@ public class App extends Application {
         ClientSoloController csc =
             (ClientSoloController) Controller.setInstance(new ClientSoloController());
 
-        // Second window (stats)
-        Stage s2 = new Stage();
-        s2.setX(stage.getX() + stage.getWidth());
-        s2.setY(stage.getY());
-
-        DataView dataView = new DataView(s2, 210, 180);
-        csc.setDataView(dataView);
-
         // Creates five poneys in the game field
         FieldModel fieldModel = new FieldModel(5);
-
-        // Set a default poney model to the data view
-        dataView.setParticipantModel((PoneyModel) fieldModel.getParticipantModel(0));
+        csc.setDataView(createDataView(fieldModel));
 
         csc.setFieldModel(fieldModel);
 
@@ -103,9 +93,11 @@ public class App extends Application {
 
         // Launch the game
         csc.startTimer();
-
     }
 
+    /**
+     * Connects to the server and displays the list of current WaitingRooms.
+     */
     private void initServerConnection() {
         // Get and Set the controller
         ClientMultiController cmc =
@@ -115,9 +107,25 @@ public class App extends Application {
         t.start();
 
         // Change the view
-        stage2.setScene(menulistroom.getScene2());
-        stage.close();
-        stage2.show();
+        stage.setScene(menulistroom.getScene2());
+    }
+
+    /**
+     * Creates the secondary data view.
+     * @param fieldModel the fieldmodel of the game
+     * @return the created DataView
+     */
+    private DataView createDataView(FieldModel fieldModel) {
+        Stage stage2 = new Stage();
+        stage2.setX(stage.getX() + stage.getWidth());
+        stage2.setY(stage.getY());
+
+        DataView dataView = new DataView(stage2, 210, 180);
+
+        // Set a default poney model to the data view
+        dataView.setParticipantModel(fieldModel.getParticipantModel(0));
+
+        return dataView;
     }
 
     public static void main(String[] args) {

@@ -55,9 +55,6 @@ public class JfxView implements View {
         // On ajoute la scene a la fenetre et on affiche
         stage.setScene(scene);
         stage.show();
-
-        // Close all the stages when the main stage is closed.
-        stage.setOnCloseRequest(e -> Platform.exit());
     }
 
     /**
