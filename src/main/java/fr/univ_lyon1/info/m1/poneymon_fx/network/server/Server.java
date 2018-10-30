@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.network.server;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.ProcessClientWaitingRoom;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.ListRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.ProcessListRoom;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -18,7 +19,7 @@ public class Server {
     /**
      * Constructeur par défaut du serveur, écotant sur toutes les adresses IP.
      */
-    public Server() {
+    Server() {
         this(4242);
     }
 
@@ -27,13 +28,11 @@ public class Server {
      *
      * @param port port du serveur
      */
-    public Server(int port) {
+    Server(int port) {
         this.port = port;
         listRoom = ListRoom.getInstance();
         try {
             server = new ServerSocket(port, 100);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,24 +41,22 @@ public class Server {
     /**
      * Ouvre le serveur.
      */
-    public void open() {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                while (isRunning == true) {
-                    try {
-                        Socket client = server.accept();
-                        Thread t = new Thread(new ProcessClientWaitingRoom());
-                        t.start();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+    void open() {
+        Thread t = new Thread(() -> {
+            while (isRunning) {
                 try {
-                    server.close();
+                    Socket client = server.accept();
+                    Thread t1 = new Thread(new ProcessListRoom(client));
+                    t1.start();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    server = null;
                 }
+            }
+            try {
+                server.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                server = null;
             }
         });
         t.start();

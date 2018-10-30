@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientMultiController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientSoloController;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import javafx.application.Application;
@@ -23,6 +24,9 @@ public class App extends Application {
     private ListRoomView menulistroom;
     private Stage stage;
     private Stage stage2;
+
+    String host = "127.0.0.1";
+    int port = 4242;
 
     /**
      * Start() launch the application.
@@ -61,9 +65,7 @@ public class App extends Application {
         //Event Play multi
         ButtonMenu btnPlayMulti = menu.getMainMenu().getBtnPlayMulti();
         btnPlayMulti.setOnMouseClicked(event -> {
-            stage2.setScene(menulistroom.getScene2());
-            stage.close();
-            stage2.show();
+            initServerConnection();
         });
 
         //Event exit game
@@ -102,6 +104,20 @@ public class App extends Application {
         // Launch the game
         csc.startTimer();
 
+    }
+
+    private void initServerConnection() {
+        // Get and Set the controller
+        ClientMultiController cmc =
+            (ClientMultiController) Controller.setInstance(new ClientMultiController(host, port));
+
+        Thread t = new Thread(cmc);
+        t.start();
+
+        // Change the view
+        stage2.setScene(menulistroom.getScene2());
+        stage.close();
+        stage2.show();
     }
 
     public static void main(String[] args) {

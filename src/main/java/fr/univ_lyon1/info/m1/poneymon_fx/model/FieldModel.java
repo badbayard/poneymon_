@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Model of the game board.
  */
-public class FieldModel implements Model {
+public class FieldModel implements Model, Serializable {
     private StaticEntityModel[] obstacles;
     private MovingEntityModel[] participants;
     private static final int NB_LAPS = 5;
