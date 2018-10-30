@@ -30,7 +30,7 @@ public class MainMenu extends Parent {
      * Constructor of MainMenu.
      */
     public MainMenu(int x, int y) {
-        //La valeur 10 corresponds à l'écarts entre les différents éléments
+        // La valeur 10 corresponds à l'écarts entre les différents éléments
         mainMenu = new VBox(10);
 
         mainMenu.setTranslateX(x / 5);
@@ -41,7 +41,7 @@ public class MainMenu extends Parent {
         btnExit = new ButtonMenu("Exit");
 
         mainMenu.getChildren().addAll(btnSolo, btnMulti, btnExit);
-        
+
         getChildren().addAll(mainMenu);
     }
 

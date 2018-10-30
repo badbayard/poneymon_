@@ -86,4 +86,6 @@ public class EntityModel implements Model,Transform {
         System.out.println("I collided with something ! Ouch :(");
     }
 
+
+
 }

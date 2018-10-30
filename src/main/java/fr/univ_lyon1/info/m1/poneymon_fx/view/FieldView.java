@@ -49,7 +49,8 @@ public final class FieldView extends Canvas implements View {
         width = w;
         height = h;
 
-        grassPattern = new ImagePattern(new Image("assets/grass.png"), 0, 0, 32, 32, false);
+        grassPattern = new ImagePattern(new Image("assets/background/grass.png"),
+            0, 0, 32, 32, false);
 
         graphicsContext = getGraphicsContext2D();
     }
