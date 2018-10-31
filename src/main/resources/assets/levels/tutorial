@@ -1,0 +1,5 @@
+fence 0.5 0 1
+fence 0.5 1 2
+fence 0.5 2 3
+fence 0.5 3 4
+fence 0.5 4 0
