@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.CollisionManager;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,6 +24,8 @@ public class FieldModel implements Model {
 
     private ArrayList<MovingEntityModel> rankings;
 
+    LevelBuilder levelsBuild = new LevelBuilder();
+
     /**
      * FieldModel constructor.
      * @param nbParticipants the number of participants in the game
@@ -39,12 +42,17 @@ public class FieldModel implements Model {
         }
         
         if (soloGame) {
+            chooseRandomFileAndGenerateObstacles();
             // Initializing participants and their specific lanes except for the first one.
             for (int i = 1; i < participants.length; i++) {
                 participants[i] = new PoneyModel(PoneyModel.getColor(i), i, true, NB_LAPS);
                 participants[i].addSelfToTransforms();
                 lanes[i] = new LaneEntityModel(i, participants[i]);
-                lanes[i].addFixedEntity(new ObstacleModel(i, 0.5, i));
+                for (FixedEntityModel fe : levelsBuild.getFixedEntities()) {
+                    if (fe.getRow() == i) {
+                        lanes[i].addFixedEntity(fe);
+                    }
+                }
             }
         }
     }
@@ -57,6 +65,7 @@ public class FieldModel implements Model {
      *            the number of participants in the game
      */
     public FieldModel(final int nbParticipants) {
+        chooseRandomFileAndGenerateObstacles();
         // If the number of participants is acceptable
         if (2 <= nbParticipants && nbParticipants <= 5) {
             participants = new PoneyModel[nbParticipants];
@@ -71,7 +80,11 @@ public class FieldModel implements Model {
             participants[i] = new PoneyModel(PoneyModel.getColor(i), i, isAi[i], NB_LAPS);
             participants[i].addSelfToTransforms();
             lanes[i] = new LaneEntityModel(i, participants[i]);
-            lanes[i].addFixedEntity(new ObstacleModel(i, 0.5, i));
+            for (FixedEntityModel fe : levelsBuild.getFixedEntities()) {
+                if (fe.getRow() == i) {
+                    lanes[i].addFixedEntity(fe);
+                }
+            }
         }
 
         // make them know the others
@@ -91,7 +104,6 @@ public class FieldModel implements Model {
      * @param indice int
      */
     public void setParticipant(String entityType, String color, int indice) {
-     
         if (indice < 0 || indice >= 5) {
             indice = 0;
         }
@@ -100,21 +112,33 @@ public class FieldModel implements Model {
                 participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
                 participants[indice].addSelfToTransforms();
                 lanes[indice] = new LaneEntityModel(indice, participants[indice]);
-                lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
+                for (FixedEntityModel fe : levelsBuild.getFixedEntities()) {
+                    if (fe.getRow() == indice) {
+                        lanes[indice].addFixedEntity(fe);
+                    }
+                }
                 break;
             case "ponyClone" :
                 //TODO mettre PonyClone au lieu de PoneyModel
                 participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
                 participants[indice].addSelfToTransforms();
                 lanes[indice] = new LaneEntityModel(indice, participants[indice]);
-                lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
+                for (FixedEntityModel fe : levelsBuild.getFixedEntities()) {
+                    if (fe.getRow() == indice) {
+                        lanes[indice].addFixedEntity(fe);
+                    }
+                }
                 break;
             //Cas par defaut si le type n'existe pas
             default :
                 participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
                 participants[indice].addSelfToTransforms();
                 lanes[indice] = new LaneEntityModel(indice, participants[indice]);
-                lanes[indice].addFixedEntity(new ObstacleModel(indice, 0.5, indice));
+                for (FixedEntityModel fe : levelsBuild.getFixedEntities()) {
+                    if (fe.getRow() == indice) {
+                        lanes[indice].addFixedEntity(fe);
+                    }
+                }
                 break;
         }
         
@@ -245,4 +269,14 @@ public class FieldModel implements Model {
     public List<MovingEntityModel> getRankings() {
         return rankings;
     }
+
+    /**
+     * Lis le contenu d'un fichier level (choisis au hasard).
+     */
+    public void chooseRandomFileAndGenerateObstacles() {
+        File file = levelsBuild.chooseRandomLevelFile();
+        System.out.println(file.getName());
+        levelsBuild.readFile(file);
+    }
+
 }

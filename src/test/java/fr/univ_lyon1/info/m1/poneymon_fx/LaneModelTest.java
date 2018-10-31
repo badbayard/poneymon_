@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FixedEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.LaneEntityModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.ObstacleModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,31 +37,30 @@ public class LaneModelTest {
     @Test
     public void removeEntityTheRightLane (){
 
-        ArrayList<FixedEntityModel> fixedEntitiesExpected = new ArrayList<>();
-
-        FixedEntityModel [] murs = {
-            new FixedEntityModel( 4,0.9,3),
-            new FixedEntityModel( 0,0.8,0),
-            new FixedEntityModel( 2,0.6,2),
-            new FixedEntityModel( 1,0.5,4),
-            new FixedEntityModel( 3,0.1,1),
+        ObstacleModel [] murs = {
+            new ObstacleModel( 4,0.9,3),
+            new ObstacleModel( 0,0.8,0),
+            new ObstacleModel( 2,0.6,2),
+            new ObstacleModel( 1,0.5,4),
+            new ObstacleModel( 3,0.1,1),
         };
 
         field = new FieldModel(5);
-
-        for (FixedEntityModel obs : murs) {
-            lane.addFixedEntity(obs);
+        for (int j = 0; j < field.getLanes().length ; j++) {
+           for (int i = 0; i < murs.length; i++) {
+               if (murs[i].getRow() == j) {
+                   field.getLanes()[j].addFixedEntity(murs[i]);
+                   assert(field.getLanes()[j].getFixedEntities().contains(murs[i]));
+               }
+           }
         }
 
-        for (LaneEntityModel lan : field.getLanes()) {
-            assert(lan.getFixedEntities().size() == 1);
-        }
-
-        for(LaneEntityModel lan : field.getLanes()) {
-            for (FixedEntityModel m : lan.getFixedEntities()) {
-                lan.removeFixedEntity(m);
-                assert(lan.getFixedEntities().equals(fixedEntitiesExpected));
-                break;
+        for (int j = 0; j < field.getLanes().length ; j++) {
+            for (int i = 0; i < murs.length; i++) {
+                if (murs[i].getRow() == j) {
+                    field.getLanes()[j].removeFixedEntity(murs[i]);
+                    assert(!field.getLanes()[j].getFixedEntities().contains(murs[i]));
+                }
             }
         }
     }
