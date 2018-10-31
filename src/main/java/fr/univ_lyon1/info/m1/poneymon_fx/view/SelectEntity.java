@@ -66,6 +66,7 @@ public class SelectEntity extends Parent {
         buttonBox.setTranslateY(y / 8);
         
         btnConfirm = new ButtonMenu("Confirm");
+        btnConfirm.setDisable(true);
         btnBack = new ButtonMenu("Back");
         
         buttonBox.getChildren().addAll(btnConfirm, btnBack);
@@ -125,6 +126,7 @@ public class SelectEntity extends Parent {
                     } else {
                         selectedEntity = newToggle.getUserData().toString();
                         System.out.println("Selected entity: " + selectedEntity);
+                        btnConfirm.setDisable(false);
                         setColor();
                         setType();
                     }
