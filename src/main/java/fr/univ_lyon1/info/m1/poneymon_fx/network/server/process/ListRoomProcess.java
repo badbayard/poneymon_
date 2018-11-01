@@ -21,9 +21,6 @@ public class ListRoomProcess extends Process {
     public void run() {
         while (isRunning) {
             RoomCommand cmd = (RoomCommand) client.receiveCommand();
-            cmd.setActualRoom(listRoom);
-            cmd.atReceive();
-
             /*
              * ReceiveCommand returns null if an IOException is thrown (ie. something went wrong
              * network-wise).
@@ -32,7 +29,11 @@ public class ListRoomProcess extends Process {
                 System.out.println("Client disconnected");
                 listRoom.removeClient(client.getPlayerId());
                 close();
+                return;
             }
+
+            cmd.setActualRoom(listRoom);
+            cmd.atReceive();
         }
 
 //        Command cmd = new

@@ -17,6 +17,7 @@ public class Client {
     public Client(int id, Socket s) {
         playerId = id;
         socket = s;
+        communicationSystem = new CommunicationSystem(socket);
     }
 
     public boolean getChief() {

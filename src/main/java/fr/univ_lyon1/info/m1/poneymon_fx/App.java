@@ -37,7 +37,7 @@ public class App extends Application {
     public void start(Stage s) throws Exception {
         stage = s;
         soundController = new SoundController();
-
+        
         // Secondary view
         /*
          * Stage s3 = new Stage(); JfxView v2 = new JfxView(s3, 1000, 600);
@@ -57,6 +57,9 @@ public class App extends Application {
      * Set the events for each buttons of the menus.
      */
     private void setEvents() {
+        //********** EVENT APPLICATION **********//
+        // Close all windows and sockets
+        stage.setOnCloseRequest(e -> Controller.getInstance().exit());
 
         //********** EVENT MAIN MENU **********//
 
