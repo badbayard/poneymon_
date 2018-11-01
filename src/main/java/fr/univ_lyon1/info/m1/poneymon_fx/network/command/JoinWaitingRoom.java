@@ -4,7 +4,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.ListRoom;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.WaitingRoom;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.server.ProcessManager;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.ProcessClientWaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.WaitingRoomProcess;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.util.Password;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class JoinWaitingRoom extends RoomCommand {
                                 "join");
                         Client client = waitingRoom.removeClient(idPlayer);
                         ProcessManager.getProcessManager().createAndRunThread(
-                                new ProcessClientWaitingRoom(client,
+                                new WaitingRoomProcess(client,
                                         waitingRoom));
                     }
                 }

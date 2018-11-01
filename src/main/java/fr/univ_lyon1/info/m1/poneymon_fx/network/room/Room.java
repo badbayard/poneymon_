@@ -15,6 +15,7 @@ public abstract class Room {
 
     Room() {
         players = new ArrayList<>(4);
+        maxNbPlayers = 4;
     }
 
     Room(int nbPlayers) {
@@ -27,6 +28,7 @@ public abstract class Room {
     }
 
     Room(String password, int nbPlayers) {
+        this(nbPlayers);
         this.password = new Password(password);
         hasPassword = true;
         players = new ArrayList<>(nbPlayers);
@@ -37,17 +39,19 @@ public abstract class Room {
         this.name = name;
     }
 
-    public boolean join(Client player) {
+    /**
+     * Add a client to the room.
+     * @param client the client that joins the room
+     * @return true if the client could join
+     */
+    public boolean join(Client client) {
         if (nbPlayers < maxNbPlayers) {
-            if (nbPlayers == 0) {
-                player.setChief(true);
-            } else {
-                player.setChief(false);
-            }
-            players.add(player);
+            players.add(client);
             nbPlayers++;
+            System.out.println("Client rejoint :" + nbPlayers + "/" + maxNbPlayers);
             return true;
         }
+        System.out.println("Room pleine");
         return false;
     }
 

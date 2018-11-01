@@ -2,7 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.network.server;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.ListRoom;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.ProcessListRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.ListRoomProcess;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -44,20 +44,16 @@ public class Server {
     void open() {
         Thread t = new Thread(() -> {
             while (isRunning) {
-                try  {
+                try {
                     Socket clientSocket = server.accept();
-                    Client client = new Client(idClient, clientSocket);
-                    incrementId();
-                    Thread t1 = new Thread(new ProcessListRoom(listRoom, client));
-                    boolean aa = listRoom.join(client);
 
-                    if (aa) {
-                        System.out.println("Client rejonit listroom");
-                    } else {
-                        System.out.println("Listroom pleine");
+                    Client client = new Client(idClient, clientSocket);
+
+                    if (ListRoom.getInstance().join(client)) {
+                        Thread t1 = new Thread(new ListRoomProcess(client));
+                        t1.start();
                     }
 
-                    t1.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -76,9 +72,9 @@ public class Server {
         isRunning = false;
     }
 
-    private void incrementId(){
-        if(idClient==Integer.MAX_VALUE-1) {
-            idClient=0;
+    private void incrementId() {
+        if (idClient == Integer.MAX_VALUE - 1) {
+            idClient = 0;
         } else {
             idClient++;
         }

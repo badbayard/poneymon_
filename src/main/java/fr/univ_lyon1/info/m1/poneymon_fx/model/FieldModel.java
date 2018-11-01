@@ -15,12 +15,12 @@ public class FieldModel implements Model, Serializable {
     private StaticEntityModel[] obstacles;
     private MovingEntityModel[] participants;
     private static final int NB_LAPS = 5;
-    private int participantsFinished = 0;
+    private transient int participantsFinished = 0;
 
     // State of the poneys. True : AI, False : Human
     private static final boolean[] isAi = new boolean[] {true, true, true, false, false};
 
-    private ArrayList<MovingEntityModel> rankings;
+    private transient ArrayList<MovingEntityModel> rankings;
 
     /**
      * FieldModel constructor.
@@ -51,15 +51,6 @@ public class FieldModel implements Model, Serializable {
     }
 
     /**
-     * Notify the model the game just started.
-     */
-    public void start() {
-        for (MovingEntityModel participant : participants) {
-            participant.start();
-        }
-    }
-
-    /**
      * Update the model and its components.
      *
      * @param msElapsed time elapsed in ms
@@ -67,8 +58,6 @@ public class FieldModel implements Model, Serializable {
     public void update(final double msElapsed) {
         for (MovingEntityModel participant : participants) {
             participant.update(msElapsed);
-            rankParticipants();
-            checkRaceFinished();
         }
     }
 
@@ -81,14 +70,15 @@ public class FieldModel implements Model, Serializable {
      * @param fm other FieldModel to assign
      */
     public void update(final double msElapsed, FieldModel fm) {
+        rankParticipants();
+        checkRaceFinished();
+
         if (this == fm) {
             update(msElapsed);
             return;
         }
 
         participants = fm.participants;
-        participantsFinished = fm.participantsFinished;
-        rankings = fm.rankings;
     }
 
     /**

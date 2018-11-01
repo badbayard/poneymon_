@@ -4,7 +4,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
 
 import java.net.Socket;
-import java.util.Random;
 
 /**
  * Class permettant de représenter un joueur humain aux yeux du serveur.
@@ -13,16 +12,11 @@ public class Client {
     private boolean isChief = false;
     private int playerId;
     private CommunicationSystem communicationSystem;
-    private Socket client;
+    private Socket socket;
 
-    public Client(Integer id, Socket c) {
+    public Client(int id, Socket s) {
         playerId = id;
-        client = c;
-        communicationSystem = new CommunicationSystem(client);
-    }
-
-    public int getPlayerId() {
-        return playerId;
+        socket = s;
     }
 
     public boolean getChief() {
@@ -33,11 +27,19 @@ public class Client {
         isChief = chief;
     }
 
-    public void sendCommand(Command cmd) {
-        communicationSystem.sendCommand(cmd);
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public int getPlayerId() {
+        return playerId;
     }
 
     public Command receiveCommand() {
         return communicationSystem.receiveCommand();
+    }
+
+    public void sendCommand(Command cmd) {
+        communicationSystem.sendCommand(cmd);
     }
 }

@@ -14,7 +14,7 @@ public class ListRoom extends Room {
     }
 
     private ListRoom() {
-        super();
+        super(2);
         rooms = new ArrayList<>();
     }
 

@@ -48,12 +48,6 @@ public abstract class EntityModel implements Model, Serializable {
     }
 
     @Override
-    public void start() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public void update(double msElapsed) {
         // TODO Auto-generated method stub
 

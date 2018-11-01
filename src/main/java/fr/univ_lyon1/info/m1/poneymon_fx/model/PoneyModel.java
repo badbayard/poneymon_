@@ -63,16 +63,6 @@ public class PoneyModel extends MovingEntityModel implements Model {
     }
 
     /**
-     * The game just started, if the poney is an AI, it needs to choose to
-     * boost.
-     */
-    public void start() {
-        if (isAi) {
-            boostIfNecessary();
-        }
-    }
-
-    /**
      * Update of the poneyModel (displacement, lap completion...).
      *
      * @param msElapsed time elapsed since the last update
