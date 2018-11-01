@@ -29,7 +29,7 @@ public class ClientSoloController extends ClientController {
             // Time elapsed since the last update
             double msElapsed = (currentNanoTime - lastTimerUpdate) / 1000000.0;
             // Each time the event is triggered, update the model
-            fieldModel.update(msElapsed);
+            fieldModel.update(msElapsed, fieldModel);
             // refresh the views
             notifyViews();
             // update the last timer update
