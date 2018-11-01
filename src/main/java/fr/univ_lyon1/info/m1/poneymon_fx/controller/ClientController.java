@@ -17,6 +17,9 @@ public abstract class ClientController extends Controller {
     // Sound controller managed by this controller
     SoundController soundController = new SoundController();
 
+    /**
+     * Default constructor for ClientController.
+     */
     public ClientController() {
         timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {

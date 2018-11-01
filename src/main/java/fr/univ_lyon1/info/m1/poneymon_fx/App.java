@@ -37,7 +37,7 @@ public class App extends Application {
     public void start(Stage s) throws Exception {
         stage = s;
         soundController = new SoundController();
-        
+
         // Secondary view
         /*
          * Stage s3 = new Stage(); JfxView v2 = new JfxView(s3, 1000, 600);

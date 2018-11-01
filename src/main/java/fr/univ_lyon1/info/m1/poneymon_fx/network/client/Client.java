@@ -6,7 +6,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.Communicat
 import java.net.Socket;
 
 /**
- * Class permettant de représenter un joueur humain aux yeux du serveur.
+ * Class representing a human player for the server.
  */
 public class Client {
     private boolean isChief = false;
@@ -14,6 +14,12 @@ public class Client {
     private CommunicationSystem communicationSystem;
     private Socket socket;
 
+    /**
+     * Constructor for client, assigning a unique int ID and a communication socket.
+     *
+     * @param id unique int ID
+     * @param s  communication socket
+     */
     public Client(int id, Socket s) {
         playerId = id;
         socket = s;

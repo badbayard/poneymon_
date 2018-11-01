@@ -8,10 +8,8 @@ public class CreateWaitingRoom extends RoomCommand {
     @Override
     public void atReceive() {
         System.out.println("Commande pour crée un partie.");
-        System.out.println("On crée la partie : " + name + " avec le mot " +
-                "de passe : " + password);
-
-
+        System.out.println("On crée la partie : " + name + " avec le mot "
+            + "de passe : " + password);
     }
 
 }

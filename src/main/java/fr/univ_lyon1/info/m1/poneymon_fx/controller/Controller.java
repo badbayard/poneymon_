@@ -100,8 +100,8 @@ public abstract class Controller {
         return controller;
     }
 
-    public static Controller setInstance(Controller _controller) {
-        controller = _controller;
+    public static Controller setInstance(Controller cont) {
+        controller = cont;
         return controller;
     }
 

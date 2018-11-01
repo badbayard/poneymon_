@@ -91,7 +91,6 @@ public class ProcessusClient implements Runnable {
         System.out.println("C'est partis pour les commandes");
 
         Command cmd1 = new Command();
-        StringCommand cmd2 = new StringCommand("Lol");
 
         messagingSystem.sendCommand(cmd1);
         System.out.println("Client : J'ai Envoyé !");
@@ -105,6 +104,7 @@ public class ProcessusClient implements Runnable {
             e.printStackTrace();
         }
 
+        StringCommand cmd2 = new StringCommand("Lol");
         messagingSystem.sendCommand(cmd2);
         System.out.println("Client : J'ai Envoyé !");
         System.out.println("Client : J'attends");

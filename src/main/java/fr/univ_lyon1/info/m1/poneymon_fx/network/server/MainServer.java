@@ -5,7 +5,7 @@ public class MainServer {
     /**
      * Lance le serveur.
      *
-     * @param args
+     * @param args args
      */
     public static void main(String[] args) {
         Server server = new Server();

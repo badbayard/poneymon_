@@ -17,29 +17,31 @@ public class JoinWaitingRoom extends RoomCommand {
     @Override
     public void atReceive() {
         System.out.println("Commande pour rejoindre un partie.");
-        System.out.println("On cherche la partie : " + name + " avec le mot " +
-                "de passe : " + password);
+
+        System.out.println("On cherche la partie : " + name + " avec le mot de passe : "
+            + password);
         if (actualRoom == null) {
-            System.err.println("Pas de room sur laquelle rechercher les " +
-                    "parties.");
+            System.err.println("Pas de room sur laquelle rechercher les parties.");
         } else {
             Password hashedPassword = new Password(password);
             ArrayList<WaitingRoom> possibleRooms =
-                    ((ListRoom) actualRoom).getRooms();
+                (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();
+
             WaitingRoom waitingRoom;
+
             if (possibleRooms == null) {
                 System.err.println("Pas de parties joignables disponible.");
             } else {
-                for (int i = 0; i < possibleRooms.size(); ++i) {
-                    waitingRoom = possibleRooms.get(i);
-                    if (waitingRoom.getName() == name &&
-                            waitingRoom.getPassword() == hashedPassword) {
-                        System.out.println("On a trouvé la bonne room, on " +
-                                "join");
-                        Client client = waitingRoom.removeClient(idPlayer);
+                for (WaitingRoom possibleRoom : possibleRooms) {
+                    waitingRoom = possibleRoom;
+
+                    if (waitingRoom.getName().equals(name)
+                        && waitingRoom.getPassword() == hashedPassword) {
+                        System.out.println("On a trouvé la bonne room, on join");
+
+                        Client client = waitingRoom.remove(idPlayer);
                         ProcessManager.getProcessManager().createAndRunThread(
-                                new WaitingRoomProcess(client,
-                                        waitingRoom));
+                            new WaitingRoomProcess(client, waitingRoom));
                     }
                 }
             }

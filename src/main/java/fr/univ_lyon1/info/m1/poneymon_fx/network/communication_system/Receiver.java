@@ -19,6 +19,10 @@ public class Receiver {
         return objectReader;
     }
 
+    /**
+     * Receives a command from the socket.
+     * @return the received command
+     */
     public Command receiveCommand() {
         try {
             if (objectReader == null) {
@@ -33,6 +37,9 @@ public class Receiver {
 
     }
 
+    /**
+     * Closes the Receiver.
+     */
     public void close() {
         try {
             objectReader.close();

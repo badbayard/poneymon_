@@ -180,15 +180,14 @@ public class FieldModel implements Model, Serializable {
      * @param fm other FieldModel to assign
      */
     public void update(final double msElapsed, FieldModel fm) {
-        rankParticipants();
-        checkRaceFinished();
-
         if (this == fm) {
             update(msElapsed);
-            return;
+        } else {
+            participants = fm.participants;
         }
 
-        participants = fm.participants;
+        rankParticipants();
+        checkRaceFinished();
     }
 
     /** Return the lanes.

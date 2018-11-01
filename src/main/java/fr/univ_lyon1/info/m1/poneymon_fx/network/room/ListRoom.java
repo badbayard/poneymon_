@@ -3,13 +3,14 @@ package fr.univ_lyon1.info.m1.poneymon_fx.network.room;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListRoom extends Room {
 
     private static ListRoom instance = null;
-    private ArrayList<WaitingRoom> rooms;
+    private List<WaitingRoom> rooms;
 
-    public ArrayList<WaitingRoom> getRooms() {
+    public List<WaitingRoom> getRooms() {
         return rooms;
     }
 
@@ -18,6 +19,11 @@ public class ListRoom extends Room {
         rooms = new ArrayList<>();
     }
 
+    /**
+     * Return the current instance of Listroom, which is a singleton.
+     *
+     * @return the singleton instance of ListRoom
+     */
     public static synchronized ListRoom getInstance() {
         if (ListRoom.instance == null) {
             ListRoom.instance = new ListRoom();
@@ -27,7 +33,7 @@ public class ListRoom extends Room {
 
     @Override
     public synchronized boolean join(Client player) {
-        players.add(player);
+        clients.add(player);
         nbPlayers++;
         maxNbPlayers++;
         return true;

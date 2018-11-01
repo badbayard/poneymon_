@@ -86,14 +86,13 @@ public class FieldModelTest {
             assertFalse(poneys[i].getRaceFinished());
         }
 
-        field.update(500);
+        field.update(500, field);
 
         assertTrue(poneys[0].getRaceFinished());
         assertTrue(poneys[1].getRaceFinished());
         assertFalse(poneys[2].getRaceFinished());
         assertFalse(poneys[3].getRaceFinished());
         assertFalse(poneys[4].getRaceFinished());
-
     }
 
     /**
@@ -118,7 +117,7 @@ public class FieldModelTest {
         poneys[4].setX(0.499999999999);
         poneys[4].setNbLap(2);
 
-        field.update(0);
+        field.update(0, field);
 
         System.out.println("Classement voisin : 2 poneys equals ");
         for (int i = 0; i < poneys.length; i++) {
@@ -159,7 +158,7 @@ public class FieldModelTest {
         poneys[4].setNbLap(4);
         poneys[4].setSpeed(0.5);
 
-        field.update(0);
+        field.update(0, field);
 
         System.out.println("Classement voisin : 3 poneys equals ");
         for (int i = 0; i < poneys.length; i++) {
@@ -192,7 +191,7 @@ public class FieldModelTest {
             poneys[i].setSpeed(0.5);
             attendu.add(i, poneys[i]);
         }
-        field.update(0);
+        field.update(0, field);
 
         System.out.println("Classement voisin : 5 poneys equals ");
         for (int i = 0; i < poneys.length; i++) {

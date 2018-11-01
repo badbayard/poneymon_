@@ -10,6 +10,11 @@ public class Forwarder {
     private Socket socket;
     private ObjectOutputStream objectWriter = null;
 
+    /**
+     * Constructor for Forwarder using a socket.
+     *
+     * @param socket socket corresponding to the Forwarder.
+     */
     public Forwarder(Socket socket) {
         this.socket = socket;
         try {
@@ -19,6 +24,10 @@ public class Forwarder {
         }
     }
 
+    /**
+     * Sends a command through the socket.
+     * @param cmd the command to send
+     */
     public void sendCommand(Command cmd) {
         try {
             objectWriter.writeObject(cmd);
@@ -27,6 +36,9 @@ public class Forwarder {
         }
     }
 
+    /**
+     * Close the Forwarder.
+     */
     public void close() {
         try {
             objectWriter.close();

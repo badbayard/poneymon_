@@ -6,21 +6,21 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.util.Password;
 import java.util.ArrayList;
 
 public abstract class Room {
-    protected ArrayList<Client> players;
-    protected int nbPlayers = 0;
-    protected int maxNbPlayers;
-    protected String name = "Default";
-    protected Password password;
-    protected boolean hasPassword = false;
+    ArrayList<Client> clients;
+    int nbPlayers = 0;
+    int maxNbPlayers;
+    String name = "Default";
+    Password password;
+    boolean hasPassword = false;
 
     Room() {
-        players = new ArrayList<>(4);
+        clients = new ArrayList<>(4);
         maxNbPlayers = 4;
     }
 
     Room(int nbPlayers) {
         maxNbPlayers = nbPlayers;
-        players = new ArrayList<>(maxNbPlayers);
+        clients = new ArrayList<>(maxNbPlayers);
     }
 
     Room(String password) {
@@ -31,7 +31,7 @@ public abstract class Room {
         this(nbPlayers);
         this.password = new Password(password);
         hasPassword = true;
-        players = new ArrayList<>(nbPlayers);
+        clients = new ArrayList<>(nbPlayers);
     }
 
     Room(String password, int nbPlayers, String name) {
@@ -41,12 +41,13 @@ public abstract class Room {
 
     /**
      * Add a client to the room.
+     *
      * @param client the client that joins the room
      * @return true if the client could join
      */
     public boolean join(Client client) {
         if (nbPlayers < maxNbPlayers) {
-            players.add(client);
+            clients.add(client);
             nbPlayers++;
             System.out.println("Client rejoint :" + nbPlayers + "/" + maxNbPlayers);
             return true;
@@ -63,13 +64,33 @@ public abstract class Room {
         return name;
     }
 
-    public synchronized Client removeClient(int idClient) {
+    /**
+     * Removes a client from the room.
+     *
+     * @param idClient the id of the client
+     * @return the removed client
+     */
+    public synchronized Client remove(int idClient) {
         int i = 0;
-        while (players.get(i).getPlayerId() != idClient) {
+        while (clients.get(i).getPlayerId() != idClient) {
             ++i;
         }
-        Client res = players.get(i);
-        players.remove(i);
+        Client res = clients.get(i);
+        clients.remove(i);
         return res;
+    }
+
+    /**
+     * Removes a client from the room.
+     *
+     * @param client the client that leaves the room
+     * @return the removed client
+     */
+    public synchronized Client remove(Client client) {
+        if (clients.remove(client)) {
+            nbPlayers--;
+        }
+
+        return client;
     }
 }

@@ -9,6 +9,9 @@ public class ClientSoloController extends ClientController {
     // The game is launched
     private boolean timerActive;
 
+    /**
+     * Default constructor for ClientSoloController.
+     */
     public ClientSoloController() {
         timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {

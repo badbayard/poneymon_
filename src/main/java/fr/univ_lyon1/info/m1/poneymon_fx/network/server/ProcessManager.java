@@ -14,6 +14,11 @@ public class ProcessManager {
         threads = new ArrayList<>();
     }
 
+    /**
+     * Return the current instance of ProcessManager, which is a singleton.
+     *
+     * @return the singleton instance of ProcessManager
+     */
     public static ProcessManager getProcessManager() {
         if (instance == null) {
             instance = new ProcessManager();
@@ -27,12 +32,11 @@ public class ProcessManager {
      *
      * @param process Le processus contenant le client utilisé pour la recherche
      * @return -1 s'il n'y a pas de processus pour ce client sinon l'inde du
-     * processus de ce client.
+     *     processus de ce client.
      */
     public synchronized int searchProcessByClient(Process process) {
         for (int i = 0; i < threads.size(); ++i) {
-            if (threads.get(i).getKey().getIdClient() ==
-                    process.getIdClient()) {
+            if (threads.get(i).getKey().getIdClient() == process.getIdClient()) {
                 return i;
             }
         }
@@ -41,6 +45,7 @@ public class ProcessManager {
 
     /**
      * Ajoute le processus au Manager et lance le thread correspondant.
+     *
      * @param process Le nouveau processus à lancé
      */
     public synchronized void createAndRunThread(Process process) {
@@ -55,6 +60,7 @@ public class ProcessManager {
 
     /**
      * Supprime le processus dans la case indiqué par le parametre.
+     *
      * @param index l'index du processus à détruire
      */
     public synchronized void deleteProcess(int index) {

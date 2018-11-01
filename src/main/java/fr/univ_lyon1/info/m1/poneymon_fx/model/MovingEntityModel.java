@@ -4,33 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class MovingEntityModel extends EntityModel implements Model, Comparable<MovingEntityModel> {
+public abstract class MovingEntityModel
+    extends EntityModel
+    implements Model, Comparable<MovingEntityModel> {
+
     // Number of laps to win the race
     int nbLaps;
     // Minimal time for the Entity to complete a lap (s)
     public static final int MINIMAL_TIME = 5;
     // Minimal speed an entity can have
-    public static final double MIN_SPEED = 0.3;
+    static final double MIN_SPEED = 0.3;
     // Max speed an entity can have
-    public static final double MAX_SPEED = 1.0;
+    static final double MAX_SPEED = 1.0;
     // Entity's color
-    protected final String entityColor;
+    final String entityColor;
     // Entity's speed
-    protected double speed;
+    double speed;
     // Laps completed counter
-    protected int nbLap;
+    int nbLap;
     // Entity's rank
-    protected int rank;
+    int rank;
     // Flag for AI
-    protected boolean isAi;
+    boolean isAi;
     // Notifies the controller to play a boost sound
-    protected boolean playSound = false;
+    boolean playSound = false;
     // Flag for race's end
-    protected boolean raceFinished;
+    boolean raceFinished = false;
     // Available Entity colors
-    protected static final String[] COLOR_MAP = new String[] {"blue", "green", "orange", "purple",
+    static final String[] COLOR_MAP = new String[] {"blue", "green", "orange", "purple",
         "yellow"};
-    protected List<MovingEntityModel> neighbors = new ArrayList<>();
+    List<MovingEntityModel> neighbors = new ArrayList<>();
     // Random number generator for speed
     static final Random RANDOM_GENERATOR = new Random();
 
