@@ -1,20 +1,20 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.server.process;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.ListRoom;
 
-import java.net.Socket;
+public class ListRoomProcess extends Process {
+    ListRoom listRoom;
 
-public class ProcessListRoom extends Process {
-    private ListRoom listRoom;
-    private CommunicationSystem messagingSystem;
-    private Socket socket;
-
-    public ProcessListRoom(Socket sock, ListRoom lr) {
-        socket = sock;
-        listRoom = lr;
-        messagingSystem = new CommunicationSystem(socket);
+    /**
+     * Creates a process associated with a specific client to the ListRoom.
+     *
+     * @param client the client the process is associated to
+     */
+    public ListRoomProcess(Client client) {
+        super(client);
+        listRoom = ListRoom.getInstance();
     }
 
     @Override
@@ -22,10 +22,17 @@ public class ProcessListRoom extends Process {
         while (isRunning) {
             Command cmd = messagingSystem.receiveCommand();
 
+            /*
+             * ReceiveCommand returns null if an IOException is thrown (ie. something went wrong
+             * network-wise).
+             */
             if (cmd == null) {
+                System.out.println("Client disconnected");
+                listRoom.remove(client);
                 close();
             }
         }
+
 //        Command cmd = new
 //        messagingSystem = new CommunicationSystem(socket);
 //        System.out.println("Serveur : J'attends");

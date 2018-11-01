@@ -61,9 +61,6 @@ public abstract class Controller {
      * Starts the controller's timer.
      */
     public void startTimer() {
-        // Notify models of the start
-        fieldModel.start();
-
         // Launch the timer
         lastTimerUpdate = System.nanoTime();
         timer.start();

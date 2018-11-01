@@ -29,4 +29,8 @@ public class Client {
     public void setChief(boolean chief) {
         isChief = chief;
     }
+
+    public Socket getSocket() {
+        return socket;
+    }
 }
