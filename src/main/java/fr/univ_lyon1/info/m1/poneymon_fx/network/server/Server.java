@@ -1,14 +1,12 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.server;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.network.client.ClientManager;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.ProcessClientWaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.ListRoom;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.ProcessListRoom;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Server {
 
@@ -48,7 +46,7 @@ public class Server {
                 try  {
                     Socket client = server.accept();
                     Thread t1 = new Thread(new ProcessListRoom(client, listRoom));
-                    boolean aa = listRoom.join(new ClientManager(client));
+                    boolean aa = listRoom.join(new Client(client));
 
                     if (aa) {
                         System.out.println("Client rejonit listroom");

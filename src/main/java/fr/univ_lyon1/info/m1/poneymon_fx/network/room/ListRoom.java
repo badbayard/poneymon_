@@ -1,6 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.room;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.network.client.ClientManager;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
 
 public class ListRoom extends Room {
 
@@ -18,7 +18,7 @@ public class ListRoom extends Room {
     }
 
     @Override
-    public synchronized boolean join(ClientManager player) {
+    public synchronized boolean join(Client player) {
         // TODO waiting sans nombre max de joueurs
         return super.join(player);
     }

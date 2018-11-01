@@ -8,14 +8,14 @@ import java.net.Socket;
 /**
  * Class permettant de représenter un joueur humain aux yeux du serveur.
  */
-public class ClientManager {
+public class Client {
     private boolean isChief = false;
     private MovingEntityModel playerCharacter;
-    private CommunicationSystem communicationSystemSystem;
-    private Socket client;
+    private CommunicationSystem communicationSystem;
+    private Socket socket;
 
-    public ClientManager (Socket c) {
-        client = c;
+    public Client(Socket s) {
+        socket = s;
     }
 
     public void setPlayerCharacter(MovingEntityModel playerCharacter) {

@@ -1,10 +1,10 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.room;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.network.client.ClientManager;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.util.Password;
 
 public abstract class Room {
-    protected ClientManager[] players;
+    protected Client[] players;
     private int nbPlayers;
     private int maxNbPlayers;
     private Password password;
@@ -12,12 +12,12 @@ public abstract class Room {
     String name = "Default";
 
     Room() {
-        players = new ClientManager[4];
+        players = new Client[4];
     }
 
     Room(int nbPlayers) {
         maxNbPlayers = nbPlayers;
-        players = new ClientManager[maxNbPlayers];
+        players = new Client[maxNbPlayers];
     }
 
     Room(String password) {
@@ -27,7 +27,7 @@ public abstract class Room {
     Room(String password, int nbPlayers) {
         this.password = new Password(password);
         hasPassword = true;
-        players = new ClientManager[nbPlayers];
+        players = new Client[nbPlayers];
     }
 
     Room(String password, int nbPlayers, String name) {
@@ -35,7 +35,7 @@ public abstract class Room {
         this.name = name;
     }
 
-    public boolean join(ClientManager player) {
+    public boolean join(Client player) {
         if (nbPlayers < maxNbPlayers) {
             if (nbPlayers == 0) {
                 player.setChief(true);

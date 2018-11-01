@@ -230,13 +230,6 @@ public abstract class MovingEntityModel extends EntityModel implements Model, Co
     }
 
     /**
-     * Generic start function.
-     */
-    public void start() {
-
-    }
-
-    /**
      * Generic update for an entity (displacement, lap completion...).
      *
      * @param msElapsed time elapsed since the last update
