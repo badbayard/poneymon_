@@ -40,11 +40,7 @@ public class SoundController {
      * TODO write the javadoc.
      */
     public void playchunk() {
-        chunk.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                chunk.seek(Duration.ZERO);
-            }
-        });
+        chunk.setOnEndOfMedia(() -> chunk.seek(Duration.ZERO));
         chunk.play();
     }
 

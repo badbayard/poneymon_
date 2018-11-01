@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Transform;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.EntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
@@ -34,7 +35,9 @@ public class EntityView implements View, Collider {
      *            Url of the Entity image.
      */
     public EntityView(EntityModel m, GraphicsContext gc, int cWidth, int cHeight, String imgUrl) {
-        Controller.CONTROLLER.addView(this);
+        ClientController cc = (ClientController) Controller.getInstance();
+        cc.addView(this);
+
         FieldModel.COLLISIONMANAGER.addToColliders(this);
         graphicsContext = gc;
         participantModel = m;

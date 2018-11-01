@@ -50,7 +50,8 @@ public class Server {
                 while (isRunning == true) {
                     try {
                         Socket client = server.accept();
-                        System.err.println("Connexion cliente reçue.");
+                        System.err
+                                .println("Connexion cliente reçue : " + client);
                         Thread t = new Thread(new ProccessInServer(client));
                         t.start();
                     } catch (IOException e) {

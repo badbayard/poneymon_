@@ -1,27 +1,21 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.InetSocketAddress;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
+
 import java.net.Socket;
-import java.net.SocketException;
-import java.text.DateFormat;
-import java.util.Date;
 
 public class ProccessInServer implements Runnable {
 
     private Socket sock;
-    private PrintWriter writer = null;
-    private BufferedInputStream reader = null;
+    private CommunicationSystem messagingSystem;
+    private int[][] rooms;
+    private int nbRooms = 0;
+    private int roomSize = 4;
 
     public ProccessInServer(Socket sock) {
         this.sock = sock;
     }
-
-    private int[][] rooms;
-    private int nbRooms = 0;
-    private int roomSize = 4;
 
     /**
      * Lance le processus.
@@ -29,17 +23,17 @@ public class ProccessInServer implements Runnable {
     public void run() {
         System.err.println("Lancement du traitement de la connexion cliente");
 
+        /*
         boolean closeConnexion = false;
         while (!sock.isClosed()) {
             try {
-                writer = new PrintWriter(sock.getOutputStream());
-                reader = new BufferedInputStream(sock.getInputStream());
+                messagingSystem = new CommunicationSystem(sock);
 
-                String response = read(); // Attente reponse
+                String response = messagingSystem.receiveMessage();
                 InetSocketAddress remote =
-                    (InetSocketAddress) sock.getRemoteSocketAddress();
+                        (InetSocketAddress) sock.getRemoteSocketAddress();
 
-                String command = "Commande reçue : " + response;
+                String command = "Command reçue : " + response;
                 System.err.println(command);
 
                 // Traiement de la réponse
@@ -49,33 +43,30 @@ public class ProccessInServer implements Runnable {
                         break;
                     case "FULL":
                         toSend = DateFormat.getDateTimeInstance(DateFormat.FULL,
-                            DateFormat.MEDIUM).format(new Date());
+                                DateFormat.MEDIUM).format(new Date());
                         break;
                     case "DATE":
                         toSend = DateFormat.getDateInstance(DateFormat.FULL)
-                            .format(new Date());
+                                .format(new Date());
                         break;
                     case "HOUR":
                         toSend = DateFormat.getTimeInstance(DateFormat.MEDIUM)
-                            .format(new Date());
+                                .format(new Date());
                         break;
                     case "CLOSE":
                         toSend = "Communication terminée";
                         closeConnexion = true;
                         break;
                     default:
-                        toSend = "Commande inconnu !";
+                        toSend = "Command inconnu !";
                         break;
                 }
 
-                //On envoie la réponse au client
-                writer.write(toSend);
-                writer.flush(); // Transmet vraiment les données au client
+                messagingSystem.sendMessage(toSend);
 
                 if (closeConnexion) {
-                    System.err.println("Commande de fermeture ! ");
-                    writer = null;
-                    reader = null;
+                    System.err.println("Command de fermeture ! ");
+                    messagingSystem.close();
                     sock.close();
                     break;
                 }
@@ -86,21 +77,23 @@ public class ProccessInServer implements Runnable {
                 e.printStackTrace();
             }
         }
-    }
+        */
 
-    /**
-     * Méthode de lecture de réponse temporaire.
-     *
-     * @return la réponse du serveur.
-     * @throws IOException exception d'entrée/sortie
-     */
-    private String read() throws IOException {
-        String response = "";
-        int stream;
-        byte[] b = new byte[4096];
-        stream = reader.read(b);
-        response = new String(b, 0, stream);
-        return response;
+
+        messagingSystem = new CommunicationSystem(sock);
+        System.out.println("Serveur : J'attends");
+        Command cmd = messagingSystem.receiveCommand();
+        System.out.println("Serveur : J'ai reçu !");
+        messagingSystem.sendCommand(cmd);
+        System.out.println("Serveur : J'ai Envoyé !");
+
+        System.out.println("Serveur : J'attends");
+        Command cmd2 = messagingSystem.receiveCommand();
+        System.out.println("Serveur : J'ai reçu !");
+        messagingSystem.sendCommand(cmd2);
+        System.out.println("Serveur : J'ai Envoyé !");
+
+
     }
 
 }

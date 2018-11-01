@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -36,15 +37,13 @@ public class DataView implements View {
     /**
      * DataView constructor.
      *
-     * @param stage
-     *            the stage of the view
-     * @param w
-     *            the width of the view
-     * @param h
-     *            the height of the view
+     * @param stage the stage of the view
+     * @param w the width of the view
+     * @param h the height of the view
      */
     public DataView(Stage stage, int w, int h) {
-        Controller.CONTROLLER.addView(this);
+        ClientController cc = (ClientController) Controller.getInstance();
+        cc.addView(this);
 
         stage.setTitle(WINDOW_TITLE);
 
@@ -89,8 +88,7 @@ public class DataView implements View {
     /**
      * Sets the new MovingEntityModel to focus on.
      *
-     * @param m
-     *            the new MovingEntityModel
+     * @param m the new MovingEntityModel
      */
     public void setParticipantModel(MovingEntityModel m) {
         participantModel = m;

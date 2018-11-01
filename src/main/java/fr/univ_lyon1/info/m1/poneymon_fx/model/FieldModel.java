@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.CollisionManager;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
+import java.io.Serializable;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,17 +13,17 @@ import java.util.List;
 /**
  * Model of the game board.
  */
-public class FieldModel implements Model {
+public class FieldModel implements Model, Serializable {
     private LaneEntityModel[] lanes;
     private MovingEntityModel[] participants;
     private static final int NB_LAPS = 5;
-    private int participantsFinished = 0;
+    private transient int participantsFinished = 0;
 
     public static final CollisionManager COLLISIONMANAGER = new CollisionManager();
     // State of the poneys. True : AI, False : Human
     private static final boolean[] isAi = new boolean[] {true, true, true, false, false};
 
-    private ArrayList<MovingEntityModel> rankings;
+    private transient ArrayList<MovingEntityModel> rankings;
 
     LevelBuilder levelsBuild = new LevelBuilder();
 
@@ -40,7 +41,7 @@ public class FieldModel implements Model {
             participants = new PoneyModel[5];
             lanes = new LaneEntityModel[5];
         }
-        
+
         if (soloGame) {
             chooseRandomFileAndGenerateObstacles();
             // Initializing participants and their specific lanes except for the first one.
@@ -56,13 +57,12 @@ public class FieldModel implements Model {
             }
         }
     }
-    
-    
+
+
     /**
      * FieldModel constructor.
      *
-     * @param nbParticipants
-     *            the number of participants in the game
+     * @param nbParticipants the number of participants in the game
      */
     public FieldModel(final int nbParticipants) {
         chooseRandomFileAndGenerateObstacles();
@@ -73,7 +73,7 @@ public class FieldModel implements Model {
         } else { // 5 poneys by default
             participants = new PoneyModel[5];
             lanes = new LaneEntityModel[5];
-        } 
+        }
 
         // Initializing participants and their specific lanes
         for (int i = 0; i < participants.length; i++) {
@@ -96,7 +96,8 @@ public class FieldModel implements Model {
             }
         }
     }
- 
+
+
     /**
      * Set a new participant for the race.
      * @param entityType string
@@ -141,9 +142,9 @@ public class FieldModel implements Model {
                 }
                 break;
         }
-        
+
     }
-    
+
     /**
      * Set the neighbor for each entity.
      */
@@ -157,31 +158,38 @@ public class FieldModel implements Model {
             }
         }
     }
- 
-    /**
-     * Start.
-     */
-    public void start() {
-        for (MovingEntityModel participant : participants) {
-            participant.start();
-        }
-    }
 
     /**
      * Update the model and its components.
      *
-     * @param msElapsed
-     *            time elapsed in ms
+     * @param msElapsed time elapsed in ms
      */
     public void update(final double msElapsed) {
         for (int i = 0; i < participants.length;i++) {
             participants[i].update(msElapsed);
             lanes[i].update(msElapsed,participants[i].getNbLap());
-            rankParticipants();
-            checkRaceFinished();
         }
     }
-    
+
+    /**
+     * If the model in parameters is different from the current FieldModel, it means we are in a
+     * multiplayer context and we only have to assign the current FieldModel to the received one.
+     * Else it means we have to update like usual.
+     *
+     * @param msElapsed time elapsed since last update in ms
+     * @param fm other FieldModel to assign
+     */
+    public void update(final double msElapsed, FieldModel fm) {
+        if (this == fm) {
+            update(msElapsed);
+        } else {
+            participants = fm.participants;
+        }
+
+        rankParticipants();
+        checkRaceFinished();
+    }
+
     /** Return the lanes.
      */
     public LaneEntityModel[] getLanes() {
@@ -195,7 +203,7 @@ public class FieldModel implements Model {
     public void setLanes(LaneEntityModel[] newLanes) {
         lanes = newLanes;
     }
-    
+
     /**
      * MovingEntityModels getter.
      *
@@ -216,9 +224,8 @@ public class FieldModel implements Model {
 
     /**
      * Returns a specific participant from the field model.
-     * 
-     * @param index
-     *            index of the participant
+     *
+     * @param index index of the participant
      * @return participant at index in the arraylist of participants
      */
     public MovingEntityModel getParticipantModel(int index) {
@@ -255,7 +262,7 @@ public class FieldModel implements Model {
                 participantsFinished++;
 
                 if (participantsFinished == participants.length) {
-                    Controller.CONTROLLER.endRace();
+                    Controller.getInstance().endRace();
                 }
             }
         }

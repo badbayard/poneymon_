@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FixedEntityModel;
@@ -44,7 +45,8 @@ public final class FieldView extends Canvas implements View {
     FieldView(int w, int h) {
         super(w, h);
 
-        Controller.CONTROLLER.addView(this);
+        ClientController cc = (ClientController) Controller.getInstance();
+        cc.addView(this);
 
         width = w;
         height = h;
@@ -105,8 +107,10 @@ public final class FieldView extends Canvas implements View {
      *            the ordinate of the click
      */
     public void manageClick(double xClick, double yClick) {
+        ClientController cc = (ClientController) Controller.getInstance();
+        
         // Nothing to do if the field doesn't handle a dataView
-        DataView dataView = Controller.CONTROLLER.getDataView();
+        DataView dataView = cc.getDataView();
 
         if (dataView == null) {
             return;

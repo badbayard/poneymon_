@@ -1,30 +1,29 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.hardCodedClassForTest;
 
-import java.io.BufferedInputStream;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
+
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Random;
 
 public class ProcessusClient implements Runnable {
 
     private Socket connexion = null;
-    private PrintWriter writer = null;
-    private BufferedInputStream reader = null;
     private String[] listCommands = {"FULL", "DATE", "HOUR", "NONE"};
+    private CommunicationSystem messagingSystem;
 
     /**
      * Constructeur de ProcessusClient avec paramètres.
+     *
      * @param host adresse IP de l'hôte
      * @param port port auquel se connecter sur l'hôte
      */
     public ProcessusClient(String host, int port) {
         try {
             connexion = new Socket(host, port);
-            writer = new PrintWriter(connexion.getOutputStream(), true);
-            reader = new BufferedInputStream(connexion.getInputStream());
+            messagingSystem = new CommunicationSystem(connexion);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -36,44 +35,43 @@ public class ProcessusClient implements Runnable {
     /**
      * Envois des commandes random pour tester le bon fonctionnement du serveur.
      */
-    public void run() { /*
-          for (int i = 0; i < 10; i++) {
-              try {
-                  // On envois toute les secondes un message
-                  Thread.currentThread().sleep(1000);
-              } catch (InterruptedException e) {
-                  e.printStackTrace();
-              }
-              try {
-                  //On envoie la commande au serveur
-  
-                  String commande = sendRandomCommand();
-                  writer.write(commande);
-                  writer.flush(); // Transmet réellement la commande
-  
-                  System.out.println(
-                      "Commande " + commande + " envoyée au serveur");
-  
-                  String response = read();
-                  System.out.println("Réponse reçue " + response);
-              } catch (IOException e1) {
-                  e1.printStackTrace();
-              }
-              try {
-                  Thread.currentThread().sleep(1000);
-              } catch (InterruptedException e) {
-                  e.printStackTrace();
-              }
-          } */
+    public void run() {
+        /*
+        for (int i = 0; i < 10; i++) {
+            try {
+                // On envois toute les secondes un message
+                Thread.currentThread().sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            try {
+                //On envoie la commande au serveur
+
+                String commande = sendRandomCommand();
+                messagingSystem.sendMessage(commande);
+
+                System.out.println(
+                    "Command " + commande + " envoyée au serveur");
+
+                String response = messagingSystem.receiveMessage();
+                System.out.println("Réponse reçue " + response);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                Thread.currentThread().sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         try {
             String join = "join";
-            writer.write(join);
-            writer.flush();
+            messagingSystem.sendMessage(join);
 
-            System.out.println("Commande join envoyée au serveur");
+            System.out.println("Command join envoyée au serveur");
 
-            String rep = read();
+            String rep = messagingSystem.receiveMessage();
 
             System.out.println("Réponse " + rep + " reçue");
         } catch (IOException ioe) {
@@ -81,28 +79,41 @@ public class ProcessusClient implements Runnable {
         }
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        writer.write("CLOSE");
-        writer.flush();
-        writer.close();
-    }
+        messagingSystem.sendMessage("CLOSE");
+        messagingSystem.close();
+        */
+
+        System.out.println("C'est partis pour les commandes");
+
+        Command cmd1 = new Command();
+
+        messagingSystem.sendCommand(cmd1);
+        System.out.println("Client : J'ai Envoyé !");
+        System.out.println("Client : J'attends");
+        Command rep1 = messagingSystem.receiveCommand();
+        System.out.println("Client : J'ai Reçu !");
+        rep1.affichage();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        StringCommand cmd2 = new StringCommand("Lol");
+        messagingSystem.sendCommand(cmd2);
+        System.out.println("Client : J'ai Envoyé !");
+        System.out.println("Client : J'attends");
+        Command rep2 = messagingSystem.receiveCommand();
+        System.out.println("Client : J'ai Reçu !");
+        rep2.affichage();
 
 
-    private String sendRandomCommand() {
-        Random rand = new Random();
-        return listCommands[rand.nextInt(listCommands.length)];
-    }
-
-    private String read() throws IOException {
-        String response = "";
-        int stream;
-        byte[] b = new byte[4096];
-        stream = reader.read(b);
-        response = new String(b, 0, stream);
-        return response;
+        System.err.println("C'est finis pour les commandes");
+        messagingSystem.close();
     }
 }

@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientMultiController;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientSoloController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -19,32 +20,35 @@ import fr.univ_lyon1.info.m1.poneymon_fx.controller.SoundController;
 public class App extends Application {
     private MenuView menu;
     private Stage stage;
-    private SoundController m;
+    private SoundController soundController;
+
+    private String host = "127.0.0.1";
+    private int port = 4242;
 
     /**
      * Start() launch the application.
      *
      * @param s the application stage
      * @see <a href=
-     *      "http://docs.oracle.com/javafx/2/scenegraph/jfxpub-scenegraph.htm">
-     *      jfxpub-scenegraph.htm</a>
+     *     "http://docs.oracle.com/javafx/2/scenegraph/jfxpub-scenegraph.htm">
+     *     jfxpub-scenegraph.htm</a>
      */
     @Override
     public void start(Stage s) throws Exception {
         stage = s;
-        m = new SoundController();
+        soundController = new SoundController();
 
         // Secondary view
         /*
          * Stage s3 = new Stage(); JfxView v2 = new JfxView(s3, 1000, 600);
-         * c.addView(v2); v2.setModel(m); v2.setController(c);
+         * c.addView(v2); v2.setModel(soundController); v2.setController(c);
          */
 
         menu = new MenuView(800, 600);
 
         stage.setScene(menu.getScene());
         stage.show();
-        m.playchunk();
+        // soundController.playchunk();
 
         setEvents();
     }
@@ -53,21 +57,27 @@ public class App extends Application {
      * Set the events for each buttons of the menus.
      */
     private void setEvents() {
-        
+        //********** EVENT APPLICATION **********//
+        // Close all windows and sockets
+        stage.setOnCloseRequest(e -> Controller.getInstance().exit());
+
         //********** EVENT MAIN MENU **********//
-        
+
         // Event Play solo
         ButtonMenu btnPlay = menu.getMainMenu().getBtnPlay();
         btnPlay.setOnMouseClicked(event -> openSelectMenuSolo());
 
         // Event Play multi
         ButtonMenu btnPlayMulti = menu.getMainMenu().getBtnPlayMulti();
-        btnPlayMulti.setOnMouseClicked(event -> openListRoom());
+        btnPlayMulti.setOnMouseClicked(event -> {
+            initServerConnection();
+            openListRoom();
+        });
 
         // Event exit game
         ButtonMenu btnExit = menu.getMainMenu().getBtnExit();
         btnExit.setOnMouseClicked(event -> Platform.exit());
-        
+
         //********** EVENT SELECT MENU **********//
 
         // Event confirm selected poney
@@ -77,23 +87,23 @@ public class App extends Application {
         // Event back to main menu
         ButtonMenu btnBack = menu.getSelectMenu().getBtnBack();
         btnBack.setOnMouseClicked(event -> backToMain());
-        
+
         //********** EVENT LIST ROOM **********//
-        
+
         // Event back to main menu from list
         ButtonMenu btnBackList = menu.getListroom().getBtnBack();
         btnBackList.setOnMouseClicked(event -> backToMain());
-        
+
         ButtonMenu btnHost = menu.getListroom().getBtnHost();
         btnHost.setOnMouseClicked(event -> hostGame());
-        
+
         //********** EVENT WAITING ROOM **********//
 
         // Event back to ListRoom from WaitingRoom
         ButtonMenu btnBackToList = menu.getWaitingRoom().getBtnBack();
         btnBackToList.setOnMouseClicked(event -> backToList());
     }
-    
+
     /**
      * Create a salon for multiplayer.
      */
@@ -127,7 +137,7 @@ public class App extends Application {
         menu.getWaitingRoom().asLeftRoom();
         menu.backToListRoom();
     }
-    
+
     /**
      * Display the SelectEntity menu.
      */
@@ -148,25 +158,18 @@ public class App extends Application {
      * Create a one-player game.
      */
     private void createGameSolo() {
-        // Second window (stats)
-        Stage s2 = new Stage();
-        s2.setX(stage.getX() + stage.getWidth());
-        s2.setY(stage.getY());
-
-        DataView dataView = new DataView(s2, 210, 180);
-        Controller.CONTROLLER.setDataView(dataView);
+        ClientSoloController csc =
+            (ClientSoloController) Controller.setInstance(new ClientSoloController());
 
         // Creates five poneys in the game field
         FieldModel fieldModel = new FieldModel(5, true);
-        
+
         fieldModel.setParticipant(menu.getSelectMenu().getType(),
-                menu.getSelectMenu().getColor(), 0);
+            menu.getSelectMenu().getColor(), 0);
         fieldModel.setNeighbor();
+        csc.setDataView(createDataView(fieldModel));
 
-        // Set a default poney model to the data view
-        dataView.setParticipantModel((PoneyModel) fieldModel.getParticipantModel(0));
-
-        Controller.CONTROLLER.setFieldModel(fieldModel);
+        csc.setFieldModel(fieldModel);
 
         // Creates a window 1200x800 px
         JfxView jfxView = new JfxView(stage, 800, 600);
@@ -174,8 +177,38 @@ public class App extends Application {
         jfxView.setModel(fieldModel);
 
         // Launch the game
-        Controller.CONTROLLER.startTimer();
+        csc.startTimer();
+    }
 
+    /**
+     * Connects to the server and displays the list of current WaitingRooms.
+     */
+    private void initServerConnection() {
+        // Get and Set the controller
+        ClientMultiController cmc =
+            (ClientMultiController) Controller.setInstance(new ClientMultiController(host, port));
+
+        Thread t = new Thread(cmc);
+        t.start();
+    }
+
+    /**
+     * Creates the secondary data view.
+     *
+     * @param fieldModel the fieldmodel of the game
+     * @return the created DataView
+     */
+    private DataView createDataView(FieldModel fieldModel) {
+        Stage stage2 = new Stage();
+        stage2.setX(stage.getX() + stage.getWidth());
+        stage2.setY(stage.getY());
+
+        DataView dataView = new DataView(stage2, 210, 180);
+
+        // Set a default poney model to the data view
+        dataView.setParticipantModel(fieldModel.getParticipantModel(0));
+
+        return dataView;
     }
 
     public static void main(String[] args) {
