@@ -85,6 +85,8 @@ public class SelectEntity extends Parent {
                 ToggleButton newButton = new ToggleButton("", imageView);
                 newButton.setToggleGroup(group);
 
+                newButton.setUserData(anAvailableEntity + "-" + anEntityColor + ".gif");
+
                 switch (anAvailableEntity) {
                     case "pony":
                         ponyBox.getChildren().add(newButton);
@@ -115,14 +117,7 @@ public class SelectEntity extends Parent {
     private void setEvent() {
         group.selectedToggleProperty().addListener((ov, toggle, newToggle) -> {
             if (newToggle != null) {
-                System.out.println("aaa");
-                System.out.println(newToggle.getUserData());
-
                 selectedEntity = newToggle.getUserData().toString();
-
-                System.out.println("bbb");
-
-
                 btnConfirm.setDisable(false);
                 setColor();
                 setType();

@@ -106,8 +106,6 @@ public abstract class Controller {
     }
 
     public void exit() {
-        System.out.println("ON FERME");
-
         Platform.exit();
     }
 }
