@@ -20,7 +20,7 @@ public class FieldModelTest {
     private FieldModel field;
 
     /**
-     * initialisation du terrain
+     * initialisation du terrain.
      */
     @Before
     public void setUp() {
@@ -28,30 +28,27 @@ public class FieldModelTest {
     }
 
     /**
-     * Compare the number of poneys with the expected value
+     * Compare the number of poneys with the expected value.
      */
     @Test
     public void testCount() {
         // Given
         FieldModel f1 = new FieldModel(1);
-        FieldModel f2 = new FieldModel(2);
-        FieldModel f3 = new FieldModel(4);
-        FieldModel f4 = new FieldModel(12);
-
-        // When
-
-        // Then
         assertEquals(f1.countParticipants(), 5);
+        FieldModel f2 = new FieldModel(2);
         assertEquals(f2.countParticipants(), 2);
+        FieldModel f3 = new FieldModel(4);
         assertEquals(f3.countParticipants(), 4);
+        FieldModel f4 = new FieldModel(12);
         assertEquals(f4.countParticipants(), 5);
+        
     }
 
     /**
-     * test de update() sur tous les poneys du terrain
+     * test de update() sur tous les poneys du terrain.
      */
     @Test
-    public void StepWorksOnEveryPonys() {
+    public void stepWorksOnEveryPonys() {
         MovingEntityModel[] poneys = field.getParticipantModels();
         double progression;
         for (int i = 0; i < poneys.length; i++) {
@@ -62,10 +59,10 @@ public class FieldModelTest {
     }
 
     /**
-     * test de partieTerminee() si un poney atteind 5 tours
+     * test de partieTerminee() si un poney atteind 5 tours.
      */
     @Test
-    public void ReturnTrueIfGameIsOver() {
+    public void returnTrueIfGameIsOver() {
         MovingEntityModel[] poneys = field.getParticipantModels();
 
         poneys[0].setX(0.99999999999);
@@ -100,10 +97,10 @@ public class FieldModelTest {
     }
 
     /**
-     * la fonction de classement trie bien par progression totale
+     * la fonction de classement trie bien par progression totale.
      */
     @Test
-    public void FieldOrderByTotalProgressionForRankingView() {
+    public void fieldOrderByTotalProgressionForRankingView() {
         MovingEntityModel[] poneys = field.getParticipantModels();
 
         poneys[0].setX(0.99999999999);
@@ -142,10 +139,10 @@ public class FieldModelTest {
     }
 
     /**
-     * la fonction de classement n'echange pas de place en cas d'egalité partielle dans le tableau
+     * la fonction de classement n'echange pas de place en cas d'egalité partielle dans le tableau.
      */
     @Test
-    public void TestThreePoneyEquals() {
+    public void testThreePoneyEquals() {
         MovingEntityModel[] poneys = field.getParticipantModels();
 
         for (int i = 0; i < poneys.length - 2; i++) {
@@ -181,12 +178,11 @@ public class FieldModelTest {
         assertEquals(field.getRankings(), attendu);
     }
 
-
     /**
-     * la fonction de classement n'echange pas de place en cas d'egalité
+     * la fonction de classement n'echange pas de place en cas d'egalité.
      */
     @Test
-    public void FivePoneyEquals() {
+    public void fivePoneyEquals() {
         MovingEntityModel[] poneys = field.getParticipantModels();
         ArrayList<MovingEntityModel> attendu = new ArrayList<>();
 
@@ -215,6 +211,5 @@ public class FieldModelTest {
         System.out.println("\n");
 
     }
-
 
 }

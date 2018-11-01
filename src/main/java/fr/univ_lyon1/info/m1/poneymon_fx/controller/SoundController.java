@@ -11,8 +11,8 @@ import javafx.util.Duration;
  */
 public class SoundController {
     // Music file to play
-    private static final String MUSIC_FILE = "src/main/resources/assets/BoostPoney.wav";
-    private static final String MUSIC_BACKGROUND = "src/main/resources/assets/poney.mp3";
+    private static final String MUSIC_FILE = "src/main/resources/assets/sound/BoostPoney.wav";
+    private static final String MUSIC_BACKGROUND = "src/main/resources/assets/sound/poney.mp3";
     // Player of the sound
     private final MediaPlayer boostPoney;
     private final MediaPlayer chunk;
@@ -36,7 +36,11 @@ public class SoundController {
         reset();
     }
 
+    /**
+     * TODO write the javadoc.
+     */
     public void playchunk() {
+        chunk.setOnEndOfMedia(() -> chunk.seek(Duration.ZERO));
         chunk.play();
     }
 

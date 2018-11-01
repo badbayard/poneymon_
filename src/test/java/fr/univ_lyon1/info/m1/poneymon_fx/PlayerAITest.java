@@ -10,61 +10,59 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerAITest {
 
-    private PoneyModel poneyAI;
+    private PoneyModel poneyAi;
 
     /**
-     * initialisation PoneyModel
+     * initialisation PoneyModel.
      */
     @Before
     public void setUp() {
-        poneyAI = new PoneyModel("green", 0, true, 5);
+        poneyAi = new PoneyModel("green", 0, true, 5);
     }
 
-
     /**
-     * teste l'activation du NianMode de l'IA
+     * teste l'activation du NianMode de l'IA.
      */
     @Test
-    public void AiTriggerNianModeCorrectly() {
+    public void aiTriggerNianModeCorrectly() {
 
-        //final int lapsLeft = NB_LAPS - nbLap - 1;
+        // final int lapsLeft = NB_LAPS - nbLap - 1;
 
-        poneyAI.setNbLap(0);
-        poneyAI.setBoostCapacity(true);
-        poneyAI.setSpeed(0);
+        poneyAi.setNbLap(0);
+        poneyAi.setBoostCapacity(true);
+        poneyAi.setSpeed(0);
 
-        poneyAI.boostIfNecessary();
+        poneyAi.boostIfNecessary();
 
-        assert(poneyAI.isBoosted());
+        assert (poneyAi.isBoosted());
 
-        poneyAI.boostIfNecessary();
+        poneyAi.boostIfNecessary();
 
-        poneyAI.setX(0.999);
-        poneyAI.setNbLap(0);
-        poneyAI.setSpeed(1);
+        poneyAi.setX(0.999);
+        poneyAi.setNbLap(0);
+        poneyAi.setSpeed(1);
 
-        poneyAI.update(500);
+        poneyAi.update(500);
 
-        assert(!poneyAI.canBoost());
-        assert(!poneyAI.isBoosted());
+        assert (!poneyAi.canBoost());
+        assert (!poneyAi.isBoosted());
 
-        poneyAI.setX(0);
-        poneyAI.setNbLap(1);
-        poneyAI.setSpeed(0.5);
+        poneyAi.setX(0);
+        poneyAi.setNbLap(1);
+        poneyAi.setSpeed(0.5);
 
-        poneyAI.boostIfNecessary();
+        poneyAi.boostIfNecessary();
 
-        assert(!poneyAI.isBoosted());
+        assert (!poneyAi.isBoosted());
 
     }
 
-
-
     /**
-     * Teste qu'une Ia qui boost au bon moment effectue un meilleur temps qu'un IA qui boost a un tour aléatoire.
+     * Teste qu'une Ia qui boost au bon moment effectue un meilleur temps qu'un IA qui boost a un
+     * tour aléatoire.
      */
     @Test
-    public void testAISkills() {
+    public void testAiSkills() {
         // Given a dummy AI and ours
         double dummyTime = 0;
         int dummyPoints = 0;
@@ -75,7 +73,7 @@ public class PlayerAITest {
 
         double count = numberOfRaces;
 
-        PoneyModel RandomAi = new PoneyModel("blue", 0, true, 5); // Champion!
+        PoneyModel randomAi = new PoneyModel("blue", 0, true, 5); // Champion!
         double aiTime = 0.0;
         int aiPoints = 0;
 
@@ -87,39 +85,37 @@ public class PlayerAITest {
             randomLap = randomGenerator.nextInt(5);
 
             // Attributes initialization
-            poneyAI.setNbLap(0);
-            poneyAI.setBoostCapacity(true);
+            poneyAi.setNbLap(0);
+            poneyAi.setBoostCapacity(true);
             aiTime = 0.0;
 
-            RandomAi.setNbLap(0);
-            RandomAi.setBoostCapacity(true);
+            randomAi.setNbLap(0);
+            randomAi.setBoostCapacity(true);
             dummyTime = 0.0;
-
-
 
             // Start of race
             for (int j = 0; j < 5; j++) {
                 // Speed randomly chosen
                 speed = randomGenerator.nextFloat();
-                poneyAI.setSpeed(speed);
-                RandomAi.setSpeed(speed);
+                poneyAi.setSpeed(speed);
+                randomAi.setSpeed(speed);
 
                 // Dummy boost choice
                 if (randomLap == j) {
-                    RandomAi.turnIntoNianPoney();
+                    randomAi.turnIntoNianPoney();
                 }
 
                 // Our AI boost choice
-                poneyAI.boostIfNecessary();
+                poneyAi.boostIfNecessary();
 
                 // Dummy time
-                dummyTime += PoneyModel.MINIMAL_TIME/RandomAi.getSpeed();
+                dummyTime += PoneyModel.MINIMAL_TIME / randomAi.getSpeed();
                 // AI time
-                aiTime += PoneyModel.MINIMAL_TIME/poneyAI.getSpeed();
+                aiTime += PoneyModel.MINIMAL_TIME / poneyAi.getSpeed();
 
                 // Increment of nbLap
-                poneyAI.setNbLap(poneyAI.getNbLap()+1);
-                RandomAi.setNbLap(RandomAi.getNbLap()+1);
+                poneyAi.setNbLap(poneyAi.getNbLap() + 1);
+                randomAi.setNbLap(randomAi.getNbLap() + 1);
             }
 
             if (aiTime < dummyTime) {
@@ -132,12 +128,12 @@ public class PlayerAITest {
         }
 
         // Then
-        System.out.println("Last run Time (AI): "+ aiTime + "\nAI points :  " + aiPoints + "\n");
-        System.out.println("Last run Time (retarded AI) : "+ dummyTime + "\ndummy points " + dummyPoints + "\n");
+        System.out.println("Last run Time (AI): " + aiTime + "\nAI points :  " + aiPoints + "\n");
+        System.out.println("Last run Time (retarded AI) : " + dummyTime + "\ndummy points "
+                + dummyPoints + "\n");
 
         System.out.println("AI Success Ratio : " + (aiPoints / count));
         assertTrue(aiPoints > dummyPoints);
     }
-
 
 }

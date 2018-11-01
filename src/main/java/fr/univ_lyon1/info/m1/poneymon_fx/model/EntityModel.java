@@ -2,16 +2,30 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
 import java.io.Serializable;
 
-public abstract class EntityModel implements Model, Serializable {
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Transform;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+
+public class EntityModel implements Model, Serializable, Transform {
 
     // Abscissa of the entity
     protected double x;
     // Entity's row
     protected final int row;
 
-    EntityModel(int r) {
+    /**
+     * generic Constructor for entities.
+     */
+    public EntityModel(int r) {
         x = 0.0;
         row = r;
+    }
+
+    /**
+     * Add self to transform.
+     */
+    public void addSelfToTransforms() {
+        FieldModel.COLLISIONMANAGER.addToTransforms(this);
     }
 
     /**
@@ -52,5 +66,22 @@ public abstract class EntityModel implements Model, Serializable {
         // TODO Auto-generated method stub
 
     }
+
+    /**
+     * Teste l'egalitée entre l'EntityModel courante et une autre EntityModel.
+     * @param entityToTest EntityModel a tester
+     * @return boolean
+     */
+    public boolean entityModelEquals(EntityModel entityToTest) {
+        return ((this.getRow() == entityToTest.getRow())
+                && (this.getX() == entityToTest.getX()));
+    }
+
+    @Override
+    public void onCollision(Collider col) {
+        System.out.println("I collided with something ! Ouch :(");
+    }
+
+
 
 }

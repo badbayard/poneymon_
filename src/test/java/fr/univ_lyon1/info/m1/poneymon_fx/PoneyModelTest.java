@@ -4,19 +4,17 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class PoneyModelTest {
 
     private PoneyModel poney;
 
     /**
-     * initialisation PoneyModel
+     * initialisation PoneyModel.
      */
     @Before
     public void setUp() {
         poney = new PoneyModel("green", 0, true, 5);
     }
-
 
     /**
      * Simple example test for the Poney class.
@@ -28,19 +26,18 @@ public class PoneyModelTest {
         poney.setX(0);
         poney.update(1000);
 
-        assert(poney.getX() == 0.2);
+        assert (poney.getX() == 0.2);
 
         poney.setSpeed(0.2);
         poney.setX(0);
         poney.update(500);
 
-        assert(poney.getX() == 0.02);
+        assert (poney.getX() == 0.02);
 
     }
 
-
     /**
-     * Test for the distance between poneys
+     * Test for the distance between poneys.
      */
     @Test
     public void testDistance() {
@@ -54,25 +51,22 @@ public class PoneyModelTest {
         anotherPonney.setNbLap(1);
         anotherPonney.setSpeed(1);
 
-
-        returnDist =  ( poney.getX() +  poney.getNbLap())
+        returnDist = (poney.getX() + poney.getNbLap())
                 - (anotherPonney.getNbLap() + anotherPonney.getX());
 
-        assert(poney.getRelativeDistanceTo(anotherPonney) == returnDist);
+        assert (poney.getRelativeDistanceTo(anotherPonney) == returnDist);
 
         poney.update(1000);
 
-        returnDist =  ( poney.getX() +  poney.getNbLap())
+        returnDist = (poney.getX() + poney.getNbLap())
                 - (anotherPonney.getNbLap() + anotherPonney.getX());
 
-        assert(poney.getRelativeDistanceTo(anotherPonney) == returnDist);
-
+        assert (poney.getRelativeDistanceTo(anotherPonney) == returnDist);
 
     }
 
-
     /**
-     * Test the return to the left of the screen at the end of lap
+     * Test the return to the left of the screen at the end of lap.
      */
     @Test
     public void testEndLap() {
@@ -85,29 +79,25 @@ public class PoneyModelTest {
         // When
         poney.update(1000);
 
-        assert(poney.getX() == 0);
-        assert(poney.getNbLap() == 2);
-        assert(poney.getSpeed() != 0.6);
+        assert (poney.getX() == 0);
+        assert (poney.getNbLap() == 2);
+        assert (poney.getSpeed() != 0.6);
     }
 
-
     /**
-     * verifie la vitesse generée
+     * verifie la vitesse generée.
      */
     @Test
-    public void testRandomSpeed()
-    {
+    public void testRandomSpeed() {
         assert (poney.getSpeed() <= 1);
         assert (poney.getSpeed() >= 0);
     }
 
-
     /**
-     * verrifie que la progression totale ne puisse jamais dépasser 5
+     * verrifie que la progression totale ne puisse jamais dépasser 5.
      */
     @Test
-    public void testProgressionTotale()
-    {
+    public void testProgressionTotale() {
         poney.setX(0.99999);
         poney.setNbLap(4);
         poney.setSpeed(1);
@@ -116,9 +106,5 @@ public class PoneyModelTest {
 
         assert (poney.getTotalProgress() <= 5);
     }
-
-
-
-
 
 }

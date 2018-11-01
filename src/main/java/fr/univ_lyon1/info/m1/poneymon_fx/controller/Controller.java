@@ -1,5 +1,9 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.CollisionManager;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import javafx.animation.AnimationTimer;
@@ -24,7 +28,7 @@ public abstract class Controller {
     /**
      * Controller constructor.
      */
-    Controller() {
+    public Controller() {
         timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
                 step(currentNanoTime);
@@ -44,6 +48,9 @@ public abstract class Controller {
         lastTimerUpdate = currentNanoTime;
 
         updateFieldModel(msElapsed, fieldModel);
+
+        // Check for collisions
+        FieldModel.COLLISIONMANAGER.checkCollision();
     }
 
     /**
