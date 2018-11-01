@@ -10,7 +10,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.view.JfxView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.ButtonMenu;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.ListRoomView;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.SoundController;
 
@@ -50,7 +49,13 @@ public class App extends Application {
         setEvents();
     }
 
+    /**
+     * Set the events for each buttons of the menus.
+     */
     private void setEvents() {
+        
+        //********** EVENT MAIN MENU **********//
+        
         // Event Play solo
         ButtonMenu btnPlay = menu.getMainMenu().getBtnPlay();
         btnPlay.setOnMouseClicked(event -> openSelectMenuSolo());
@@ -62,6 +67,8 @@ public class App extends Application {
         // Event exit game
         ButtonMenu btnExit = menu.getMainMenu().getBtnExit();
         btnExit.setOnMouseClicked(event -> Platform.exit());
+        
+        //********** EVENT SELECT MENU **********//
 
         // Event confirm selected poney
         ButtonMenu btnConfirm = menu.getSelectMenu().getBtnConfirm();
@@ -70,10 +77,29 @@ public class App extends Application {
         // Event back to main menu
         ButtonMenu btnBack = menu.getSelectMenu().getBtnBack();
         btnBack.setOnMouseClicked(event -> backToMain());
-
+        
+        //********** EVENT LIST ROOM **********//
+        
         // Event back to main menu from list
         ButtonMenu btnBackList = menu.getListroom().getBtnBack();
-        btnBackList.setOnMouseClicked(event -> backToMain2());
+        btnBackList.setOnMouseClicked(event -> backToMain());
+        
+        ButtonMenu btnHost = menu.getListroom().getBtnHost();
+        btnHost.setOnMouseClicked(event -> hostGame());
+        
+        //********** EVENT WAITING ROOM **********//
+
+        // Event back to ListRoom from WaitingRoom
+        ButtonMenu btnBackToList = menu.getWaitingRoom().getBtnBack();
+        btnBackToList.setOnMouseClicked(event -> backToList());
+    }
+    
+    /**
+     * Create a salon for multiplayer.
+     */
+    private void hostGame() {
+        menu.activateWaitingRoom();
+        menu.getWaitingRoom().asJoinRoom();
     }
 
     /**
@@ -95,12 +121,12 @@ public class App extends Application {
     }
 
     /**
-     * Hide the current menu and display the main menu.
+     * Hide the WaitingRoom and display the ListRoom.
      */
-    private void backToMain2() {
-        menu.backToMainMenu2();
+    private void backToList() {
+        menu.backToListRoom();
     }
-
+    
     /**
      * Display the SelectEntity menu.
      */
@@ -113,6 +139,7 @@ public class App extends Application {
      * Display the Listroom.
      */
     private void openListRoom() {
+        menu.setIsSolo(false);
         menu.activateSelectlistroom();
     }
 

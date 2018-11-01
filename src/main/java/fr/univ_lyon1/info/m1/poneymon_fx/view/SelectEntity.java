@@ -121,11 +121,8 @@ public class SelectEntity extends Parent {
         group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             public void changed(ObservableValue<? extends Toggle> ov,
                 Toggle toggle, Toggle newToggle) {
-                    if (newToggle == null) {
-                        System.out.println("No toggle selected ?"); 
-                    } else {
+                    if (newToggle != null) {
                         selectedEntity = newToggle.getUserData().toString();
-                        System.out.println("Selected entity: " + selectedEntity);
                         btnConfirm.setDisable(false);
                         setColor();
                         setType();

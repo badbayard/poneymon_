@@ -33,8 +33,8 @@ public class MainMenu extends Parent {
         // La valeur 10 corresponds à l'écarts entre les différents éléments
         mainMenu = new VBox(10);
 
-        mainMenu.setTranslateX(x / 5);
-        mainMenu.setTranslateY(y / 3);
+        mainMenu.setTranslateX(x / 8);
+        mainMenu.setTranslateY(y / 6);
 
         btnSolo = new ButtonMenu("Play alone");
         btnMulti = new ButtonMenu("Multiplayer");

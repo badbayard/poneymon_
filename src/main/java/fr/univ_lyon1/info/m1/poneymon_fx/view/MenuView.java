@@ -14,7 +14,8 @@ public class MenuView {
 
     private MainMenu mainMenu;
     private SelectEntity selectMenu;
-    private ListRoom listroom;
+    private ListRoom listRoom;
+    private WaitingRoom waitingRoom;
     private Scene scene;
     private int width;
     private int height;
@@ -55,10 +56,14 @@ public class MenuView {
         selectMenu.setVisible(false);
 
         // Prépare la listroom
-        listroom = new ListRoom(width, height);
-        listroom.setVisible(false);
+        listRoom = new ListRoom(width, height);
+        listRoom.setVisible(false);
+        
+        //Prépare la waitingRoom
+        waitingRoom = new WaitingRoom(width, height, 4);
+        waitingRoom.setVisible(false);
 
-        root.getChildren().addAll(imgView, mainMenu, selectMenu, listroom);
+        root.getChildren().addAll(imgView, mainMenu, selectMenu, listRoom, waitingRoom);
 
         scene = new Scene(root);
     }
@@ -96,7 +101,7 @@ public class MenuView {
      * @return field listroom;
      */
     public ListRoom getListroom() {
-        return listroom;
+        return listRoom;
     }
 
     /**
@@ -113,6 +118,7 @@ public class MenuView {
     public void backToMainMenu() {
         mainMenu.setVisible(true);
         selectMenu.setVisible(false);
+        listRoom.setVisible(false);
     }
 
     /**
@@ -120,15 +126,12 @@ public class MenuView {
      */
     public void activateSelectlistroom() {
         mainMenu.setVisible(false);
-        listroom.setVisible(true);
+        listRoom.setVisible(true);
     }
-
-    /**
-     * Display the main menu from listroom.
-     */
-    public void backToMainMenu2() {
-        mainMenu.setVisible(true);
-        listroom.setVisible(false);
+    
+    public void activateWaitingRoom() {
+        listRoom.setVisible(false);
+        waitingRoom.setVisible(true);
     }
 
     /**
@@ -147,5 +150,21 @@ public class MenuView {
      */
     public void setIsSolo(boolean newValue) {
         isSolo = newValue;
+    }
+
+    /**
+     * Get the waiting room.
+     * @return field waitingRoom
+     */
+    public WaitingRoom getWaitingRoom() {
+        return waitingRoom;
+    }
+    
+    /**
+     * Display the Listroom.
+     */
+    public void backToListRoom() {
+        waitingRoom.setVisible(false);
+        listRoom.setVisible(true);
     }
 }

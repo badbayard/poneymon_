@@ -25,8 +25,8 @@ public class ListRoom extends Parent {
      */
     public ListRoom(int x, int y) {
         listroom = new VBox(10);
-        listroom.setTranslateX(x / 10);
-        listroom.setTranslateY(y / 11);
+        listroom.setTranslateX(x / 8);
+        listroom.setTranslateY(y / 6);
 
         btnjoin = new ButtonMenu("join");
         btnhost = new ButtonMenu("host");
