@@ -4,6 +4,7 @@ public class Main {
 
     /**
      * Méthode principale de la classe principale.
+     *
      * @param args pas de paramètres ici
      */
     public static void main(String[] args) {
@@ -15,8 +16,8 @@ public class Main {
         server.open();
         System.err.println("Serveur initialisé et lancé");
 
-
         Thread t = new Thread(new ProcessusClient(host, port));
         t.start();
+
     }
 }

@@ -1,23 +1,25 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.room;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.network.client.ClientManager;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.util.Password;
 
+import java.util.ArrayList;
+
 public abstract class Room {
-    protected ClientManager[] players;
-    private int nbPlayers;
-    private int maxNbPlayers;
-    private Password password;
-    private boolean hasPassword = false;
-    String name = "Default";
+    protected ArrayList<Client> players;
+    protected int nbPlayers = 0;
+    protected int maxNbPlayers;
+    protected String name = "Default";
+    protected Password password;
+    protected boolean hasPassword = false;
 
     Room() {
-        players = new ClientManager[4];
+        players = new ArrayList<>(4);
     }
 
     Room(int nbPlayers) {
         maxNbPlayers = nbPlayers;
-        players = new ClientManager[maxNbPlayers];
+        players = new ArrayList<>(maxNbPlayers);
     }
 
     Room(String password) {
@@ -27,7 +29,7 @@ public abstract class Room {
     Room(String password, int nbPlayers) {
         this.password = new Password(password);
         hasPassword = true;
-        players = new ClientManager[nbPlayers];
+        players = new ArrayList<>(nbPlayers);
     }
 
     Room(String password, int nbPlayers, String name) {
@@ -35,18 +37,35 @@ public abstract class Room {
         this.name = name;
     }
 
-    public boolean join(ClientManager player) {
+    public boolean join(Client player) {
         if (nbPlayers < maxNbPlayers) {
             if (nbPlayers == 0) {
                 player.setChief(true);
             } else {
                 player.setChief(false);
             }
-
-            players[nbPlayers++] = player;
+            players.add(player);
+            nbPlayers++;
             return true;
         }
-
         return false;
+    }
+
+    public Password getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public synchronized Client removeClient(int idClient) {
+        int i = 0;
+        while (players.get(i).getPlayerId() != idClient) {
+            ++i;
+        }
+        Client res = players.get(i);
+        players.remove(i);
+        return res;
     }
 }

@@ -1,26 +1,23 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.server.process;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.RoomCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.ListRoom;
-
-import java.net.Socket;
 
 public class ProcessListRoom extends Process {
     private ListRoom listRoom;
-    private CommunicationSystem messagingSystem;
-    private Socket socket;
 
-    public ProcessListRoom(Socket sock, ListRoom lr) {
-        socket = sock;
+    public ProcessListRoom(ListRoom lr, Client client) {
         listRoom = lr;
-        messagingSystem = new CommunicationSystem(socket);
+        this.client = client;
     }
 
     @Override
     public void run() {
         while (isRunning) {
-            Command cmd = messagingSystem.receiveCommand();
+            RoomCommand cmd = (RoomCommand) client.receiveCommand();
+            cmd.setActualRoom(listRoom);
+            cmd.atReceive();
 
             if (cmd == null) {
                 close();

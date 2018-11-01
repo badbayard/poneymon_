@@ -4,10 +4,19 @@ import java.io.Serializable;
 
 public class Command implements Serializable {
 
+    int idPlayer;
+
     public Command() {
     }
 
     public void affichage() {
         System.err.println("Je suis une simple Command : ");
+    }
+
+
+    public void beforSend() {
+    }
+
+    public void atReceive() {
     }
 }

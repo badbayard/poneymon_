@@ -4,11 +4,9 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
 
-
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Random;
 
 public class ProcessusClient implements Runnable {
 
@@ -90,7 +88,6 @@ public class ProcessusClient implements Runnable {
         messagingSystem.close();
         */
 
-
         System.out.println("C'est partis pour les commandes");
 
         Command cmd1 = new Command();
@@ -118,12 +115,5 @@ public class ProcessusClient implements Runnable {
 
         System.err.println("C'est finis pour les commandes");
         messagingSystem.close();
-
-    }
-
-
-    private String sendRandomCommand() {
-        Random rand = new Random();
-        return listCommands[rand.nextInt(listCommands.length)];
     }
 }

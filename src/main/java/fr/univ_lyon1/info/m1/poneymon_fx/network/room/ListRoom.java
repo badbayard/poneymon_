@@ -1,13 +1,21 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.room;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.network.client.ClientManager;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
+
+import java.util.ArrayList;
 
 public class ListRoom extends Room {
 
     private static ListRoom instance = null;
+    private ArrayList<WaitingRoom> rooms;
+
+    public ArrayList<WaitingRoom> getRooms() {
+        return rooms;
+    }
 
     private ListRoom() {
-        super(1);
+        super();
+        rooms = new ArrayList<>();
     }
 
     public static synchronized ListRoom getInstance() {
@@ -18,8 +26,10 @@ public class ListRoom extends Room {
     }
 
     @Override
-    public synchronized boolean join(ClientManager player) {
-        // TODO waiting sans nombre max de joueurs
-        return super.join(player);
+    public synchronized boolean join(Client player) {
+        players.add(player);
+        nbPlayers++;
+        maxNbPlayers++;
+        return true;
     }
 }
