@@ -11,17 +11,17 @@ import javafx.scene.text.Font;
  */
 public class WaitingRoom extends Parent {
     private VBox playerBox;
-    private CheckBox checkBoxes[];
+    private CheckBox [] checkBoxes;
     private ButtonMenu btnStart;
     private ButtonMenu btnBack;
     private int nbPlayerInRoom;
     //private boolean isHost;
     
     /**
-     * Constructor.
+     * Constructor WaitingRoom.
      * @param x coord
      * @param y coord
-     * @param nbJoueurs int
+     * @param nbPlayers int
      */
     public WaitingRoom(int x, int y, int nbPlayers) {
         nbPlayerInRoom = 0;
@@ -32,11 +32,11 @@ public class WaitingRoom extends Parent {
         checkBoxes = new CheckBox[nbPlayers];
         
         for (int i = 1; i <= nbPlayers; ++i) {
-            checkBoxes[i-1] = new CheckBox("Player " + i);
-            checkBoxes[i-1].setDisable(true);
-            checkBoxes[i-1].setStyle("-fx-opacity: 1");
-            checkBoxes[i-1].setFont(Font.font(15));
-            playerBox.getChildren().add(checkBoxes[i-1]);
+            checkBoxes[i - 1] = new CheckBox("Player " + i);
+            checkBoxes[i - 1].setDisable(true);
+            checkBoxes[i - 1].setStyle("-fx-opacity: 1");
+            checkBoxes[i - 1].setFont(Font.font(15));
+            playerBox.getChildren().add(checkBoxes[i - 1]);
         }
         
         btnStart = new ButtonMenu("Play!");

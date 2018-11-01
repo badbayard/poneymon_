@@ -124,6 +124,7 @@ public class App extends Application {
      * Hide the WaitingRoom and display the ListRoom.
      */
     private void backToList() {
+        menu.getWaitingRoom().asLeftRoom();
         menu.backToListRoom();
     }
     
