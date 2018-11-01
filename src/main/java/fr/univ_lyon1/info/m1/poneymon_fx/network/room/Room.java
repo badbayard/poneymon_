@@ -73,21 +73,4 @@ public abstract class Room {
 
         return false;
     }
-
-    public boolean findBySocketAndRemove(Socket client) {
-        List<Client> resultat = clients.stream()
-            .filter(c1 -> c1.getSocket().equals(client))
-            .collect(Collectors.toList());
-
-        if (resultat.isEmpty()) {
-            return false;
-        }
-
-        if (clients.remove(resultat.get(0))) {
-            nbPlayers--;
-            return true;
-        }
-
-        return false;
-    }
 }
