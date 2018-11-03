@@ -9,10 +9,15 @@ public class MovingEntityView extends EntityView {
     // The rank view handled
     protected final RankView rankView;
     protected Image currentParticipantImage;
+    protected Image deadParticipant;
 
+    /**
+     * Generic Constructor.
+     */
     public MovingEntityView(EntityModel m, GraphicsContext gc, int cWidth, int cHeight,
             String imgUrl) {
         super(m, gc, cWidth, cHeight, imgUrl);
+        deadParticipant = new Image("assets/entity/moving/DeadPoney.gif");
         rankView = new RankView(this, graphicsContext, (int) imageWidth, (int) imageHeight);
     }
 
@@ -31,7 +36,13 @@ public class MovingEntityView extends EntityView {
         int row = participantModel.getRow();
         y = (int) ((row + 1) * space + row * imageHeight);
 
-        graphicsContext.drawImage(classicImage, x, y);
+        if (((MovingEntityModel) participantModel).isVisible()) {
+            if (((MovingEntityModel) participantModel).isDead()) {
+                graphicsContext.drawImage(deadParticipant, x, y);
+            } else {
+                graphicsContext.drawImage(classicImage, x, y);
+            }
+        }
     }
 
     /**

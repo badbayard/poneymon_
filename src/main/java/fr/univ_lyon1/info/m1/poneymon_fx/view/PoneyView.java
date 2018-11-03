@@ -15,17 +15,22 @@ public class PoneyView extends MovingEntityView implements View {
     /**
      * PoneyView constructor.
      *
-     * @param pm      the poneymodel associated
-     * @param gc      the drawing tool
-     * @param cWidth  the canvas width
-     * @param cHeight the canvas height
+     * @param pm
+     *            the poneymodel associated
+     * @param gc
+     *            the drawing tool
+     * @param cWidth
+     *            the canvas width
+     * @param cHeight
+     *            the canvas height
      */
     public PoneyView(PoneyModel pm, GraphicsContext gc, int cWidth, int cHeight) {
-    	super(pm,gc,cWidth,cHeight,"assets/entity/moving/pony-" + pm.getColor() + "-running.gif");
+        super(pm, gc, cWidth, cHeight,
+                "assets/entity/moving/pony-" + pm.getColor() + "-running.gif");
 
         String color = ((MovingEntityModel) participantModel).getColor();
         nianPoneyImage = new Image("assets/entity/moving/pony-" + color + "-rainbow.gif");
-        
+
         // Update the variable attributes of PoneyView
         update();
     }
@@ -53,7 +58,13 @@ public class PoneyView extends MovingEntityView implements View {
 
         // Update of the rank view
         rankView.update();
-        graphicsContext.drawImage(currentParticipantImage, x, y);
+        if (((MovingEntityModel) participantModel).isVisible()) {
+            if (((MovingEntityModel) participantModel).isDead()) {
+                graphicsContext.drawImage(deadParticipant, x, y);
+            } else {
+                graphicsContext.drawImage(currentParticipantImage, x, y);
+            }
+        }
 
     }
 }

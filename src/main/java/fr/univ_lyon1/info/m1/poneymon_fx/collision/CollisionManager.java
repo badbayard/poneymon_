@@ -6,6 +6,7 @@ public class CollisionManager {
     // Contain all Colliders of the fieldCollider.
     private ArrayList<Collider> colliders;
     // Contain all Transforms of the fieldModel.
+    //TODO Remove, since unused
     private ArrayList<Transform> transforms;
 
     public CollisionManager() {
@@ -54,8 +55,8 @@ public class CollisionManager {
                                 && colliders.get(j).isActive() == true)) {
                     // If the two collider are colliding
                     if (areColliding(colliders.get(i), colliders.get(j))) {
-                        transforms.get(i).onCollision(colliders.get(j));
-                        transforms.get(j).onCollision(colliders.get(i));
+                        colliders.get(i).getTransform().onCollision(colliders.get(j));
+                        colliders.get(j).getTransform().onCollision(colliders.get(i));
                     }
                 }
             }

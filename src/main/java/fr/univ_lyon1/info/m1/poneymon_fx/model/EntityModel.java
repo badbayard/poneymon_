@@ -79,9 +79,6 @@ public class EntityModel implements Model, Serializable, Transform {
 
     @Override
     public void onCollision(Collider col) {
-        System.out.println("I collided with something ! Ouch :(");
+        
     }
-
-
-
 }

@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class MovingEntityModel
-    extends EntityModel
-    implements Model, Comparable<MovingEntityModel> {
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
+
+public abstract class MovingEntityModel extends EntityModel
+        implements Model, Comparable<MovingEntityModel> {
 
     // Number of laps to win the race
     int nbLaps;
@@ -15,7 +16,9 @@ public abstract class MovingEntityModel
     // Minimal speed an entity can have
     static final double MIN_SPEED = 0.3;
     // Max speed an entity can have
-    static final double MAX_SPEED = 1.0;
+    public static final double MAX_SPEED = 1.0;
+    // Max speed an entity can have
+    public static final double BLINK_DURATION = 2000;
     // Entity's color
     final String entityColor;
     // Entity's speed
@@ -25,14 +28,24 @@ public abstract class MovingEntityModel
     // Entity's rank
     int rank;
     // Flag for AI
-    boolean isAi;
+    protected boolean isAi;
+    // participants's HP
+    protected int hp = 3;
+    // blinking
+    protected boolean blinking = false;
+    // Time the blink started
+    protected double blinkStartTime;
+    // visible
+    protected boolean visible = true;
     // Notifies the controller to play a boost sound
     boolean playSound = false;
     // Flag for race's end
     boolean raceFinished = false;
     // Available Entity colors
-    static final String[] COLOR_MAP = new String[] {"blue", "green", "orange", "purple",
-        "yellow"};
+    protected boolean dead = false;
+    // Available Entity colors
+    protected static final String[] COLOR_MAP = new String[] { "blue", "green", "orange", "purple",
+        "yellow" };
     List<MovingEntityModel> neighbors = new ArrayList<>();
     // Random number generator for speed
     static final Random RANDOM_GENERATOR = new Random();
@@ -61,15 +74,15 @@ public abstract class MovingEntityModel
     /**
      * Sets the poney speed.
      *
-     * @param s the new speed
+     * @param s
+     *            the new speed
      */
     public void setSpeed(double s) {
         speed = s;
     }
 
     /**
-     * /**
-     * Set the new random speed of the poney.
+     * /** Set the new random speed of the poney.
      */
     protected void setRandomSpeed() {
         speed = MIN_SPEED + (MAX_SPEED - MIN_SPEED) * RANDOM_GENERATOR.nextFloat();
@@ -109,8 +122,10 @@ public abstract class MovingEntityModel
     /**
      * Sets the nbLap attributes.
      *
-     * @param lap the new value for nbLap
-     * @throws IllegalArgumentException if lap is < 0
+     * @param lap
+     *            the new value for nbLap
+     * @throws IllegalArgumentException
+     *             if lap is < 0
      */
     public void setNbLap(int lap) throws IllegalArgumentException {
         if (lap >= 0) {
@@ -132,7 +147,8 @@ public abstract class MovingEntityModel
     /**
      * Returns the color at position index in the color map.
      *
-     * @param index index of the color
+     * @param index
+     *            index of the color
      * @return color at position index
      */
     static String getColor(int index) {
@@ -182,7 +198,8 @@ public abstract class MovingEntityModel
     /**
      * Adds a neighbor to poney.
      *
-     * @param poney the neighbor to add
+     * @param poney
+     *            the neighbor to add
      */
     void addNeighbor(MovingEntityModel poney) {
         neighbors.add(poney);
@@ -191,7 +208,8 @@ public abstract class MovingEntityModel
     /**
      * Removes a neighbor.
      *
-     * @param poney the neighbor to remove
+     * @param poney
+     *            the neighbor to remove
      */
     public void removeNeighbor(MovingEntityModel poney) {
         neighbors.remove(poney);
@@ -209,7 +227,8 @@ public abstract class MovingEntityModel
     /**
      * Gives the algebraic distance between the current Entity and the other.
      *
-     * @param pm the other poney needed to get a distance
+     * @param pm
+     *            the other poney needed to get a distance
      * @return the algebraic distance between the poneys
      */
     public double getRelativeDistanceTo(MovingEntityModel pm) {
@@ -235,9 +254,11 @@ public abstract class MovingEntityModel
     /**
      * Generic update for an entity (displacement, lap completion...).
      *
-     * @param msElapsed time elapsed since the last update
+     * @param msElapsed
+     *            time elapsed since the last update
      */
     public void update(double msElapsed) {
+        blink();
         // Update if the race isn't finished
         if (raceFinished) {
             return;
@@ -259,6 +280,50 @@ public abstract class MovingEntityModel
         }
     }
 
+    /**
+     * Blinking effect.
+     * 
+     */
+    public void blink() {
+        // System.out.println("Blinking start time : " + blinkStartTime);
+        // System.out.println("Current Time : " + System.currentTimeMillis());
+        // System.out.println("Time ellapsed from start : " + (System.currentTimeMillis() -
+        // blinkStartTime));
+
+        if (blinking) {
+            if ((System.currentTimeMillis() % 5) == 1) { // Only blink 1 seconds every 5 seconds
+                visible = true;
+            } else {
+                visible = false;
+            }
+            if ((System.currentTimeMillis() - blinkStartTime) > BLINK_DURATION) {
+                blinking = false;
+                visible = true;
+            }
+        }
+    }
+
+    /**
+     * start Blinking effect.
+     * 
+     */
+    public void startBlink() {
+        blinking = true;
+        blinkStartTime = System.currentTimeMillis();
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
     @Override
     public int compareTo(MovingEntityModel mem) {
         if (this.getTotalProgress() == mem.getTotalProgress()) {
@@ -274,9 +339,21 @@ public abstract class MovingEntityModel
         return super.equals(obj);
     }
 
-
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @Override
+    public void onCollision(Collider col) {
+        if (hp == 0 && !blinking) {
+            raceFinished = true;
+            dead = true;
+        }
+        if (!blinking && !dead) {
+            hp--;
+            System.out.println("Time to blink away ! (" + entityColor + ")");
+            startBlink();
+        }
     }
 }

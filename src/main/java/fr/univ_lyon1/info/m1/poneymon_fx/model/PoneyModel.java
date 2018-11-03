@@ -68,6 +68,8 @@ public class PoneyModel extends MovingEntityModel implements Model {
      * @param msElapsed time elapsed since the last update
      */
     public void update(double msElapsed) {
+        // Blinking
+        blink();
         // Update if the race isn't finished
         if (raceFinished) {
             return;
