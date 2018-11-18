@@ -7,35 +7,40 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public abstract class Room implements Serializable {
-    transient ArrayList<Client> clients;
-    int nbPlayers = 0;
-    int maxNbPlayers;
-    String name = "Default";
-    Password password;
-    boolean hasPassword = false;
+    protected int nbPlayers = 0;
+    protected int maxNbPlayers;
+    protected String name = "Default";
+    protected Password password;
+    protected boolean hasPassword = false;
+    protected transient ArrayList<Client> clients;
 
-    Room() {
+    public Room() {
         clients = new ArrayList<>(4);
         maxNbPlayers = 4;
     }
 
-    Room(int nbPlayers) {
+    public Room(int nbPlayers) {
         maxNbPlayers = nbPlayers;
         clients = new ArrayList<>(maxNbPlayers);
     }
 
-    Room(String password) {
+    public Room(String password) {
         this(password, 4);
     }
 
-    Room(String password, int nbPlayers) {
+    /**
+     * Initialise la salle.
+     * @param password le mot de passe de la salle
+     * @param nbPlayers le nombre possible de joueurs
+     */
+    public Room(String password, int nbPlayers) {
         this(nbPlayers);
         this.password = new Password(password);
         hasPassword = true;
         clients = new ArrayList<>(nbPlayers);
     }
 
-    Room(String password, int nbPlayers, String name) {
+    public Room(String password, int nbPlayers, String name) {
         this(password, nbPlayers);
         this.name = name;
     }
@@ -50,7 +55,8 @@ public abstract class Room implements Serializable {
         if (nbPlayers < maxNbPlayers) {
             clients.add(client);
             nbPlayers++;
-            System.out.println("Client rejoint :" + nbPlayers + "/" + maxNbPlayers);
+            System.out.println(
+                    "Client rejoint :" + nbPlayers + "/" + maxNbPlayers);
             return true;
         }
         System.out.println("Room pleine");
@@ -82,6 +88,19 @@ public abstract class Room implements Serializable {
     }
 
     /**
+     * Removes a client from the room.
+     *
+     * @param client the client that leaves the room
+     * @return the removed client
+     */
+    public synchronized Client remove(Client client) {
+        if (clients.remove(client)) {
+            nbPlayers--;
+        }
+        return client;
+    }
+
+    /**
      * Get a client from the room.
      *
      * @param idClient the id of the client
@@ -93,19 +112,5 @@ public abstract class Room implements Serializable {
             ++i;
         }
         return clients.get(i);
-    }
-
-    /**
-     * Removes a client from the room.
-     *
-     * @param client the client that leaves the room
-     * @return the removed client
-     */
-    public synchronized Client remove(Client client) {
-        if (clients.remove(client)) {
-            nbPlayers--;
-        }
-
-        return client;
     }
 }

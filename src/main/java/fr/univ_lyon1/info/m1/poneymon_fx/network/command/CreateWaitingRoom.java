@@ -7,17 +7,17 @@ public class CreateWaitingRoom extends RoomCommand {
     private String name;
     private String password;
 
-    public CreateWaitingRoom(String name, String password){
+    public CreateWaitingRoom(String name, String password) {
         this.name = name;
         this.password = password;
     }
 
     @Override
     public void atReceive() {
-        System.out.println(idPlayer + "envois : commande pour crée un partie" +
-                ".");
-        System.out.println("On essaye créer la partie : " + name + " avec le " +
-                "mot de passe : " + password);
+        System.out.println(idPlayer + "envois : commande pour crée un partie"
+                + ".");
+        System.out.println("On essaye créer la partie : " + name + " avec le "
+                + "mot de passe : " + password);
         if (actualRoom == null) {
             System.err.println("Pas room assigné à la commande !");
         } else {

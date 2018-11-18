@@ -6,7 +6,9 @@ public abstract class Process implements Runnable {
     protected Client client;
     protected volatile boolean isRunning = true;
 
-    public void close() { isRunning = false; }
+    public void close() {
+        isRunning = false;
+    }
 
     public int getIdClient() {
         return client.getPlayerId();

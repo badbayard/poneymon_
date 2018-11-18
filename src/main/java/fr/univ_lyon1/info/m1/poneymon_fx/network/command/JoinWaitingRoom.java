@@ -14,25 +14,27 @@ public class JoinWaitingRoom extends RoomCommand {
     String name;
     String password;
 
-    public JoinWaitingRoom(String name, String password){
-        this.name =name;
+    public JoinWaitingRoom(String name, String password) {
+        this.name = name;
         this.password = password;
     }
 
     @Override
     public void atReceive() {
-        System.out.println(idPlayer + "envois : commande pour rejoindre un " +
-                "partie.");
+        System.out.println(idPlayer + "envois : commande pour rejoindre un "
+                + "partie.");
 
-        System.out.println("On cherche la partie : " + name + " avec le mot de passe : "
-            + password);
+        System.out.println(
+                "On cherche la partie : " + name + " avec le mot de passe : "
+                        + password);
         if (actualRoom == null || actualRoom.getRooms().isEmpty()) {
-            System.err.println("Pas de room sur laquelle rechercher les parties.");
+            System.err.println(
+                    "Pas de room sur laquelle rechercher les parties.");
         } else {
             System.out.println("Il y a des rooms pour chercher la partie.");
             Password hashedPassword = new Password(password);
             ArrayList<WaitingRoom> possibleRooms =
-                (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();
+                    (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();
 
             WaitingRoom waitingRoom;
 
@@ -43,12 +45,13 @@ public class JoinWaitingRoom extends RoomCommand {
                     waitingRoom = possibleRoom;
 
                     if (waitingRoom.getName().equals(name)
-                        && waitingRoom.getPassword() == hashedPassword) {
-                        System.out.println("On a trouvé la bonne room, on join");
+                            && waitingRoom.getPassword() == hashedPassword) {
+                        System.out
+                                .println("On a trouvé la bonne room, on join");
 
                         Client client = waitingRoom.remove(idPlayer);
                         ProcessManager.getProcessManager().createAndRunThread(
-                            new WaitingRoomProcess(client, waitingRoom));
+                                new WaitingRoomProcess(client, waitingRoom));
                     }
                 }
             }

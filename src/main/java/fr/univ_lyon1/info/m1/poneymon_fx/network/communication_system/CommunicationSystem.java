@@ -30,9 +30,7 @@ public class CommunicationSystem {
     }
 
     public Command receiveCommand() {
-        Command cmd = receiver.receiveCommand();
-        cmd.setIdPlayer(idClient);
-        return cmd;
+        return receiver.receiveCommand();
     }
 
     /**
