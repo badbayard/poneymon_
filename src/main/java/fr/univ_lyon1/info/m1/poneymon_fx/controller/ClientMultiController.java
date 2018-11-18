@@ -11,6 +11,8 @@ import java.net.Socket;
 public class ClientMultiController extends ClientController implements Runnable {
     private Socket socket = null;
     private CommunicationSystem messagingSystem;
+    // Donnez par le serveur nécéssaire dans chaque communication
+    private int idClient;
 
     /**
      * Constructeur du controller multi côté client avec infos de connexion.
@@ -23,7 +25,7 @@ public class ClientMultiController extends ClientController implements Runnable 
 
         try {
             socket = new Socket(host, port);
-            messagingSystem = new CommunicationSystem(socket);
+            messagingSystem = new CommunicationSystem(socket, 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,6 +33,10 @@ public class ClientMultiController extends ClientController implements Runnable 
 
     @Override
     public void run() {
+        System.out.println("Hello");
+        Command cmd = messagingSystem.receiveCommand();
+        idClient = cmd.getIdPlayer();
+        messagingSystem.setIdClient(idClient);
         /*
         System.out.println("C'est parti pour les commandes");
 

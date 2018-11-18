@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.network.util;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -14,7 +15,7 @@ import java.util.Random;
  * for hashing password (vs. bcrypt) is still considered robust.
  * The hashed value has 256 bits.
  */
-public class Password {
+public class Password implements Serializable {
 
     private static final Random RANDOM = new SecureRandom();
     private static final int ITERATIONS = 10000;

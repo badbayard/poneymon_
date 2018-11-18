@@ -23,7 +23,7 @@ public class ProcessusClient implements Runnable {
     public ProcessusClient(String host, int port) {
         try {
             connexion = new Socket(host, port);
-            messagingSystem = new CommunicationSystem(connexion);
+            messagingSystem = new CommunicationSystem(connexion, 0);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {

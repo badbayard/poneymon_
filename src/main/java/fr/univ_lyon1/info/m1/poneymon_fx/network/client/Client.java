@@ -23,7 +23,7 @@ public class Client {
     public Client(int id, Socket s) {
         playerId = id;
         socket = s;
-        communicationSystem = new CommunicationSystem(socket);
+        communicationSystem = new CommunicationSystem(socket, playerId);
     }
 
     public boolean getChief() {

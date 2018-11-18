@@ -14,15 +14,22 @@ public class JoinWaitingRoom extends RoomCommand {
     String name;
     String password;
 
+    public JoinWaitingRoom(String name, String password){
+        this.name =name;
+        this.password = password;
+    }
+
     @Override
     public void atReceive() {
-        System.out.println("Commande pour rejoindre un partie.");
+        System.out.println(idPlayer + "envois : commande pour rejoindre un " +
+                "partie.");
 
         System.out.println("On cherche la partie : " + name + " avec le mot de passe : "
             + password);
-        if (actualRoom == null) {
+        if (actualRoom == null || actualRoom.getRooms().isEmpty()) {
             System.err.println("Pas de room sur laquelle rechercher les parties.");
         } else {
+            System.out.println("Il y a des rooms pour chercher la partie.");
             Password hashedPassword = new Password(password);
             ArrayList<WaitingRoom> possibleRooms =
                 (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();

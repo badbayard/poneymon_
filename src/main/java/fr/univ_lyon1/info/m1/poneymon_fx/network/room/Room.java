@@ -3,10 +3,11 @@ package fr.univ_lyon1.info.m1.poneymon_fx.network.room;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.util.Password;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Room {
-    ArrayList<Client> clients;
+public abstract class Room implements Serializable {
+    transient ArrayList<Client> clients;
     int nbPlayers = 0;
     int maxNbPlayers;
     String name = "Default";
@@ -78,6 +79,20 @@ public abstract class Room {
         Client res = clients.get(i);
         clients.remove(i);
         return res;
+    }
+
+    /**
+     * Get a client from the room.
+     *
+     * @param idClient the id of the client
+     * @return the client
+     */
+    public synchronized Client getClient(int idClient) {
+        int i = 0;
+        while (clients.get(i).getPlayerId() != idClient) {
+            ++i;
+        }
+        return clients.get(i);
     }
 
     /**

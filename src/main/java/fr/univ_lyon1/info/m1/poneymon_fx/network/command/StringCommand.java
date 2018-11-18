@@ -12,6 +12,11 @@ public class StringCommand extends Command {
         System.err.println("Je suis une string command : " + mot);
     }
 
+    @Override
+    public void atReceive() {
+        System.out.println("L'envoyeur dit : " + mot);
+    }
+
     public String getMot() {
         return mot;
     }

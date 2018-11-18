@@ -4,9 +4,17 @@ import java.io.Serializable;
 
 public class Command implements Serializable {
 
-    int idPlayer;
+    protected int idPlayer;
 
     public Command() {
+    }
+
+    public int getIdPlayer() {
+        return idPlayer;
+    }
+
+    public void setIdPlayer(int idPlayer) {
+        this.idPlayer = idPlayer;
     }
 
     public void affichage() {

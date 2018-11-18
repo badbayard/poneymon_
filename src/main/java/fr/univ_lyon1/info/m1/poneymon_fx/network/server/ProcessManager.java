@@ -32,11 +32,12 @@ public class ProcessManager {
      *
      * @param process Le processus contenant le client utilisé pour la recherche
      * @return -1 s'il n'y a pas de processus pour ce client sinon l'inde du
-     *     processus de ce client.
+     * processus de ce client.
      */
     public synchronized int searchProcessByClient(Process process) {
         for (int i = 0; i < threads.size(); ++i) {
-            if (threads.get(i).getKey().getIdClient() == process.getIdClient()) {
+            if (threads.get(i).getKey().getIdClient() ==
+                    process.getIdClient()) {
                 return i;
             }
         }
@@ -55,6 +56,8 @@ public class ProcessManager {
         }
         Thread t = new Thread(process);
         threads.add(new Pair<>(process, t));
+        System.out.println("On lance un nouveau thread pour le client : " +
+                process.getIdClient());
         t.start();
     }
 
@@ -64,6 +67,8 @@ public class ProcessManager {
      * @param index l'index du processus à détruire
      */
     public synchronized void deleteProcess(int index) {
+        System.out.println("On ferme un thread pour le client : " +
+                threads.get(index).getKey().getIdClient());
         threads.get(index).getKey().close();
         threads.remove(index);
     }
