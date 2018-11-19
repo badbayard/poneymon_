@@ -105,7 +105,12 @@ public class JfxView implements View {
 
                     boostPoney.setOnMouseClicked(
                         m -> cc.boostButton((PoneyModel) participantModel));
+                    Button jumpPoney = new Button("Jump poney: " + participantModel.getColor());
+
+                    jumpPoney.setOnMouseClicked(
+                        m -> cc.jumpButton((PoneyModel) participantModel));
                     hb.getChildren().add(boostPoney);
+                    hb.getChildren().add(jumpPoney);
                 }
             }
         }

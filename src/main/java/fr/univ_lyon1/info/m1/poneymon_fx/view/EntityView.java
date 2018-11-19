@@ -112,13 +112,23 @@ public class EntityView implements View, Collider {
     }
 
     @Override
-    public double getWidth() {
+    public double getColWidth() {
         return imageWidth;
     }
 
     @Override
-    public double getHeight() {
+    public double getColHeight() {
         return imageHeight;
+    }
+    
+    @Override
+    public int getColX() {
+        return x;
+    }
+    
+    @Override
+    public int getColY() {
+        return y;
     }
 
     @Override

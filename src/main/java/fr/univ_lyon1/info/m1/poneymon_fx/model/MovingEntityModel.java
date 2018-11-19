@@ -22,7 +22,7 @@ public abstract class MovingEntityModel extends EntityModel
     // Max height an entity can jump
     public static final double MAX_JUMP_HEIGHT = 100;
     // Time it take to finish a jump
-    public static final double JUMP_DURATION= 3000;
+    public static final double JUMP_DURATION = 3000;
     // Entity's color
     final String entityColor;
     // Entity's speed
@@ -52,7 +52,7 @@ public abstract class MovingEntityModel extends EntityModel
     // Available Entity colors
     protected double jumpStartTime;
     protected static final String[] COLOR_MAP = new String[] { "blue", "green", "orange", "purple",
-        "yellow" };
+            "yellow" };
     List<MovingEntityModel> neighbors = new ArrayList<>();
     // Random number generator for speed
     static final Random RANDOM_GENERATOR = new Random();
@@ -87,16 +87,16 @@ public abstract class MovingEntityModel extends EntityModel
     public void setSpeed(double s) {
         speed = s;
     }
-    
+
     /**
-     * Getter 
+     * Getter.
+     * 
      * @return
      */
     public boolean isJumping() {
         return jumping;
     }
-    
-    
+
     public double getJumpStartTime() {
         return jumpStartTime;
     }
@@ -279,8 +279,9 @@ public abstract class MovingEntityModel extends EntityModel
      */
     public void update(double msElapsed) {
         blink();
-        if(!dead)
+        if (!dead) {
             jump();
+        }
         // Update if the race isn't finished
         if (raceFinished) {
             return;
@@ -328,15 +329,17 @@ public abstract class MovingEntityModel extends EntityModel
         blinking = true;
         blinkStartTime = System.currentTimeMillis();
     }
+
     /**
-     * start jump
+     * start jump.
      */
     public void startJump() {
-        if(!jumping) {
+        if (!jumping) {
             jumping = true;
             jumpStartTime = System.currentTimeMillis();
         }
     }
+
     /**
      * Blinking effect.
      * 
@@ -348,6 +351,7 @@ public abstract class MovingEntityModel extends EntityModel
             }
         }
     }
+
     public int getHp() {
         return hp;
     }
@@ -382,12 +386,12 @@ public abstract class MovingEntityModel extends EntityModel
 
     @Override
     public void onCollision(Collider col) {
-        //Kill poney if no more HP
+        // Kill poney if no more HP
         if (hp == 0 && !blinking) {
             raceFinished = true;
             dead = true;
         }
-        //If the poney is not dead, and not invincible(Blinking | Jumping), then decrement HP
+        // If the poney is not dead, and not invincible(Blinking | Jumping), then decrement HP
         if (!blinking && !dead && !jumping) {
             hp--;
             System.out.println("Time to blink away ! (" + entityColor + ")");

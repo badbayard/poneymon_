@@ -55,7 +55,7 @@ public class PoneyView extends MovingEntityView implements View {
             
             jumpOffset = calculateJumpOffset();
         }
-        y = (int) (((row + 1 ) * space + row * imageHeight )-jumpOffset);
+        y = (int) (((row + 1 ) * space + row * imageHeight ) - jumpOffset);
         // Set the right image
         if (((PoneyModel) participantModel).isBoosted()) {
             currentParticipantImage = nianPoneyImage;
@@ -78,5 +78,14 @@ public class PoneyView extends MovingEntityView implements View {
             }
         }
 
+    }
+    
+    @Override
+    public int getColX() {
+        return (int) (x + imageWidth/2);
+    }
+    @Override
+    public double getColWidth() {
+        return imageWidth/2;
     }
 }

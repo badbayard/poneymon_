@@ -67,10 +67,10 @@ public class CollisionManager {
      * Check if 2 colliders are touching.
      */
     public boolean areColliding(Collider colA, Collider colB) {
-        return rangeIntersect(colA.getX(), colA.getX() + colA.getWidth(), colB.getX(),
-                colB.getX() + colB.getWidth())
-                && rangeIntersect(colA.getY(), colA.getY() + colA.getHeight(), colB.getY(),
-                        colB.getY() + colB.getHeight());
+        return rangeIntersect(colA.getColX(), colA.getColX() + colA.getColWidth(), colB.getColX(),
+                colB.getColX() + colB.getColWidth())
+                && rangeIntersect(colA.getColY(), colA.getColY() + colA.getColHeight(), colB.getColY(),
+                        colB.getColY() + colB.getColHeight());
 
     }
 
