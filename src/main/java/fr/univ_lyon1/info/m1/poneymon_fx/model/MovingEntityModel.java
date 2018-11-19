@@ -19,6 +19,10 @@ public abstract class MovingEntityModel extends EntityModel
     public static final double MAX_SPEED = 1.0;
     // Max speed an entity can have
     public static final double BLINK_DURATION = 2000;
+    // Max height an entity can jump
+    public static final double MAX_JUMP_HEIGHT = 100;
+    // Time it take to finish a jump
+    public static final double JUMP_DURATION= 3000;
     // Entity's color
     final String entityColor;
     // Entity's speed
@@ -41,9 +45,12 @@ public abstract class MovingEntityModel extends EntityModel
     boolean playSound = false;
     // Flag for race's end
     boolean raceFinished = false;
-    // Available Entity colors
+    // Is the participant dead
     protected boolean dead = false;
+    // Is the participant jumping
+    protected boolean jumping = false;
     // Available Entity colors
+    protected double jumpStartTime;
     protected static final String[] COLOR_MAP = new String[] { "blue", "green", "orange", "purple",
         "yellow" };
     List<MovingEntityModel> neighbors = new ArrayList<>();
@@ -79,6 +86,19 @@ public abstract class MovingEntityModel extends EntityModel
      */
     public void setSpeed(double s) {
         speed = s;
+    }
+    
+    /**
+     * Getter 
+     * @return
+     */
+    public boolean isJumping() {
+        return jumping;
+    }
+    
+    
+    public double getJumpStartTime() {
+        return jumpStartTime;
     }
 
     /**
@@ -259,6 +279,8 @@ public abstract class MovingEntityModel extends EntityModel
      */
     public void update(double msElapsed) {
         blink();
+        if(!dead)
+            jump();
         // Update if the race isn't finished
         if (raceFinished) {
             return;
@@ -285,11 +307,6 @@ public abstract class MovingEntityModel extends EntityModel
      * 
      */
     public void blink() {
-        // System.out.println("Blinking start time : " + blinkStartTime);
-        // System.out.println("Current Time : " + System.currentTimeMillis());
-        // System.out.println("Time ellapsed from start : " + (System.currentTimeMillis() -
-        // blinkStartTime));
-
         if (blinking) {
             if ((System.currentTimeMillis() % 5) == 1) { // Only blink 1 seconds every 5 seconds
                 visible = true;
@@ -311,7 +328,26 @@ public abstract class MovingEntityModel extends EntityModel
         blinking = true;
         blinkStartTime = System.currentTimeMillis();
     }
-
+    /**
+     * start jump
+     */
+    public void startJump() {
+        if(!jumping) {
+            jumping = true;
+            jumpStartTime = System.currentTimeMillis();
+        }
+    }
+    /**
+     * Blinking effect.
+     * 
+     */
+    public void jump() {
+        if (jumping) {
+            if ((System.currentTimeMillis() - jumpStartTime) > JUMP_DURATION) {
+                jumping = false;
+            }
+        }
+    }
     public int getHp() {
         return hp;
     }
@@ -346,11 +382,13 @@ public abstract class MovingEntityModel extends EntityModel
 
     @Override
     public void onCollision(Collider col) {
+        //Kill poney if no more HP
         if (hp == 0 && !blinking) {
             raceFinished = true;
             dead = true;
         }
-        if (!blinking && !dead) {
+        //If the poney is not dead, and not invincible(Blinking | Jumping), then decrement HP
+        if (!blinking && !dead && !jumping) {
             hp--;
             System.out.println("Time to blink away ! (" + entityColor + ")");
             startBlink();
