@@ -1,8 +1,9 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class LaneEntityModel {
+public class LaneEntityModel implements Serializable {
     private int row;
     private MovingEntityModel boundParticipant;
     private ArrayList<FixedEntityModel> fixedEntities;

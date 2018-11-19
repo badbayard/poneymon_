@@ -1,11 +1,14 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.server;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.AskForWaitingRoom;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.CreateWaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.InGameCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.JoinWaitingRoom;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.AskForWaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.SelectPoney;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.ShowWaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.WaitingRoom;
 
@@ -18,6 +21,7 @@ public class ClientServerTest {
     private Socket socket;
     private CommunicationSystem messagingSystem;
     private int idClient;
+    private boolean isInGameRoom = false;
 
     /**
      * Initialize the client.
@@ -29,11 +33,6 @@ public class ClientServerTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void setIdClient(int idClient) {
-        this.idClient = idClient;
-        messagingSystem.setIdClient(idClient);
     }
 
     /**
@@ -55,6 +54,7 @@ public class ClientServerTest {
             System.out.println("- \"join\" = join a room");
             System.out.println("- \"create\" = create a room");
             System.out.println("- \"show\" = show all rooms");
+            System.out.println("- \"select\" = select a poney");
             System.out.println("- \"quit\" = exit server");
             System.out.print("> ");
             String rep = sc.nextLine();
@@ -99,11 +99,27 @@ public class ClientServerTest {
                 for (int i = 0; i < rooms.size(); ++i) {
                     System.out.println(rooms.get(i).getName());
                 }
+                (client.messagingSystem.receiveCommand()).atReceive();
+            } else if (rep.equals("select")) {
+                System.out.println("Choose Color :");
+                String color = sc.nextLine();
+                cmd = new SelectPoney("pony", color);
                 client.messagingSystem.sendCommand(cmd);
+                InGameCommand cmd2 =
+                        (InGameCommand) client.messagingSystem.receiveCommand();
+                FieldModel field = cmd2.getFieldModel();
+                for (int i = 0; i < field.getParticipantModels().length; ++i) {
+                    System.out.println(field.getParticipantModel(i).getColor());
+                }
                 (client.messagingSystem.receiveCommand()).atReceive();
             } else {
                 System.out.println("Commande inconnue");
             }
         }
+    }
+
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
+        messagingSystem.setIdClient(idClient);
     }
 }

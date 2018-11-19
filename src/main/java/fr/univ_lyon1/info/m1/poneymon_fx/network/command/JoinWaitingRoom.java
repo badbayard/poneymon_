@@ -21,7 +21,7 @@ public class JoinWaitingRoom extends RoomCommand {
 
     @Override
     public void atReceive() {
-        System.out.println(idPlayer + "envois : commande pour rejoindre un "
+        System.out.println(idPlayer + " envois : commande pour rejoindre un "
                 + "partie.");
 
         System.out.println(
@@ -44,14 +44,24 @@ public class JoinWaitingRoom extends RoomCommand {
                 for (WaitingRoom possibleRoom : possibleRooms) {
                     waitingRoom = possibleRoom;
 
-                    if (waitingRoom.getName().equals(name)
-                            && waitingRoom.getPassword() == hashedPassword) {
+                    if (waitingRoom.getName().equals(name)) {
+                        //&& waitingRoom.getPassword() == hashedPassword) {
                         System.out
                                 .println("On a trouvé la bonne room, on join");
 
-                        Client client = waitingRoom.remove(idPlayer);
-                        ProcessManager.getProcessManager().createAndRunThread(
-                                new WaitingRoomProcess(client, waitingRoom));
+                        Client client = actualRoom.remove(idPlayer);
+                        if (client != null) {
+                            if (waitingRoom.join(client)) {
+                                ProcessManager.getProcessManager()
+                                        .createAndRunThread(
+                                                new WaitingRoomProcess(client,
+                                                        waitingRoom));
+                            } else {
+                                System.err.println("ECHEC Join!");
+                            }
+                        } else {
+                            System.err.println("ECHEC Join!");
+                        }
                     }
                 }
             }

@@ -14,7 +14,7 @@ public class CreateWaitingRoom extends RoomCommand {
 
     @Override
     public void atReceive() {
-        System.out.println(idPlayer + "envois : commande pour crée un partie"
+        System.out.println(idPlayer + " envois : commande pour crée un partie"
                 + ".");
         System.out.println("On essaye créer la partie : " + name + " avec le "
                 + "mot de passe : " + password);
@@ -36,7 +36,7 @@ public class CreateWaitingRoom extends RoomCommand {
                 JoinWaitingRoom cmdJoin = new JoinWaitingRoom(name, password);
                 cmdJoin.setActualRoom(actualRoom);
                 cmdJoin.setIdPlayer(idPlayer);
-                atReceive();
+                cmdJoin.atReceive();
             }
         }
     }

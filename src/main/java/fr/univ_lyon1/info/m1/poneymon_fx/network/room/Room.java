@@ -12,6 +12,7 @@ public abstract class Room implements Serializable {
     protected String name = "Default";
     protected Password password;
     protected boolean hasPassword = false;
+
     protected transient ArrayList<Client> clients;
 
     public Room() {
@@ -30,7 +31,8 @@ public abstract class Room implements Serializable {
 
     /**
      * Initialise la salle.
-     * @param password le mot de passe de la salle
+     *
+     * @param password  le mot de passe de la salle
      * @param nbPlayers le nombre possible de joueurs
      */
     public Room(String password, int nbPlayers) {
@@ -43,6 +45,10 @@ public abstract class Room implements Serializable {
     public Room(String password, int nbPlayers, String name) {
         this(password, nbPlayers);
         this.name = name;
+    }
+
+    public ArrayList<Client> getClients() {
+        return clients;
     }
 
     /**
@@ -72,19 +78,52 @@ public abstract class Room implements Serializable {
     }
 
     /**
+     * Get a client from the room.
+     *
+     * @param idClient the id of the client
+     * @return the client
+     */
+    public Client getClient(int idClient) {
+        int i = 0;
+        while (clients.get(i).getPlayerId() != idClient) {
+            ++i;
+        }
+        return clients.get(i);
+    }
+
+    /**
+     * Retourne l'indice de la case du client dont l'id est en parametre.
+     * @param idClient l'indice du client recherche
+     * @return l'indice de la case de ce client dans la liste de la salle
+     */
+    public int getIndexClient(int idClient) {
+        int i = 0;
+        while (i < clients.size() && clients.get(i).getPlayerId() != idClient) {
+            ++i;
+        }
+        if (i < clients.size()) {
+            return i;
+        } else {
+            return -1;
+        }
+    }
+
+    /**
      * Removes a client from the room.
      *
      * @param idClient the id of the client
      * @return the removed client
      */
     public synchronized Client remove(int idClient) {
-        int i = 0;
-        while (clients.get(i).getPlayerId() != idClient) {
-            ++i;
+        int i = getIndexClient(idClient);
+        if (i != -1) {
+            Client res = clients.get(i);
+            clients.remove(i);
+            return res;
+        } else {
+            return null;
         }
-        Client res = clients.get(i);
-        clients.remove(i);
-        return res;
+
     }
 
     /**
@@ -98,19 +137,5 @@ public abstract class Room implements Serializable {
             nbPlayers--;
         }
         return client;
-    }
-
-    /**
-     * Get a client from the room.
-     *
-     * @param idClient the id of the client
-     * @return the client
-     */
-    public synchronized Client getClient(int idClient) {
-        int i = 0;
-        while (clients.get(i).getPlayerId() != idClient) {
-            ++i;
-        }
-        return clients.get(i);
     }
 }

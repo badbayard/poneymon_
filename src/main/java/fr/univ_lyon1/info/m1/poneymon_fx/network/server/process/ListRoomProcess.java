@@ -28,10 +28,8 @@ public class ListRoomProcess extends Process {
              * network-wise).
              */
             if (cmd == null) {
-                System.out.println("Client disconnected");
                 listRoom.remove(client);
-                close();
-                return;
+                deco();
             }
 
             cmd.setActualRoom(listRoom);

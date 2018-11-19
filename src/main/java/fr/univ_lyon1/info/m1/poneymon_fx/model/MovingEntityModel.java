@@ -1,12 +1,13 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public abstract class MovingEntityModel
     extends EntityModel
-    implements Model, Comparable<MovingEntityModel> {
+    implements Model, Comparable<MovingEntityModel>, Serializable {
 
     // Number of laps to win the race
     int nbLaps;
