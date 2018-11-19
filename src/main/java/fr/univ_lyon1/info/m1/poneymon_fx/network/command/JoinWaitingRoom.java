@@ -21,20 +21,19 @@ public class JoinWaitingRoom extends RoomCommand {
 
     @Override
     public void atReceive() {
-        System.out.println(idPlayer + " envois : commande pour rejoindre un "
-                + "partie.");
+        System.out.println(idPlayer + "envois : commande pour rejoindre une partie.");
 
         System.out.println(
-                "On cherche la partie : " + name + " avec le mot de passe : "
-                        + password);
-        if (actualRoom == null || actualRoom.getRooms().isEmpty()) {
+            "On cherche la partie : " + name + " avec le mot de passe : " + password);
+
+        if (!(actualRoom instanceof ListRoom) || ((ListRoom) actualRoom).getRooms().isEmpty()) {
             System.err.println(
-                    "Pas de room sur laquelle rechercher les parties.");
+                "Pas de room sur laquelle rechercher les parties.");
         } else {
             System.out.println("Il y a des rooms pour chercher la partie.");
             Password hashedPassword = new Password(password);
             ArrayList<WaitingRoom> possibleRooms =
-                    (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();
+                (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();
 
             WaitingRoom waitingRoom;
 
@@ -44,10 +43,9 @@ public class JoinWaitingRoom extends RoomCommand {
                 for (WaitingRoom possibleRoom : possibleRooms) {
                     waitingRoom = possibleRoom;
 
-                    if (waitingRoom.getName().equals(name)) {
-                        //&& waitingRoom.getPassword() == hashedPassword) {
-                        System.out
-                                .println("On a trouvé la bonne room, on join");
+                    if (waitingRoom.getName().equals(name)
+                        && waitingRoom.getPassword() == hashedPassword) {
+                        System.out.println("On a trouvé la bonne room, on join");
 
                         Client client = actualRoom.remove(idPlayer);
                         if (client != null) {

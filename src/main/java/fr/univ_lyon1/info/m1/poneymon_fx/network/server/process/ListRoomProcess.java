@@ -29,7 +29,8 @@ public class ListRoomProcess extends Process {
              */
             if (cmd == null) {
                 listRoom.remove(client);
-                deco();
+                close();
+                return;
             }
 
             cmd.setActualRoom(listRoom);

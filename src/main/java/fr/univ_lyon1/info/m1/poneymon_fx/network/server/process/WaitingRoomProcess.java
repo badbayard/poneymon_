@@ -24,7 +24,8 @@ public class WaitingRoomProcess extends Process {
              */
             if (cmd == null) {
                 waitingRoom.remove(client);
-                deco();
+                close();
+                return;
             }
 
             cmd.setActualRoom(waitingRoom);
