@@ -12,8 +12,8 @@ import java.net.Socket;
 public class Server {
 
     private static Integer idClient = 0;
-    private int port;
-    private ServerSocket server = null;
+    private int portEvt, portCnt;
+    private ServerSocket serverEvt = null, serverCnt = null;
     private boolean isRunning = true;
     private ListRoom listRoom;
 
@@ -21,19 +21,23 @@ public class Server {
      * Constructeur par défaut du serveur, écotant sur toutes les adresses IP.
      */
     Server() {
-        this(4242);
+        this(4242, 4243);
     }
 
     /**
-     * Constructeur du serveur avec port écoutant sur toutes les adresses IP.
+     * Constructeur du serveur avec portEvt écoutant sur toutes les adresses IP.
      *
-     * @param port port du serveur
+     * @param portEvt portEvt du serveur pour les événements
+     * @param portCnt portEvt du serveur pour le transfert en continu
      */
-    Server(int port) {
-        this.port = port;
+    Server(int portEvt, int portCnt) {
+        this.portEvt = portEvt;
+        this.portCnt = portCnt;
         listRoom = ListRoom.getInstance();
+
         try {
-            server = new ServerSocket(port, 100);
+            serverEvt = new ServerSocket(this.portEvt, 100);
+            serverCnt = new ServerSocket(this.portCnt, 100);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,30 +47,33 @@ public class Server {
      * Ouvre le serveur.
      */
     void open() {
+        System.err.println("server is running");
         Thread t = new Thread(() -> {
             while (isRunning) {
                 try {
-                    Socket clientSocket = server.accept();
+                    Socket clientSocketEvt = serverEvt.accept();
+                    Socket clientSocketCnt = serverCnt.accept();
 
-                    Client client = new Client(idClient, clientSocket);
+                    Client client = new Client(idClient, clientSocketEvt, clientSocketCnt);
                     incrementId();
-                    client.sendCommand(new StringCommand("Welcome"));
+
+                    client.sendCommandEvt(new StringCommand("Welcome"));
 
                     if (ListRoom.getInstance().join(client)) {
                         ProcessManager.getProcessManager().createAndRunThread(
                                 new ListRoomProcess(client));
                     }
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
             try {
-                server.close();
+                serverEvt.close();
+                serverCnt.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                server = null;
+                serverEvt = null;
+                serverCnt = null;
             }
         });
         t.start();

@@ -25,7 +25,7 @@ public class MasterGameRoomProcess extends GameRoomProcess {
             ArrayList<Client> clients = gameRoom.getClients();
             UpdateGameCmd cmd = new UpdateGameCmd(gameRoom.getFieldModel());
             for (int i = 0; i < clients.size(); ++i) {
-                clients.get(i).sendCommand(cmd);
+                clients.get(i).sendCommandEvt(cmd);
             }
         }
     }

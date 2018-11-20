@@ -22,7 +22,7 @@ public class LaunchGame extends WaitingRoomCommand {
                     clients);
             UpdateGameCmd cmd = new UpdateGameCmd(getFieldModel());
             for (int i = 0; i < clients.size(); ++i) {
-                clients.get(i).sendCommand(cmd);
+                clients.get(i).sendCommandCnt(cmd);
                 ProcessManager.getProcessManager().createAndRunThread(
                         new GameProcessOneClient(gameRoom, clients.get(i)));
             }

@@ -1,7 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.server.process;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.RoomCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.ListRoom;
@@ -22,7 +21,7 @@ public class ListRoomProcess extends Process {
     @Override
     public void run() {
         while (isRunning) {
-            RoomCommand cmd = (RoomCommand) client.receiveCommand();
+            RoomCommand cmd = (RoomCommand) client.receiveCommandEvt();
             /*
              * ReceiveCommand returns null if an IOException is thrown (ie. something went wrong
              * network-wise).
@@ -35,7 +34,7 @@ public class ListRoomProcess extends Process {
 
             cmd.setActualRoom(listRoom);
             cmd.atReceive();
-            client.sendCommand(new StringCommand("OK"));
+            client.sendCommandEvt(new StringCommand("OK"));
         }
     }
 }

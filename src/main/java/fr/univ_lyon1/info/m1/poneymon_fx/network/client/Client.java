@@ -12,20 +12,23 @@ import java.net.Socket;
 public class Client {
     private boolean isChief = false;
     private int playerId;
-    private CommunicationSystem communicationSystem;
-    private Socket socket;
+    private CommunicationSystem communicationSystemEvt, communicationSystemCnt;
+    private Socket socketEvt, socketCnt;
     private MovingEntityModel movingEntityModel;
 
     /**
-     * Constructor for client, assigning a unique int ID and a communication socket.
+     * Constructor for client, assigning a unique int ID and a communication socketEvt.
      *
-     * @param id unique int ID
-     * @param s  communication socket
+     * @param id  unique int ID
+     * @param evt communication socketEvt event based
+     * @param cnt communication socketCnt continuous
      */
-    public Client(int id, Socket s) {
+    public Client(int id, Socket evt, Socket cnt) {
         playerId = id;
-        socket = s;
-        communicationSystem = new CommunicationSystem(socket, playerId);
+        socketEvt = evt;
+        socketCnt = cnt;
+        communicationSystemEvt = new CommunicationSystem(socketEvt, playerId);
+        communicationSystemCnt = new CommunicationSystem(socketCnt, playerId);
     }
 
     public boolean getChief() {
@@ -36,23 +39,44 @@ public class Client {
         isChief = chief;
     }
 
-    public Socket getSocket() {
-        return socket;
+    public Socket getSocketEvt() {
+        return socketEvt;
     }
 
     public int getPlayerId() {
         return playerId;
     }
 
-    public Command receiveCommand() {
-        return communicationSystem.receiveCommand();
+    public Command receiveCommandEvt() {
+        return communicationSystemEvt.receiveCommand();
     }
 
-    public void sendCommand(Command cmd) {
-        communicationSystem.sendCommand(cmd);
+    public void sendCommandEvt(Command cmd) {
+        communicationSystemEvt.sendCommand(cmd);
+    }
+
+    public Command receiveCommandCnt() {
+        return communicationSystemCnt.receiveCommand();
+    }
+
+    public void sendCommandCnt(Command cmd) {
+        communicationSystemCnt.sendCommand(cmd);
     }
 
     public void setMovingEntityModel(MovingEntityModel movingEntityModel) {
         this.movingEntityModel = movingEntityModel;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Client)) {
+            return false;
+        }
+
+        Client c = (Client) obj;
+        return playerId == c.getPlayerId();
     }
 }
