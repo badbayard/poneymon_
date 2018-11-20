@@ -1,9 +1,17 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.*;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.AskForWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.CreateWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.JoinWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.LeaveWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.SelectPoneyCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.ShowWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.WaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.ListRoomView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.MenuView;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -12,6 +20,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.List;
 
 public class ClientMultiController extends ClientController {
@@ -90,13 +99,24 @@ public class ClientMultiController extends ClientController {
         this.menuView = menuView;
 
         //********** EVENT LIST ROOM **********//
+        ListRoomView lrw = menuView.getListroom();
 
         // Back to main menu from list
-        menuView.getListroom().getBtnBack().setOnMouseClicked(event -> menuView.backToMainMenu());
+        lrw.getBtnBack().setOnMouseClicked(event -> menuView.backToMainMenu());
 
-        menuView.getListroom().getBtnHost().setOnMouseClicked(event -> {
-            char[] pswTest = {'n', 'o', 'n'};
-            CreateWaitingRoomCmd cwrc = new CreateWaitingRoomCmd("truc", pswTest);
+        // Create a game
+        lrw.getBtnHost().setOnMouseClicked(event -> {
+            String roomName = lrw.getNameFieldValue();
+            if (roomName == null || roomName.isEmpty()) {
+                return;
+            }
+
+            char[] roomPswd = lrw.getPswdFieldValue();
+            if (roomPswd == null || roomPswd.length == 0) {
+                return;
+            }
+
+            CreateWaitingRoomCmd cwrc = new CreateWaitingRoomCmd(roomName, roomPswd);
             messagingSystemEvt.sendCommand(cwrc);
 
             StringCommand sc = (StringCommand) messagingSystemEvt.receiveCommand();
@@ -107,15 +127,15 @@ public class ClientMultiController extends ClientController {
             }
         });
 
-
-        menuView.getListroom().getBtnRefresh().setOnMouseClicked(event -> {
+        // Refresh available games
+        lrw.getBtnRefresh().setOnMouseClicked(event -> {
             messagingSystemEvt.sendCommand(new AskForWaitingRoomCmd());
             ShowWaitingRoomCmd swrc = (ShowWaitingRoomCmd) messagingSystemEvt.receiveCommand();
             StringCommand sc = (StringCommand) messagingSystemEvt.receiveCommand();
 
             if (!sc.getMot().equals("OK") || swrc != null) {
                 List<WaitingRoom> waitingRooms = swrc.getRooms();
-                List<HBox> containers = menuView.getListroom().setWaitingRooms(waitingRooms);
+                List<HBox> containers = lrw.setWaitingRooms(waitingRooms);
 
                 for (HBox container : containers) {
                     String roomName = ((Text) container.getChildren().get(0)).getText();
@@ -131,7 +151,6 @@ public class ClientMultiController extends ClientController {
                         System.out.println(reponse.getMot());
                         if (reponse != null && reponse.getMot().equals("OK")) {
                             menuView.activateWaitingRoom();
-                            menuView.getWaitingRoomView().hasJoinRoom();
                         }
                     });
                 }

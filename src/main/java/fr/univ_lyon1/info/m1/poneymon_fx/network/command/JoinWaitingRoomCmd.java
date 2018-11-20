@@ -35,15 +35,12 @@ public class JoinWaitingRoomCmd extends RoomCommand {
             ArrayList<WaitingRoom> possibleRooms =
                 (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();
 
-            System.out.println("ça continue");
             WaitingRoom waitingRoom;
 
             if (possibleRooms == null) {
                 System.err.println("Pas de parties joignables disponible.");
-                System.out.println("ça continue2");
             } else {
                 for (WaitingRoom possibleRoom : possibleRooms) {
-                    System.out.println("ça continue boucle");
 
                     waitingRoom = possibleRoom;
                     if (waitingRoom.getName().equals(name)

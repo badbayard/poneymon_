@@ -12,8 +12,10 @@ import java.net.Socket;
 public class Client {
     private boolean isChief = false;
     private int playerId;
-    private CommunicationSystem communicationSystemEvt, communicationSystemCnt;
-    private Socket socketEvt, socketCnt;
+    private CommunicationSystem communicationSystemEvt;
+    private CommunicationSystem communicationSystemCnt;
+    private Socket socketEvt;
+    private Socket socketCnt;
     private MovingEntityModel movingEntityModel;
 
     /**

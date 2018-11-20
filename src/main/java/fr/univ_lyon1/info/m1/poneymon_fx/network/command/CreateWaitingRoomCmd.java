@@ -49,6 +49,8 @@ public class CreateWaitingRoomCmd extends RoomCommand {
                 newRoom.join(client);
                 ProcessManager.getProcessManager().createAndRunThread(
                     new WaitingRoomProcess(client, newRoom));
+                notifyOtherPlayers(newRoom.getClients(),
+                    new NotifyPlayerChangeCmd(newRoom.getNbPlayers()));
                 return true;
             }
         }

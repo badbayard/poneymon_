@@ -20,6 +20,8 @@ public class ListRoomView extends Parent {
     private ButtonMenu btnrefresh;
     private ButtonMenu btnback;
     private GridPane waitingRooms;
+    private TextField nameField;
+    private TextField pswdField;
 
     /**
      * Constructor.
@@ -34,15 +36,29 @@ public class ListRoomView extends Parent {
 
         waitingRooms = new GridPane();
 
+        HBox hostParams = new HBox();
+        Text name = new Text("Name : ");
+        nameField = new TextField();
+        Text password = new Text(" Password : ");
+        pswdField = new TextField();
+
+        hostParams.getChildren().addAll(name, nameField, password, pswdField);
+
         btnhost = new ButtonMenu("host");
         btnrefresh = new ButtonMenu("refresh");
         btnback = new ButtonMenu("back");
 
-        listroom.getChildren().addAll(btnhost, btnrefresh, btnback, waitingRooms);
+        listroom.getChildren().addAll(hostParams, btnhost, btnrefresh, btnback, waitingRooms);
 
         getChildren().addAll(listroom);
     }
 
+    /**
+     * Create a list of WaitingRoom available on the server
+     *
+     * @param waitingRoomsList server provided list
+     * @return list of JFX elements
+     */
     public List<HBox> setWaitingRooms(List<WaitingRoom> waitingRoomsList) {
         waitingRooms.getChildren().clear();
         List<HBox> roomBoxes = new ArrayList<>();
@@ -56,7 +72,6 @@ public class ListRoomView extends Parent {
 
             Text roomNameText = new Text(wr.getName());
             TextField passwordField = new TextField();
-//            ButtonMenu joinBtn = new ButtonMenu("join");
             Button joinBtn = new Button("join");
 
             HBox container = new HBox();
@@ -93,4 +108,12 @@ public class ListRoomView extends Parent {
         return btnback;
     }
 
+    public String getNameFieldValue() {
+        return nameField.getText();
+    }
+
+    public char[] getPswdFieldValue() {
+        System.out.println();
+        return pswdField.getText().toCharArray();
+    }
 }
