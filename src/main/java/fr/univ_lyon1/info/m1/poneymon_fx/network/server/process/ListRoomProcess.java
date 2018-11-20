@@ -10,7 +10,7 @@ public class ListRoomProcess extends Process {
     private ListRoom listRoom;
 
     /**
-     * Creates a process associated with a specific client to the ListRoom.
+     * Creates a process associated with a specific client to the ListRoomView.
      *
      * @param client the client the process is associated to
      */

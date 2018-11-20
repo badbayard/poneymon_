@@ -3,14 +3,12 @@ package fr.univ_lyon1.info.m1.poneymon_fx.network.command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.ListRoom;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.WaitingRoom;
 
-import java.util.List;
-
-public class CreateWaitingRoom extends RoomCommand {
+public class CreateWaitingRoomCmd extends RoomCommand {
 
     private String name;
     private String password;
 
-    public CreateWaitingRoom(String name, String password) {
+    public CreateWaitingRoomCmd(String name, String password) {
         this.name = name;
         this.password = password;
     }
@@ -45,7 +43,7 @@ public class CreateWaitingRoom extends RoomCommand {
                 System.out.println("La room n'exsite pas, on l'a crée");
                 WaitingRoom newRoom = new WaitingRoom(password, 5, name);
                 lr.getRooms().add(newRoom);
-                JoinWaitingRoom cmdJoin = new JoinWaitingRoom(name, password);
+                JoinWaitingRoomCmd cmdJoin = new JoinWaitingRoomCmd(name, password);
                 cmdJoin.setActualRoom(actualRoom);
                 cmdJoin.setIdPlayer(idPlayer);
                 cmdJoin.atReceive();

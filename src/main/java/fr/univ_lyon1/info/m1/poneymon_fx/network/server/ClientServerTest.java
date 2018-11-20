@@ -1,13 +1,13 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.server;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.AskForWaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.AskForWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.CreateWaitingRoom;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.InGameCommand;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.JoinWaitingRoom;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.SelectPoney;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.ShowWaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.CreateWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.SelectPoneyCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.WaitingRoomCommand;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.JoinWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.ShowWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.WaitingRoom;
@@ -77,7 +77,7 @@ public class ClientServerTest {
                 String name = sc.nextLine();
                 System.out.println("Mot de passe de la salle à rejoindre ?");
                 String password = sc.nextLine();
-                cmd = new JoinWaitingRoom(name, password);
+                cmd = new JoinWaitingRoomCmd(name, password);
                 client.messagingSystem.sendCommand(cmd);
                 (client.messagingSystem.receiveCommand()).atReceive();
             } else if (rep.equals("create")) {
@@ -85,14 +85,14 @@ public class ClientServerTest {
                 String name = sc.nextLine();
                 System.out.println("Mot de passe de la salle à creer ?");
                 String password = sc.nextLine();
-                cmd = new CreateWaitingRoom(name, password);
+                cmd = new CreateWaitingRoomCmd(name, password);
                 client.messagingSystem.sendCommand(cmd);
                 (client.messagingSystem.receiveCommand()).atReceive();
             } else if (rep.equals("show")) {
-                cmd = new AskForWaitingRoom();
+                cmd = new AskForWaitingRoomCmd();
                 client.messagingSystem.sendCommand(cmd);
-                ShowWaitingRoom cmd2 =
-                        (ShowWaitingRoom) client.messagingSystem
+                ShowWaitingRoomCmd cmd2 =
+                        (ShowWaitingRoomCmd) client.messagingSystem
                                 .receiveCommand();
                 cmd2.atReceive();
                 List<WaitingRoom> rooms = cmd2.getRooms();
@@ -103,10 +103,10 @@ public class ClientServerTest {
             } else if (rep.equals("select")) {
                 System.out.println("Choose Color :");
                 String color = sc.nextLine();
-                cmd = new SelectPoney("pony", color);
+                cmd = new SelectPoneyCmd("pony", color);
                 client.messagingSystem.sendCommand(cmd);
-                InGameCommand cmd2 =
-                        (InGameCommand) client.messagingSystem.receiveCommand();
+                WaitingRoomCommand cmd2 =
+                        (WaitingRoomCommand) client.messagingSystem.receiveCommand();
                 FieldModel field = cmd2.getFieldModel();
                 for (int i = 0; i < field.getParticipantModels().length; ++i) {
                     System.out.println(field.getParticipantModel(i).getColor());

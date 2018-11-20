@@ -61,8 +61,7 @@ public abstract class Room implements Serializable {
         if (nbPlayers < maxNbPlayers) {
             clients.add(client);
             nbPlayers++;
-            System.out.println(
-                    "Client rejoint :" + nbPlayers + "/" + maxNbPlayers);
+            System.out.println("Client rejoint : " + nbPlayers + "/" + maxNbPlayers);
             return true;
         }
         System.out.println("Room pleine");

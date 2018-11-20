@@ -2,8 +2,12 @@ package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.CreateWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.LeaveWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.SelectPoneyCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.ButtonMenu;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.MenuView;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -15,58 +19,81 @@ public class ClientMultiController extends ClientController implements Runnable 
     private int idClient;
 
     /**
-     * Constructeur du controller multi côté client avec infos de connexion.
+     * Constructeur du controller multi côté client.
+     */
+    public ClientMultiController() {
+        super();
+    }
+
+    /**
+     * Initialise la connexion au serveur.
      *
      * @param host adresse IP de l'hôte
      * @param port port auquel se connecter sur l'hôte
      */
-    public ClientMultiController(String host, int port) {
-        super();
-
+    public boolean initNetwork(String host, int port) {
         try {
             socket = new Socket(host, port);
             messagingSystem = new CommunicationSystem(socket, 0);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
     @Override
+    public void setEvents(MenuView menuView) {
+        if (eventsSet) {
+            return;
+        }
+
+        super.setEvents(menuView);
+
+        //********** EVENT LIST ROOM **********//
+
+        // Back to main menu from list
+        ButtonMenu btnBackList = menuView.getListroom().getBtnBack();
+        btnBackList.setOnMouseClicked(event -> menuView.backToMainMenu());
+
+        menuView.getListroom().getBtnHost().setOnMouseClicked(event -> {
+            CreateWaitingRoomCmd cwrc = new CreateWaitingRoomCmd("truc", "non");
+            messagingSystem.sendCommand(cwrc);
+
+            menuView.activateWaitingRoom();
+            menuView.getWaitingRoomView().hasJoinRoom();
+        });
+
+        //********** EVENT WAITING ROOM **********//
+
+        // Back to ListRoomView from WaitingRoomView
+        menuView.getWaitingRoomView().getBtnBack().setOnMouseClicked(event -> {
+            LeaveWaitingRoomCmd lwr = new LeaveWaitingRoomCmd();
+            messagingSystem.sendCommand(lwr);
+
+            menuView.backToListRoom();
+            menuView.getWaitingRoomView().hasLeftRoom();
+        });
+
+        eventsSet = true;
+    }
+
+    /**
+     * Signals the server of the player's entity choice.
+     * @param entityType String, type of entity
+     * @param color String, color of entity
+     */
+    public void selectEntity(String entityType, String color) {
+        SelectPoneyCmd spc = new SelectPoneyCmd(entityType, color);
+
+        messagingSystem.sendCommand(spc);
+    }
+
+    @Override
     public void run() {
-        System.out.println("Hello");
         Command cmd = messagingSystem.receiveCommand();
         idClient = cmd.getIdPlayer();
         messagingSystem.setIdClient(idClient);
-        /*
-        System.out.println("C'est parti pour les commandes");
-
-        Command cmd1 = new Command();
-        StringCommand cmd2 = new StringCommand("Lol");
-
-        messagingSystem.sendCommand(cmd1);
-        System.out.println("Client : J'ai Envoyé !");
-        System.out.println("Client : J'attends");
-        Command rep1 = messagingSystem.receiveCommand();
-        System.out.println("Client : J'ai Reçu !");
-        rep1.affichage();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        messagingSystem.sendCommand(cmd2);
-        System.out.println("Client : J'ai Envoyé !");
-        System.out.println("Client : J'attends");
-        Command rep2 = messagingSystem.receiveCommand();
-
-        System.out.println("Client : J'ai Reçu !");
-        rep2.affichage();
-
-
-        System.err.println("C'est finis pour les commandes");
-        messagingSystem.close();
-        */
     }
 
     /**

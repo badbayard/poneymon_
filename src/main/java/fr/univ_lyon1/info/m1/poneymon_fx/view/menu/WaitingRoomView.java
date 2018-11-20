@@ -1,15 +1,15 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.view;
+package fr.univ_lyon1.info.m1.poneymon_fx.view.menu;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.ButtonMenu;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 
 /**
  * Class displaying a waiting room for multiplayer games.
  */
-public class WaitingRoom extends Parent {
+public class WaitingRoomView extends Parent {
     private VBox playerBox;
     private CheckBox [] checkBoxes;
     private ButtonMenu btnStart;
@@ -18,12 +18,12 @@ public class WaitingRoom extends Parent {
     //private boolean isHost;
     
     /**
-     * Constructor WaitingRoom.
+     * Constructor WaitingRoomView.
      * @param x coord
      * @param y coord
      * @param nbPlayers int
      */
-    public WaitingRoom(int x, int y, int nbPlayers) {
+    public WaitingRoomView(int x, int y, int nbPlayers) {
         nbPlayerInRoom = 0;
         playerBox = new VBox(10);
         playerBox.setTranslateX(x / 8);
@@ -64,7 +64,7 @@ public class WaitingRoom extends Parent {
     /**
      * Check a checkbox when a player join the room.
      */
-    public void asJoinRoom() {
+    public void hasJoinRoom() {
         checkBoxes[nbPlayerInRoom].setSelected(true);
         nbPlayerInRoom++;
     }
@@ -72,7 +72,7 @@ public class WaitingRoom extends Parent {
     /**
      * Uncheck a checkbox when a player leave the room.
      */
-    public void asLeftRoom() {
+    public void hasLeftRoom() {
         checkBoxes[nbPlayerInRoom].setSelected(false);
         nbPlayerInRoom--;
     }

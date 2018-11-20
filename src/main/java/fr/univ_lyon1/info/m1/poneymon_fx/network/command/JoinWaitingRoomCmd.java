@@ -9,12 +9,12 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.util.Password;
 
 import java.util.ArrayList;
 
-public class JoinWaitingRoom extends RoomCommand {
+public class JoinWaitingRoomCmd extends RoomCommand {
 
     String name;
     String password;
 
-    public JoinWaitingRoom(String name, String password) {
+    public JoinWaitingRoomCmd(String name, String password) {
         this.name = name;
         this.password = password;
     }
@@ -31,7 +31,7 @@ public class JoinWaitingRoom extends RoomCommand {
                 "Pas de room sur laquelle rechercher les parties.");
         } else {
             System.out.println("Il y a des rooms pour chercher la partie.");
-            Password hashedPassword = new Password(password);
+
             ArrayList<WaitingRoom> possibleRooms =
                 (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();
 
@@ -43,8 +43,10 @@ public class JoinWaitingRoom extends RoomCommand {
                 for (WaitingRoom possibleRoom : possibleRooms) {
                     waitingRoom = possibleRoom;
 
+                    System.out.println(waitingRoom.getName().equals(name));
+
                     if (waitingRoom.getName().equals(name)
-                        && waitingRoom.getPassword() == hashedPassword) {
+                        && waitingRoom.getPassword().isExpectedPassword(password.toCharArray())) {
                         System.out.println("On a trouvé la bonne room, on join");
 
                         Client client = actualRoom.remove(idPlayer);
@@ -58,7 +60,7 @@ public class JoinWaitingRoom extends RoomCommand {
                                 System.err.println("ECHEC Join!");
                             }
                         } else {
-                            System.err.println("ECHEC Join!");
+                            System.err.println("ECHEC Récupération client !");
                         }
                     }
                 }

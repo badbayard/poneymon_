@@ -7,10 +7,9 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.JfxView;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.MenuView;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.ButtonMenu;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.display.JfxView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.MenuView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.display.DataView;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.SoundController;
 
@@ -59,87 +58,57 @@ public class App extends Application {
     private void setEvents() {
         //********** EVENT APPLICATION **********//
         // Close all windows and sockets
-        stage.setOnCloseRequest(e -> Controller.getInstance().exit());
+        stage.setOnCloseRequest(e -> exit());
 
         //********** EVENT MAIN MENU **********//
 
-        // Event Play solo
-        ButtonMenu btnPlay = menu.getMainMenu().getBtnPlay();
-        btnPlay.setOnMouseClicked(event -> openSelectMenuSolo());
+        // Play solo
+        menu.getMainMenuView().getBtnPlay().setOnMouseClicked(event -> openSelectMenuSolo());
 
-        // Event Play multi
-        ButtonMenu btnPlayMulti = menu.getMainMenu().getBtnPlayMulti();
-        btnPlayMulti.setOnMouseClicked(event -> {
-            initServerConnection();
-            openListRoom();
+        // Play multi
+        menu.getMainMenuView().getBtnPlayMulti().setOnMouseClicked(event -> {
+            if (initServerConnection()) {
+                openListRoom();
+                Controller.getInstance().setEvents(menu);
+            }
         });
 
-        // Event exit game
-        ButtonMenu btnExit = menu.getMainMenu().getBtnExit();
-        btnExit.setOnMouseClicked(event -> Platform.exit());
+        // Exit game
+        menu.getMainMenuView().getBtnExit().setOnMouseClicked(event -> exit());
 
         //********** EVENT SELECT MENU **********//
 
-        // Event confirm selected poney
-        ButtonMenu btnConfirm = menu.getSelectMenu().getBtnConfirm();
-        btnConfirm.setOnMouseClicked(event -> soloOrMulti());
+        // Confirm selected poney
+        menu.getSelectMenu().getBtnConfirm().setOnMouseClicked(event -> soloOrMulti());
 
-        // Event back to main menu
-        ButtonMenu btnBack = menu.getSelectMenu().getBtnBack();
-        btnBack.setOnMouseClicked(event -> backToMain());
+        // Back to main menu
+        menu.getSelectMenu().getBtnBack().setOnMouseClicked(event -> menu.backToMainMenu());
+    }
 
-        //********** EVENT LIST ROOM **********//
-
-        // Event back to main menu from list
-        ButtonMenu btnBackList = menu.getListroom().getBtnBack();
-        btnBackList.setOnMouseClicked(event -> backToMain());
-
-        ButtonMenu btnHost = menu.getListroom().getBtnHost();
-        btnHost.setOnMouseClicked(event -> hostGame());
-
-        //********** EVENT WAITING ROOM **********//
-
-        // Event back to ListRoom from WaitingRoom
-        ButtonMenu btnBackToList = menu.getWaitingRoom().getBtnBack();
-        btnBackToList.setOnMouseClicked(event -> backToList());
+    private void exit() {
+        if (Controller.getInstance() != null) {
+            Controller.getInstance().exit();
+        } else {
+            Platform.exit();
+        }
     }
 
     /**
-     * Create a salon for multiplayer.
-     */
-    private void hostGame() {
-        menu.activateWaitingRoom();
-        menu.getWaitingRoom().asJoinRoom();
-    }
-
-    /**
-     * Launch a solo game or send data to the server.
+     * Launch a solo game or sends data to the server.
      */
     private void soloOrMulti() {
         if (menu.getIsSolo()) {
             createGameSolo();
         } else {
-            // TODO send data to the serv
+            ClientMultiController cmc = (ClientMultiController) Controller.getInstance();
+            if (cmc != null) {
+                cmc.selectEntity(menu.getSelectMenu().getType(), menu.getSelectMenu().getColor());
+            }
         }
     }
 
     /**
-     * Hide the current menu and display the main menu.
-     */
-    private void backToMain() {
-        menu.backToMainMenu();
-    }
-
-    /**
-     * Hide the WaitingRoom and display the ListRoom.
-     */
-    private void backToList() {
-        menu.getWaitingRoom().asLeftRoom();
-        menu.backToListRoom();
-    }
-
-    /**
-     * Display the SelectEntity menu.
+     * Display the SelectEntityView menu.
      */
     private void openSelectMenuSolo() {
         menu.setIsSolo(true);
@@ -183,13 +152,18 @@ public class App extends Application {
     /**
      * Connects to the server and displays the list of current WaitingRooms.
      */
-    private void initServerConnection() {
+    private boolean initServerConnection() {
         // Get and Set the controller
         ClientMultiController cmc =
-            (ClientMultiController) Controller.setInstance(new ClientMultiController(host, port));
+            (ClientMultiController) Controller.setInstance(new ClientMultiController());
 
-        Thread t = new Thread(cmc);
-        t.start();
+        if (cmc.initNetwork(host, port)) {
+            Thread t = new Thread(cmc);
+            t.start();
+            return true;
+        }
+
+        return false;
     }
 
     /**
