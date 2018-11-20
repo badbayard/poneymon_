@@ -62,6 +62,18 @@ public class ProcessManager {
     }
 
     /**
+     * Ajoute le processus au Manager et lance le thread correspondant.
+     *
+     * @param process Le nouveau processus à lancé
+     */
+    public synchronized void createAndRunThreadNoClient(Process process) {
+        Thread t = new Thread(process);
+        threads.add(new Pair<>(process, t));
+        System.out.println("On lance un nouveau thread");
+        t.start();
+    }
+
+    /**
      * Supprime le processus dans la case indiqué par le parametre.
      *
      * @param index l'index du processus à détruire

@@ -19,6 +19,12 @@ public class ListRoom extends Room {
         rooms = new ArrayList<>();
     }
 
+    @Override
+    public boolean join(Client client){
+        maxNbPlayers++;
+        return super.join(client);
+    }
+
     /**
      * Return the current instance of Listroom, which is a singleton.
      *
