@@ -69,6 +69,16 @@
 							<mainClass>fr.univ_lyon1.info.m1.poneymon_fx.network.server.MainServer</mainClass>
 						</configuration>
 					</execution>
+					<execution>
+                                                <id>clientTest</id>
+                                                <goals>
+                                                        <goal>java</goal>
+                                                </goals>
+                                                <configuration>
+                                                        <mainClass>fr.univ_lyon1.info.m1.poneymon_fx.network.server.ClientServerTest</mainClass>
+                                                </configuration>
+                                        </execution>
+
 				</executions>
 			</plugin>
 			<plugin>

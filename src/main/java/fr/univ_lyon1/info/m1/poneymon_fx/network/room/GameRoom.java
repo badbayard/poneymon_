@@ -29,4 +29,8 @@ public class GameRoom extends Room {
         serverMultiController = new ServerMultiController(model);
         serverMultiController.startTimer();
     }
+
+    public FieldModel getFieldModel(){
+        return serverMultiController.getFieldModel();
+    }
 }

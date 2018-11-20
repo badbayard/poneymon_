@@ -5,6 +5,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.command.AskForWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.CreateWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.JoinWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.LeaveWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.SelectPoneyCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.ShowWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
@@ -55,6 +56,7 @@ public class ClientServerTest {
             System.out.println("- \"create\" = create a room");
             System.out.println("- \"show\" = show all rooms");
             System.out.println("- \"select\" = select a poney");
+            System.out.println("- \"back\" = return to list room");
             System.out.println("- \"quit\" = exit server");
             System.out.print("> ");
             String rep = sc.nextLine();
@@ -127,6 +129,12 @@ public class ClientServerTest {
                         System.out.println(
                                 field.getParticipantModel(i).getColor());
                     }
+                    (client.messagingSystem.receiveCommand()).atReceive();
+                    break;
+                }
+                case "back": {
+                    cmd = new LeaveWaitingRoomCmd();
+                    client.messagingSystem.sendCommand(cmd);
                     (client.messagingSystem.receiveCommand()).atReceive();
                     break;
                 }
