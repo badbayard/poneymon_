@@ -51,6 +51,10 @@ public abstract class Room implements Serializable {
         return clients;
     }
 
+    public int getNbPlayers() {
+        return nbPlayers;
+    }
+
     /**
      * Add a client to the room.
      *

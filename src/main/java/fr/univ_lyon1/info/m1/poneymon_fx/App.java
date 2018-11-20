@@ -22,7 +22,8 @@ public class App extends Application {
     private SoundController soundController;
 
     private String host = "127.0.0.1";
-    private int port = 4242;
+    private int portEvents = 4242;
+    private int portContinuous = 4243;
 
     /**
      * Start() launch the application.
@@ -157,13 +158,7 @@ public class App extends Application {
         ClientMultiController cmc =
             (ClientMultiController) Controller.setInstance(new ClientMultiController());
 
-        if (cmc.initNetwork(host, port)) {
-            Thread t = new Thread(cmc);
-            t.start();
-            return true;
-        }
-
-        return false;
+        return cmc.initNetwork(host, portEvents, portContinuous);
     }
 
     /**

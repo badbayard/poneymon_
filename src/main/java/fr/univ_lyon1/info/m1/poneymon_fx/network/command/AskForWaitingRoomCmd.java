@@ -11,7 +11,8 @@ public class AskForWaitingRoomCmd extends RoomCommand {
         } else {
             if (actualRoom instanceof ListRoom) {
                 ListRoom lr = (ListRoom) actualRoom;
-                lr.getClient(idPlayer).sendCommand(new ShowWaitingRoomCmd(lr.getRooms()));
+                System.out.println("On envoie bien les rooms");
+                lr.getClient(idPlayer).sendCommandEvt(new ShowWaitingRoomCmd(lr.getRooms()));
             }
         }
     }

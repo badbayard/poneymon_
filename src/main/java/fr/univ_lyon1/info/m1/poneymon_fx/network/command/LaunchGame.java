@@ -14,7 +14,7 @@ public class LaunchGame extends LeaveWaitingRoomCmd {
 
             for (int i = 0; i < actualRoom.getClients().size(); ++i) {
                 actualRoom.getClients().get(i)
-                        .sendCommand(new UpdateGameCmd(getFieldModel()));
+                        .sendCommandEvt(new UpdateGameCmd(getFieldModel()));
             }
             
             // lancer les process (celui d'update et celui d'écoute des

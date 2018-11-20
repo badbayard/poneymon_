@@ -21,7 +21,7 @@ public class SelectPoneyCmd extends WaitingRoomCommand {
             actualRoom.getFieldModel().setParticipant(entityType, color, idInRoom);
             WaitingRoomCommand cmd = new WaitingRoomCommand();
             cmd.setActualRoom(actualRoom);
-            actualRoom.getClient(idPlayer).sendCommand(cmd);
+            actualRoom.getClient(idPlayer).sendCommandEvt(cmd);
         }
     }
 }

@@ -16,7 +16,7 @@ public class WaitingRoomProcess extends Process {
     @Override
     public void run() {
         while (isRunning) {
-            WaitingRoomCommand cmd = (WaitingRoomCommand) client.receiveCommand();
+            WaitingRoomCommand cmd = (WaitingRoomCommand) client.receiveCommandEvt();
             /*
              * ReceiveCommand returns null if an IOException is thrown (ie. something went wrong
              * network-wise).
@@ -29,7 +29,7 @@ public class WaitingRoomProcess extends Process {
 
             cmd.setActualRoom(waitingRoom);
             cmd.atReceive();
-            client.sendCommand(new StringCommand("OK Reçu"));
+            client.sendCommandEvt(new StringCommand("OK Reçu"));
         }
     }
 }

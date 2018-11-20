@@ -1,26 +1,29 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view.menu;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.ButtonMenu;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.JoinWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.room.WaitingRoom;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListRoomView extends Parent {
     private VBox listroom;
-    private ButtonMenu btnjoin;
     private ButtonMenu btnhost;
     private ButtonMenu btnrefresh;
     private ButtonMenu btnback;
-    private RadioButton essai1;
-    private RadioButton essai2;
-    private RadioButton essai3;
-    private GridPane yolo;
+    private GridPane waitingRooms;
 
     /**
      * Constructor.
-     * 
+     *
      * @param x int
      * @param y int
      */
@@ -29,33 +32,43 @@ public class ListRoomView extends Parent {
         listroom.setTranslateX(x / 8);
         listroom.setTranslateY(y / 6);
 
-        btnjoin = new ButtonMenu("join");
+        waitingRooms = new GridPane();
+
         btnhost = new ButtonMenu("host");
         btnrefresh = new ButtonMenu("refresh");
         btnback = new ButtonMenu("back");
 
-        essai1 = new RadioButton("essai1");
-        essai2 = new RadioButton("essai2");
-        essai3 = new RadioButton("essai3");
-
-        // ----------> changement d'élement
-        yolo = new GridPane();
-        Label labelTitle = new Label("List");
-        yolo.add(labelTitle, 2, 2);
-
-        listroom.getChildren().addAll(btnjoin, btnhost, btnrefresh, btnback, yolo);
+        listroom.getChildren().addAll(btnhost, btnrefresh, btnback, waitingRooms);
 
         getChildren().addAll(listroom);
-
     }
 
-    /**
-     * Get the button join.
-     *
-     * @return field btnSolo;
-     */
-    public ButtonMenu getBtnJoin() {
-        return btnjoin;
+    public List<HBox> setWaitingRooms(List<WaitingRoom> waitingRoomsList) {
+        waitingRooms.getChildren().clear();
+        List<HBox> roomBoxes = new ArrayList<>();
+
+        HBox emptySpace = new HBox();
+        emptySpace.setMinHeight(30);
+        waitingRooms.add(emptySpace, 0, 0);
+
+        for (int i = 0; i < waitingRoomsList.size(); i++) {
+            WaitingRoom wr = waitingRoomsList.get(i);
+
+            Text roomNameText = new Text(wr.getName());
+            TextField passwordField = new TextField();
+//            ButtonMenu joinBtn = new ButtonMenu("join");
+            Button joinBtn = new Button("join");
+
+            HBox container = new HBox();
+            container.getChildren().add(roomNameText);
+            container.getChildren().add(passwordField);
+            container.getChildren().add(joinBtn);
+            waitingRooms.add(container, 0, i + 1);
+
+            roomBoxes.add(container);
+        }
+
+        return roomBoxes;
     }
 
     /**

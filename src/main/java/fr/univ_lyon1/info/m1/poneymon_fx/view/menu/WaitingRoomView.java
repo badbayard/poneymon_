@@ -1,6 +1,5 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view.menu;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.ButtonMenu;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
@@ -60,15 +59,26 @@ public class WaitingRoomView extends Parent {
     public ButtonMenu getBtnBack() {
         return btnBack;
     }
-    
+
+    public void setNbPlayerInRoom(int nbPlayerInRoom) {
+        this.nbPlayerInRoom = nbPlayerInRoom;
+
+        for (int i = 0; i < checkBoxes.length; i++) {
+            if (i < nbPlayerInRoom) {
+                checkBoxes[i].setSelected(true);
+            } else {
+                checkBoxes[i].setSelected(false);
+            }
+        }
+    }
+
     /**
      * Check a checkbox when a player join the room.
      */
     public void hasJoinRoom() {
-        checkBoxes[nbPlayerInRoom].setSelected(true);
-        nbPlayerInRoom++;
+        checkBoxes[nbPlayerInRoom++].setSelected(true);
     }
-    
+
     /**
      * Uncheck a checkbox when a player leave the room.
      */

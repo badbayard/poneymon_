@@ -5,8 +5,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 public class UpdateGameCmd extends Command {
     private FieldModel fieldModel;
 
-    public UpdateGameCmd(
-            FieldModel fieldModel) {
+    public UpdateGameCmd(FieldModel fieldModel) {
         this.fieldModel = fieldModel;
     }
 

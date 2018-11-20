@@ -128,6 +128,7 @@ public class MenuView {
     }
     
     public void activateWaitingRoom() {
+        System.out.println("HEO");
         listRoomView.setVisible(false);
         waitingRoomView.setVisible(true);
     }
