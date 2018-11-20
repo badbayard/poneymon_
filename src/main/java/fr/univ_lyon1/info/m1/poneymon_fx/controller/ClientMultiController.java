@@ -73,15 +73,9 @@ public class ClientMultiController extends ClientController {
     void step(long currentNanoTime) {
         // Prevent from resuming the game when the race is over
         if (gameOver) {
+            listener.setRunning(false);
             return;
         }
-
-        // Time elapsed since the last update
-        double msElapsed = (currentNanoTime - lastTimerUpdate) / 1e6;
-        // update the last timer update
-        lastTimerUpdate = currentNanoTime;
-
-        updateFieldModel(msElapsed, fieldModel);
 
         // Check for collisions
         FieldModel.COLLISIONMANAGER.checkCollision();
@@ -107,7 +101,7 @@ public class ClientMultiController extends ClientController {
 
             StringCommand sc = (StringCommand) messagingSystemEvt.receiveCommand();
 
-            if (sc != null) {
+            if (sc != null && sc.getMot().equals("OK")) {
                 menuView.activateWaitingRoom();
                 menuView.getWaitingRoomView().setNbPlayerInRoom(1);
             }
@@ -134,7 +128,8 @@ public class ClientMultiController extends ClientController {
 
                         StringCommand reponse = (StringCommand) messagingSystemEvt.receiveCommand();
 
-                        if (reponse != null) {
+                        System.out.println(reponse.getMot());
+                        if (reponse != null && reponse.getMot().equals("OK")) {
                             menuView.activateWaitingRoom();
                             menuView.getWaitingRoomView().hasJoinRoom();
                         }
@@ -150,6 +145,7 @@ public class ClientMultiController extends ClientController {
             LeaveWaitingRoomCmd lwr = new LeaveWaitingRoomCmd();
             messagingSystemEvt.sendCommand(lwr);
 
+            StringCommand reponse = (StringCommand) messagingSystemEvt.receiveCommand();
             menuView.backToListRoom();
         });
 
@@ -176,16 +172,9 @@ public class ClientMultiController extends ClientController {
         messagingSystemEvt.sendCommand(spc);
     }
 
-    /**
-     * Override inherited method since in the case of a client in a multiplayer game, the controller
-     * doesn't update the fieldModel, it only assigns the FieldModel received from the server.
-     *
-     * @param msElapsed number of ms since last update
-     */
     @Override
-    void updateFieldModel(double msElapsed, FieldModel fm) {
-        // Each time the event is triggered, update the model
-        fieldModel.update(msElapsed, fm);
+    public void setFieldModel(FieldModel fm) {
+        this.fieldModel = fm;
     }
 
     @Override

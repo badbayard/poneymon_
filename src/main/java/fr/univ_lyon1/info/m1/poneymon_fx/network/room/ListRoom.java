@@ -20,7 +20,7 @@ public class ListRoom extends Room {
     }
 
     @Override
-    public boolean join(Client client){
+    public boolean join(Client client) {
         maxNbPlayers++;
         return super.join(client);
     }

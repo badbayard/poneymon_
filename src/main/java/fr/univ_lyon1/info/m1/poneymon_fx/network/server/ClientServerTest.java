@@ -5,7 +5,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.command.AskForWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.CreateWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.JoinWaitingRoomCmd;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.LaunchGame;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.LaunchGameCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.LeaveWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.SelectPoneyCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.ShowWaitingRoomCmd;
@@ -161,7 +161,7 @@ public class ClientServerTest implements Runnable {
                     break;
                 }
                 case "launch": {
-                    cmd = new LaunchGame();
+                    cmd = new LaunchGameCmd();
                     client.messagingSystem.sendCommand(cmd);
                     client.waitCmd(thread);
                     client.cmdRecu.atReceive();

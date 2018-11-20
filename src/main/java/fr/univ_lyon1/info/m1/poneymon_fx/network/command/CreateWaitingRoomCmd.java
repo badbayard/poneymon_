@@ -19,11 +19,10 @@ public class CreateWaitingRoomCmd extends RoomCommand {
     }
 
     @Override
-    public void atReceive() {
-        System.out.println(idPlayer + " envois : commande pour crée un partie"
-                + ".");
+    public boolean atReceive() {
+        System.out.println(idPlayer + " envois : commande pour crée un partie.");
         System.out.println("On essaye créer la partie : " + name + " avec le "
-                + "mot de passe : " + Arrays.toString(password));
+            + "mot de passe : " + Arrays.toString(password));
         if (actualRoom == null) {
             System.err.println("Pas room assigné à la commande !");
         } else {
@@ -33,7 +32,7 @@ public class CreateWaitingRoomCmd extends RoomCommand {
             if (actualRoom instanceof ListRoom) {
                 lr = (ListRoom) actualRoom;
             } else {
-                return;
+                return false;
             }
             for (int i = 0; i < lr.getRooms().size(); ++i) {
                 if (lr.getRooms().get(i).getName().equals(name)) {
@@ -41,20 +40,19 @@ public class CreateWaitingRoomCmd extends RoomCommand {
                 }
             }
             if (roomAlreadyExists) {
-                System.err.println(
-                        "Room existe déjà ! on doit renvoyer un false au "
-                                + "client..");
+                System.err.println("Room existe déjà ! on doit renvoyer un false au client..");
             } else {
                 System.out.println("La room n'exsite pas, on l'a crée");
                 WaitingRoom newRoom = new WaitingRoom(password, 5, name);
                 lr.getRooms().add(newRoom);
                 Client client = actualRoom.getClient(idPlayer);
                 newRoom.join(client);
-                ProcessManager.getProcessManager()
-                        .createAndRunThread(
-                                new WaitingRoomProcess(client, newRoom));
+                ProcessManager.getProcessManager().createAndRunThread(
+                    new WaitingRoomProcess(client, newRoom));
+                return true;
             }
         }
-    }
 
+        return false;
+    }
 }

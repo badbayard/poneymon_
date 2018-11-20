@@ -33,8 +33,11 @@ public class ListRoomProcess extends Process {
             }
 
             cmd.setActualRoom(listRoom);
-            cmd.atReceive();
-            client.sendCommandEvt(new StringCommand("OK"));
+            if (cmd.atReceive()) {
+                client.sendCommandEvt(new StringCommand("OK"));
+            } else {
+                client.sendCommandEvt(new StringCommand("NOK"));
+            }
         }
     }
 }

@@ -8,9 +8,8 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.ListRoomProcess;
 public class LeaveWaitingRoomCmd extends WaitingRoomCommand {
 
     @Override
-    public void atReceive() {
-        System.out.println(idPlayer + " envois : commande pour quitter une "
-                + "salle d'attente.");
+    public boolean atReceive() {
+        System.out.println(idPlayer + " envois : commande pour quitter une salle d'attente.");
 
         if (actualRoom == null) {
             System.err.println("Le client n'est pas dans une waiting room.");
@@ -22,13 +21,9 @@ public class LeaveWaitingRoomCmd extends WaitingRoomCommand {
                     ProcessManager.getProcessManager().createAndRunThread(
                         new ListRoomProcess(client));
 
-                    for (Client other : actualRoom.getClients()) {
-                        if (other.equals(client)) {
-                            continue;
-                        }
-
-                        other.sendCommandEvt(new NotifyPlayerChangeCmd(actualRoom.getNbPlayers()));
-                    }
+                    notifyOtherPlayers(actualRoom.getClients(),
+                        new NotifyPlayerChangeCmd(actualRoom.getNbPlayers()));
+                    return true;
                 } else {
                     System.err.println("ECHEC Join!");
                 }
@@ -36,5 +31,7 @@ public class LeaveWaitingRoomCmd extends WaitingRoomCommand {
                 System.err.println("ECHEC Récupération client!");
             }
         }
+
+        return false;
     }
 }

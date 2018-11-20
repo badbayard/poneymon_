@@ -45,21 +45,12 @@ public abstract class Controller {
         // update the last timer update
         lastTimerUpdate = currentNanoTime;
 
-        updateFieldModel(msElapsed, fieldModel);
+        if (!(this instanceof ClientMultiController)) {
+            fieldModel.update(msElapsed);
+        }
 
         // Check for collisions
         FieldModel.COLLISIONMANAGER.checkCollision();
-    }
-
-    /**
-     * Works for ServerMultiController and ClientSoloController.
-     * Needs to be overridden in ClientMultiController.
-     *
-     * @param msElapsed number of ms since last update
-     */
-    void updateFieldModel(double msElapsed, FieldModel fm) {
-        // Each time the event is triggered, update the model
-        fieldModel.update(msElapsed, fm);
     }
 
     /**
@@ -89,7 +80,7 @@ public abstract class Controller {
             poneyModel.turnIntoNianPoney();
         }
     }
-    
+
     /**
      * Make the poney jump.
      *

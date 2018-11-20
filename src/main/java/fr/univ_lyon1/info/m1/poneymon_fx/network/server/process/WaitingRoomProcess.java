@@ -1,8 +1,8 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.server.process;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
-import fr.univ_lyon1.info.m1.poneymon_fx.network.command.WaitingRoomCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.WaitingRoomCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.WaitingRoom;
 
 public class WaitingRoomProcess extends Process {
@@ -28,8 +28,11 @@ public class WaitingRoomProcess extends Process {
             }
 
             cmd.setActualRoom(waitingRoom);
-            cmd.atReceive();
-            client.sendCommandEvt(new StringCommand("OK Reçu"));
+            if (cmd.atReceive()) {
+                client.sendCommandEvt(new StringCommand("OK"));
+            } else {
+                client.sendCommandEvt(new StringCommand("NOK"));
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ public class JoinWaitingRoomCmd extends RoomCommand {
     }
 
     @Override
-    public void atReceive() {
+    public boolean atReceive() {
         System.out.println(idPlayer + " envois : commande pour rejoindre une partie.");
 
         System.out.println("On cherche la partie : " + name
@@ -35,16 +35,19 @@ public class JoinWaitingRoomCmd extends RoomCommand {
             ArrayList<WaitingRoom> possibleRooms =
                 (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();
 
+            System.out.println("ça continue");
             WaitingRoom waitingRoom;
 
             if (possibleRooms == null) {
                 System.err.println("Pas de parties joignables disponible.");
+                System.out.println("ça continue2");
             } else {
                 for (WaitingRoom possibleRoom : possibleRooms) {
+                    System.out.println("ça continue boucle");
+
                     waitingRoom = possibleRoom;
                     if (waitingRoom.getName().equals(name)
-                        && waitingRoom.getPassword()
-                        .isExpectedPassword(password)) {
+                        && waitingRoom.getPassword().isExpectedPassword(password)) {
                         System.out.println("On a trouvé la bonne room, on join");
 
                         Client client = actualRoom.remove(idPlayer);
@@ -54,14 +57,9 @@ public class JoinWaitingRoomCmd extends RoomCommand {
                                     .createAndRunThread(
                                         new WaitingRoomProcess(client, waitingRoom));
 
-                                for (Client other : waitingRoom.getClients()) {
-                                    if (other.equals(client)) {
-                                        continue;
-                                    }
-
-                                    other.sendCommandEvt(
-                                        new NotifyPlayerChangeCmd(waitingRoom.getNbPlayers()));
-                                }
+                                notifyOtherPlayers(waitingRoom.getClients(),
+                                    new NotifyPlayerChangeCmd(waitingRoom.getNbPlayers()));
+                                return true;
                             } else {
                                 System.err.println("ECHEC Join!");
                             }
@@ -72,5 +70,7 @@ public class JoinWaitingRoomCmd extends RoomCommand {
                 }
             }
         }
+        System.out.println("GOUDJA");
+        return false;
     }
 }
