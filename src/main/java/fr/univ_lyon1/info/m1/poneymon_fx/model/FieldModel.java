@@ -25,7 +25,7 @@ public class FieldModel implements Model, Serializable {
 
     private transient ArrayList<MovingEntityModel> rankings;
 
-    LevelBuilder levelsBuild = new LevelBuilder();
+    private transient LevelBuilder levelsBuild = new LevelBuilder();
 
     /**
      * FieldModel constructor.

@@ -3,40 +3,52 @@ package fr.univ_lyon1.info.m1.poneymon_fx.network.room;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.client.Client;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.util.Password;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Room {
-    ArrayList<Client> clients;
-    int nbPlayers = 0;
-    int maxNbPlayers;
-    String name = "Default";
-    Password password;
-    boolean hasPassword = false;
+public abstract class Room implements Serializable {
+    protected int nbPlayers = 0;
+    protected int maxNbPlayers;
+    protected String name = "Default";
+    protected Password password;
+    protected boolean hasPassword = false;
 
-    Room() {
+    protected transient ArrayList<Client> clients;
+
+    public Room() {
         clients = new ArrayList<>(4);
         maxNbPlayers = 4;
     }
 
-    Room(int nbPlayers) {
+    public Room(int nbPlayers) {
         maxNbPlayers = nbPlayers;
         clients = new ArrayList<>(maxNbPlayers);
     }
 
-    Room(String password) {
+    public Room(String password) {
         this(password, 4);
     }
 
-    Room(String password, int nbPlayers) {
+    /**
+     * Initialise la salle.
+     *
+     * @param password  le mot de passe de la salle
+     * @param nbPlayers le nombre possible de joueurs
+     */
+    public Room(String password, int nbPlayers) {
         this(nbPlayers);
         this.password = new Password(password);
         hasPassword = true;
         clients = new ArrayList<>(nbPlayers);
     }
 
-    Room(String password, int nbPlayers, String name) {
+    public Room(String password, int nbPlayers, String name) {
         this(password, nbPlayers);
         this.name = name;
+    }
+
+    public ArrayList<Client> getClients() {
+        return clients;
     }
 
     /**
@@ -49,7 +61,7 @@ public abstract class Room {
         if (nbPlayers < maxNbPlayers) {
             clients.add(client);
             nbPlayers++;
-            System.out.println("Client rejoint :" + nbPlayers + "/" + maxNbPlayers);
+            System.out.println("Client rejoint : " + nbPlayers + "/" + maxNbPlayers);
             return true;
         }
         System.out.println("Room pleine");
@@ -65,19 +77,52 @@ public abstract class Room {
     }
 
     /**
+     * Get a client from the room.
+     *
+     * @param idClient the id of the client
+     * @return the client
+     */
+    public Client getClient(int idClient) {
+        int i = 0;
+        while (clients.get(i).getPlayerId() != idClient) {
+            ++i;
+        }
+        return clients.get(i);
+    }
+
+    /**
+     * Retourne l'indice de la case du client dont l'id est en parametre.
+     * @param idClient l'indice du client recherche
+     * @return l'indice de la case de ce client dans la liste de la salle
+     */
+    public int getIndexClient(int idClient) {
+        int i = 0;
+        while (i < clients.size() && clients.get(i).getPlayerId() != idClient) {
+            ++i;
+        }
+        if (i < clients.size()) {
+            return i;
+        } else {
+            return -1;
+        }
+    }
+
+    /**
      * Removes a client from the room.
      *
      * @param idClient the id of the client
      * @return the removed client
      */
     public synchronized Client remove(int idClient) {
-        int i = 0;
-        while (clients.get(i).getPlayerId() != idClient) {
-            ++i;
+        int i = getIndexClient(idClient);
+        if (i != -1) {
+            Client res = clients.get(i);
+            clients.remove(i);
+            return res;
+        } else {
+            return null;
         }
-        Client res = clients.get(i);
-        clients.remove(i);
-        return res;
+
     }
 
     /**
@@ -90,7 +135,6 @@ public abstract class Room {
         if (clients.remove(client)) {
             nbPlayers--;
         }
-
         return client;
     }
 }

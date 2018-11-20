@@ -15,27 +15,19 @@ public class ListRoom extends Room {
     }
 
     private ListRoom() {
-        super(2);
+        super(5);
         rooms = new ArrayList<>();
     }
 
     /**
      * Return the current instance of Listroom, which is a singleton.
      *
-     * @return the singleton instance of ListRoom
+     * @return the singleton instance of ListRoomView
      */
     public static synchronized ListRoom getInstance() {
         if (ListRoom.instance == null) {
             ListRoom.instance = new ListRoom();
         }
         return ListRoom.instance;
-    }
-
-    @Override
-    public synchronized boolean join(Client player) {
-        clients.add(player);
-        nbPlayers++;
-        maxNbPlayers++;
-        return true;
     }
 }

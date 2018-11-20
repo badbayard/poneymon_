@@ -80,7 +80,7 @@ public class ProccessInServer implements Runnable {
         */
 
 
-        messagingSystem = new CommunicationSystem(sock);
+        messagingSystem = new CommunicationSystem(sock, 0);
         System.out.println("Serveur : J'attends");
         Command cmd = messagingSystem.receiveCommand();
         System.out.println("Serveur : J'ai reçu !");

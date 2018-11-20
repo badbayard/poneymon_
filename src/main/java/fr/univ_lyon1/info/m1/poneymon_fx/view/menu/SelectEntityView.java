@@ -1,15 +1,13 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.view;
+package fr.univ_lyon1.info.m1.poneymon_fx.view.menu;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.AssetsRepertories;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.ButtonMenu;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 import javafx.scene.image.Image;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Toggle;
 import javafx.scene.image.ImageView;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -17,7 +15,7 @@ import javafx.scene.text.Font;
 /**
  * Class allowing the player to select a poney considering different entitys.
  */
-public class SelectEntity extends Parent {
+public class SelectEntityView extends Parent {
 
     //Ajouter une VBox par categorie (faire un tableau de VBox ne fonctionne pas)
     private VBox ponyBox;
@@ -44,7 +42,7 @@ public class SelectEntity extends Parent {
      * @param x coord
      * @param y coord
      */
-    SelectEntity(int x, int y) {
+    SelectEntityView(int x, int y) {
         path = System.getProperty("user.dir") + "/src/main/resources/assets/entity/moving";
 
         assetsRepertories = new AssetsRepertories(path);
@@ -96,7 +94,7 @@ public class SelectEntity extends Parent {
                         break;
                     default:
                         System.out.println("Erreur, ce type n'existe pas. "
-                            + "Modifier le fichier SelectPoney.java");
+                            + "Modifier le fichier SelectPoneyCmd.java");
                         break;
                 }
             }

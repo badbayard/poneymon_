@@ -1,10 +1,7 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.view;
+package fr.univ_lyon1.info.m1.poneymon_fx.view.display;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.EntityModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.FixedEntityModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.ObstacleModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 import javafx.scene.canvas.GraphicsContext;
 
 public class ObstacleView extends FixedEntityView {
