@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import javafx.animation.AnimationTimer;
 
 public class ClientSoloController extends ClientController {
@@ -33,6 +34,8 @@ public class ClientSoloController extends ClientController {
             double msElapsed = (currentNanoTime - lastTimerUpdate) / 1000000.0;
             // Each time the event is triggered, update the model
             fieldModel.update(msElapsed, fieldModel);
+            // Check for collisions
+            FieldModel.COLLISIONMANAGER.checkCollision();
             // refresh the views
             notifyViews();
             // update the last timer update

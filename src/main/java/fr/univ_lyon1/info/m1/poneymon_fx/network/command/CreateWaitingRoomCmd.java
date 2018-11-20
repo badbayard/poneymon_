@@ -38,7 +38,7 @@ public class CreateWaitingRoomCmd extends RoomCommand {
                 }
             }
             if (roomAlreadyExists) {
-                System.err.println("Room existe déjà !");
+                System.err.println("Room existe déjà ! on doit renvoyer un false au client..");
             } else {
                 System.out.println("La room n'exsite pas, on l'a crée");
                 WaitingRoom newRoom = new WaitingRoom(password, 5, name);

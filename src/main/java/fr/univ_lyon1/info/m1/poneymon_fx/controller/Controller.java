@@ -89,6 +89,17 @@ public abstract class Controller {
             poneyModel.turnIntoNianPoney();
         }
     }
+    
+    /**
+     * Make the poney jump.
+     *
+     * @param poneyModel the PoneyModel of the poney the user wants to jump.
+     */
+    public void jumpButton(PoneyModel poneyModel) {
+        if (!poneyModel.isJumping()) {
+            poneyModel.startJump();
+        }
+    }
 
     public void setFieldModel(FieldModel fm) {
         fieldModel = fm;

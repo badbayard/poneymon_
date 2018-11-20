@@ -16,22 +16,22 @@ public interface Collider {
     /**
      * Get the Collider width.
      */
-    double getWidth();
+    double getColWidth();
 
     /**
      * Get the Collider height.
      */
-    double getHeight();
+    double getColHeight();
 
     /**
      * Get the Collider X.
      */
-    int getX();
+    int getColX();
 
     /**
      * Get the Collider Y.
      */
-    int getY();
+    int getColY();
 
     /**
      * If the collider is active or not.
