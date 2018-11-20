@@ -141,7 +141,6 @@ public class AssetsRepertoriesTest {
     public void allFilesAreInTabTest() {
         repAsset.browseAssets();
         File[] filesNotExpected;
-        File[] filesExpected;
 
         // files not valid
         filesNotExpected = new File[] { new File(repAsset.getFilePath() + "/pony-green.gif"),
@@ -155,6 +154,8 @@ public class AssetsRepertoriesTest {
         // files valid
         String filter = "ponyClone-orange.gif";
         repAsset.filter(filter);
+
+        File[] filesExpected;
         filesExpected = new File[] { new File(repAsset.getFilePath() + "/ponyClone-orange.gif") };
 
         assert (repAsset.allFilesAreInTab(filesExpected));
@@ -177,7 +178,6 @@ public class AssetsRepertoriesTest {
     public void allElementsAreInTabTest() {
         String[] stringToTest = { "1", "2", "3", "4", "5" };
         String[] stringNotValid;
-        String[] stringValid;
 
         // cas des tests valides
         stringNotValid = new String[] { "2", "2", "2", "3", "4", "5" };
@@ -187,6 +187,7 @@ public class AssetsRepertoriesTest {
         ;
         assert (!repAsset.allElementsAreInTab(stringToTest, stringNotValid));
 
+        String[] stringValid;
         // cas des tests non valides
         stringValid = new String[] { "1", "2", "3", "4", "5" };
         assert (repAsset.allElementsAreInTab(stringToTest, stringValid));

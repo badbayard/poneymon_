@@ -11,10 +11,12 @@ public class PoneyModel extends MovingEntityModel implements Model {
     /**
      * PoneyModel constructor.
      *
-     * @param color the poney color
-     * @param r     the poney row
-     * @param isIa  <code>true</code> if the poney is an AI.
-     *              <code>false</code> otherwise.
+     * @param color
+     *            the poney color
+     * @param r
+     *            the poney row
+     * @param isIa
+     *            <code>true</code> if the poney is an AI. <code>false</code> otherwise.
      */
     public PoneyModel(String color, int r, boolean isIa, int nbLaps) {
         super(color, r, nbLaps);
@@ -54,8 +56,7 @@ public class PoneyModel extends MovingEntityModel implements Model {
     /**
      * AI has to choose whether to trigger the boost.
      *
-     * @return <code>true</code> if the AI chose to trigger the boost.
-     *     <code>false</code> otherwise.
+     * @return <code>true</code> if the AI chose to trigger the boost. <code>false</code> otherwise.
      */
     private boolean aiNianMode() {
         final int lapsLeft = nbLaps - nbLap - 1;
@@ -65,12 +66,13 @@ public class PoneyModel extends MovingEntityModel implements Model {
     /**
      * Update of the poneyModel (displacement, lap completion...).
      *
-     * @param msElapsed time elapsed since the last update
+     * @param msElapsed
+     *            time elapsed since the last update
      */
     public void update(double msElapsed) {
         // Blinking
         blink();
-        //Jumping
+        // Jumping
         if (!dead) {
             jump();
         }
@@ -80,10 +82,10 @@ public class PoneyModel extends MovingEntityModel implements Model {
         }
         double x1 = x;
         x += speed * msElapsed / (MINIMAL_TIME * 1000);
-        realSpeed = ((x-x1)/msElapsed)*1000 ;
+        realSpeed = ((x - x1) / msElapsed) * 1000;
 
         if (x > 1) {
-            //Check of poney state
+            // Check of poney state
             if (boosted) {
                 boosted = false;
                 usedBoost = true;
@@ -106,13 +108,15 @@ public class PoneyModel extends MovingEntityModel implements Model {
     /**
      * Sets the boost capacity flag.
      *
-     * @param cap the new value for the flag
+     * @param cap
+     *            the new value for the flag
      */
     public void setBoostCapacity(boolean cap) {
         usedBoost = !cap;
     }
 
-    /* Gets the boost flag.
+    /*
+     * Gets the boost flag.
      *
      * @return the boost flag
      */
@@ -136,7 +140,8 @@ public class PoneyModel extends MovingEntityModel implements Model {
     /**
      * constructeur par copie (remplace l'interface cloneable).
      *
-     * @param clone PoneyModel
+     * @param clone
+     *            PoneyModel
      */
     public PoneyModel(PoneyModel clone) {
         super(clone);

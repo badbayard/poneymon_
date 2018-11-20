@@ -32,7 +32,8 @@ public interface Trigger {
      * @return boolean
      */
     boolean isActive();
-    
+
     double getSpeed();
+
     Transform getTransform();
 }

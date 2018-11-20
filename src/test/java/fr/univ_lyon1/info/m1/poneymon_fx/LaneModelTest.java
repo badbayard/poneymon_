@@ -1,20 +1,22 @@
 package fr.univ_lyon1.info.m1.poneymon_fx;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FixedEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.LaneEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.ObstacleModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class LaneModelTest {
 
     private LaneEntityModel lane;
     private FieldModel field;
 
+    /**
+     * Setting up.
+     */
     @Before
     public void setUp() {
         field = new FieldModel(1);

@@ -10,7 +10,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class EntityView implements View, Collider,Trigger {
+public class EntityView implements View, Collider, Trigger {
 
     // Graphics context
     protected final GraphicsContext graphicsContext;
@@ -122,12 +122,12 @@ public class EntityView implements View, Collider,Trigger {
     public double getColHeight() {
         return imageHeight;
     }
-    
+
     @Override
     public int getColX() {
         return x;
     }
-    
+
     @Override
     public int getColY() {
         return y;
@@ -145,7 +145,7 @@ public class EntityView implements View, Collider,Trigger {
 
     @Override
     public double getTrWidth() {
-        return imageWidth*1.2 ;
+        return imageWidth * 1.2;
     }
 
     @Override

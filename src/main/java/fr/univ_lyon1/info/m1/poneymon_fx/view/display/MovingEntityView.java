@@ -1,7 +1,5 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view.display;
 
-import java.awt.Color;
-
 import fr.univ_lyon1.info.m1.poneymon_fx.model.EntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
 import javafx.scene.canvas.GraphicsContext;
@@ -103,6 +101,6 @@ public class MovingEntityView extends EntityView {
     
     @Override
     public double getSpeed() {
-       return (((MovingEntityModel)participantModel).getSpeed() * canvasWidth);
+        return (((MovingEntityModel) participantModel).getSpeed() * canvasWidth);
     }
 }

@@ -56,7 +56,7 @@ public abstract class MovingEntityModel extends EntityModel
     // Available Entity colors
     protected double jumpStartTime;
     protected static final String[] COLOR_MAP = new String[] { "blue", "green", "orange", "purple",
-            "yellow" };
+        "yellow" };
     List<MovingEntityModel> neighbors = new ArrayList<>();
     // Random number generator for speed
     static final Random RANDOM_GENERATOR = new Random();

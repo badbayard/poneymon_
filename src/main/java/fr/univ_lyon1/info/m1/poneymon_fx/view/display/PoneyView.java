@@ -15,16 +15,20 @@ public class PoneyView extends MovingEntityView implements View {
     /**
      * PoneyView constructor.
      *
-     * @param pm      the poneymodel associated
-     * @param gc      the drawing tool
-     * @param cWidth  the canvas width
-     * @param cHeight the canvas height
+     * @param pm
+     *            the poneymodel associated
+     * @param gc
+     *            the drawing tool
+     * @param cWidth
+     *            the canvas width
+     * @param cHeight
+     *            the canvas height
      */
     public PoneyView(PoneyModel pm, GraphicsContext gc, int cWidth, int cHeight) {
         super(pm, gc, cWidth, cHeight,
-            "assets/entity/moving/pony-" + pm.getColor() + "-running.gif",
-            "assets/entity/moving/pony-" + pm.getColor() + "-jumpingUp.gif",
-            "assets/entity/moving/pony-" + pm.getColor() + "-jumpingDown.gif");
+                "assets/entity/moving/pony-" + pm.getColor() + "-running.gif",
+                "assets/entity/moving/pony-" + pm.getColor() + "-jumpingUp.gif",
+                "assets/entity/moving/pony-" + pm.getColor() + "-jumpingDown.gif");
 
         String color = ((MovingEntityModel) participantModel).getColor();
         nianPoneyImage = new Image("assets/entity/moving/pony-" + color + "-rainbow.gif");
@@ -79,12 +83,14 @@ public class PoneyView extends MovingEntityView implements View {
     public int getColX() {
         return (int) (x + imageWidth / 2);
     }
+
     @Override
     public double getColWidth() {
         return imageWidth / 2;
     }
+
     @Override
     public double getTrWidth() {
-        return (imageWidth/2)*4 ;
+        return (imageWidth / 2) * 4;
     }
 }

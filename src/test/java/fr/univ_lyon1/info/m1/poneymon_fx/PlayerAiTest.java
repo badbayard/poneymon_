@@ -8,7 +8,7 @@ import java.util.Random;
 
 import static org.junit.Assert.assertTrue;
 
-public class PlayerAITest {
+public class PlayerAiTest {
 
     private PoneyModel poneyAi;
 
