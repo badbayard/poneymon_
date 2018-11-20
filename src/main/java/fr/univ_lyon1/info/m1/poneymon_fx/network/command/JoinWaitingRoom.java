@@ -50,15 +50,11 @@ public class JoinWaitingRoom extends RoomCommand {
                                 .println("On a trouvé la bonne room, on join");
 
                         Client client = actualRoom.remove(idPlayer);
-                        if (client != null) {
-                            if (waitingRoom.join(client)) {
-                                ProcessManager.getProcessManager()
-                                        .createAndRunThread(
-                                                new WaitingRoomProcess(client,
-                                                        waitingRoom));
-                            } else {
-                                System.err.println("ECHEC Join!");
-                            }
+                        if (client != null && waitingRoom.join(client)) {
+                            ProcessManager.getProcessManager()
+                                    .createAndRunThread(
+                                            new WaitingRoomProcess(client,
+                                                    waitingRoom));
                         } else {
                             System.err.println("ECHEC Join!");
                         }

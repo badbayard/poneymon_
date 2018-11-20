@@ -4,6 +4,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.AskForWaitingRoom;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.CreateWaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.ExitWaitingRoom;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.InGameCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.JoinWaitingRoom;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.SelectPoney;
@@ -55,6 +56,7 @@ public class ClientServerTest {
             System.out.println("- \"create\" = create a room");
             System.out.println("- \"show\" = show all rooms");
             System.out.println("- \"select\" = select a poney");
+            System.out.println("- \"back\" = go back to list room");
             System.out.println("- \"quit\" = exit server");
             System.out.print("> ");
             String rep = sc.nextLine();
@@ -111,6 +113,10 @@ public class ClientServerTest {
                 for (int i = 0; i < field.getParticipantModels().length; ++i) {
                     System.out.println(field.getParticipantModel(i).getColor());
                 }
+                (client.messagingSystem.receiveCommand()).atReceive();
+            } else if (rep.equals("back")) {
+                cmd = new ExitWaitingRoom();
+                client.messagingSystem.sendCommand(cmd);
                 (client.messagingSystem.receiveCommand()).atReceive();
             } else {
                 System.out.println("Commande inconnue");

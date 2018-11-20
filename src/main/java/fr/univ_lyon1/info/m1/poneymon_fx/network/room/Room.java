@@ -119,6 +119,7 @@ public abstract class Room implements Serializable {
         if (i != -1) {
             Client res = clients.get(i);
             clients.remove(i);
+            nbPlayers--;
             return res;
         } else {
             return null;
@@ -133,9 +134,7 @@ public abstract class Room implements Serializable {
      * @return the removed client
      */
     public synchronized Client remove(Client client) {
-        if (clients.remove(client)) {
-            nbPlayers--;
-        }
+        clients.remove(client);
         return client;
     }
 }
