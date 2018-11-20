@@ -1,39 +1,27 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.animation.AnimationTimer;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.view.View;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.model.Model;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.DataView;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.FieldView;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.PoneyView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.MenuView;
+import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 
 /**
  * Controller of the game, handle the time.
  */
-public class Controller {
-    
-    // Subscribed views for display events
-    private List<View> views = new ArrayList<View>();
+public abstract class Controller {
+
     // Subscribed models for update events
-    private List<Model> models = new ArrayList<Model>();
+    FieldModel fieldModel;
     // Timer handling the time in game
-    private AnimationTimer timer;
+    AnimationTimer timer;
     // Store the timestamps of the last timer update
-    private long lastTimerUpdate;
-    // The game is launched
-    private boolean timerActive;
-    // The game is paused
-    private boolean resume;
+    long lastTimerUpdate;
     // The game is finished
-    private boolean gameOver = false;
-    // Sound controller managed by this controller
-    private SoundController soundController = new SoundController();
+    boolean gameOver = false;
+    boolean eventsSet = false;
+
+    private static Controller controller;
 
     /**
      * Controller constructor.
@@ -41,111 +29,46 @@ public class Controller {
     public Controller() {
         timer = new AnimationTimer() {
             public void handle(long currentNanoTime) {
-                //Prevent from resuming the game when the race is over
-                if (!gameOver) {
-                    //Allow to resume the game to it's last position
-                    if (resume) {
-                        lastTimerUpdate = currentNanoTime;
-                        resume = false;
-                    }
-                    // Time elapsed since the last update
-                    double msElapsed =
-                        (currentNanoTime - lastTimerUpdate) / 1000000.0;
-                    // Each time the event is triggered, update the model
-                    updateModels(msElapsed);
-                    // refresh the views
-                    displayViews();
-                    // update the last timer update
-                    lastTimerUpdate = currentNanoTime;
-                }
+                step(currentNanoTime);
             }
         };
     }
 
-    /**
-     * Gives a new view to the controller.
-     *
-     * @param view the view that wants to subscribe to the display event
-     */
-    public void addView(View view) {
-        views.add(view);
-    }
-
-    /**
-     * Gives a new model to the controller.
-     *
-     * @param model the model that wants to subscribe to the update event
-     */
-    public void addModel(Model model) {
-        models.add(model);
-    }
-
-    /**
-     * Requests the models to update.
-     *
-     * @param msElapsed time elapsed since last update
-     */
-    public void updateModels(double msElapsed) {
-        for (Model m : models) {
-            m.update(msElapsed);
+    void step(long currentNanoTime) {
+        // Prevent from resuming the game when the race is over
+        if (gameOver) {
+            return;
         }
+
+        // Time elapsed since the last update
+        double msElapsed = (currentNanoTime - lastTimerUpdate) / 1e6;
+        // update the last timer update
+        lastTimerUpdate = currentNanoTime;
+
+        updateFieldModel(msElapsed, fieldModel);
+
+        // Check for collisions
+        FieldModel.COLLISIONMANAGER.checkCollision();
     }
 
     /**
-     * Requests the views to be rendered.
+     * Works for ServerMultiController and ClientSoloController.
+     * Needs to be overridden in ClientMultiController.
+     *
+     * @param msElapsed number of ms since last update
      */
-    public void displayViews() {
-        for (View v : views) {
-            v.display();
-        }
+    void updateFieldModel(double msElapsed, FieldModel fm) {
+        // Each time the event is triggered, update the model
+        fieldModel.update(msElapsed, fm);
     }
 
     /**
      * Starts the controller's timer.
      */
     public void startTimer() {
-        // Notify models of the start
-        for (Model m : models) {
-            m.start();
-        }
-
         // Launch the timer
         lastTimerUpdate = System.nanoTime();
         timer.start();
-        timerActive = true;
-        resume = false;
-    }
-
-    /**
-     * Pauses the game.
-     */
-    public void pause() {
-        timer.stop();
-        timerActive = false;
-        resume = false;
-        soundController.pause();
-    }
-
-    /**
-     * Resumes the game.
-     */
-    public void resume() {
-        timer.start();
-        timerActive = true;
-        resume = true;
-        soundController.resume();
-    }
-
-    /**
-     * Handles mouseclick.
-     *
-     * @param xClick    the abscissa of the click
-     * @param yClick    the ordinate of the click
-     * @param fieldView the fieldView in which the click happened
-     */
-    public void mouseClicked(double xClick, double yClick,
-                                FieldView fieldView) {
-        fieldView.manageClick(xClick, yClick);
     }
 
     /**
@@ -166,32 +89,45 @@ public class Controller {
             poneyModel.turnIntoNianPoney();
         }
     }
-
+    
     /**
-     * Decides whether to pause or resume the game.
+     * Make the poney jump.
+     *
+     * @param poneyModel the PoneyModel of the poney the user wants to jump.
      */
-    public void pauseResumeButton() {
-        if (timerActive) {
-            pause();
-        } else {
-            resume();
+    public void jumpButton(PoneyModel poneyModel) {
+        if (!poneyModel.isJumping()) {
+            poneyModel.startJump();
         }
     }
 
-    /**
-     * Asks to the SoundController to play a sound.
-     */
-    public void playBoostSound() {
-        soundController.playBoostSound();
+    public void setFieldModel(FieldModel fm) {
+        fieldModel = fm;
+    }
+
+    public static Controller getInstance() {
+        return controller;
+    }
+
+    public static Controller setInstance(Controller cont) {
+        controller = cont;
+        return controller;
+    }
+
+    public void exit() {
+        Platform.exit();
     }
 
     /**
-     * Gets the timerActive flag.
+     * Sets the events for the buttons in views.
      *
-     * @return <code>true</code> if the timer is active.
-     *         <code>false</code> otherwise.
+     * @param menuView the main menu view from which are accessed all others and buttons.
      */
-    public boolean getTimerActive() {
-        return timerActive;
+    public void setEvents(MenuView menuView) {
+        if (eventsSet) {
+            return;
+        }
+
+        eventsSet = true;
     }
 }

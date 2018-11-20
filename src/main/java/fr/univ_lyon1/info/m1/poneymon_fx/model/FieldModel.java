@@ -1,53 +1,161 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.view.View;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.CollisionManager;
+import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
+
+import java.io.Serializable;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Model of the game board.
  */
-public class FieldModel implements Model {
-    
-    private PoneyModel[] poneys;
-    // Poneys' colors
-    private final String[] colorMap = new String[] {"blue", "green", "orange",
-                                                       "purple", "yellow"};
+public class FieldModel implements Model, Serializable {
+    private LaneEntityModel[] lanes;
+    private MovingEntityModel[] participants;
+    private static final int NB_LAPS = 5;
+    private transient int participantsFinished = 0;
+
+    public static final CollisionManager COLLISIONMANAGER = new CollisionManager();
     // State of the poneys. True : AI, False : Human
-    private final boolean[] isIa = new boolean[] {true, true, true,
-                                                     false, false};
+    private static final boolean[] isAi = new boolean[] {true, true, true, false, false};
+
+    private transient ArrayList<MovingEntityModel> rankings;
+
+    private transient LevelBuilder levelsBuild = new LevelBuilder();
 
     /**
      * FieldModel constructor.
-     *
-     * @param nbPoneys the number of poneys in the game
+     * @param nbParticipants the number of participants in the game
+     * @param soloGame wether this is a solo or multiplayer game
      */
-    public FieldModel(final int nbPoneys) {
-        // If the number of poneys is acceptable
-        if (2 <= nbPoneys  && nbPoneys <= 5) {
-            poneys = new PoneyModel[nbPoneys];
+    public FieldModel(final int nbParticipants, final boolean soloGame) {
+        // If the number of participants is acceptable
+        if (2 <= nbParticipants && nbParticipants <= 5) {
+            participants = new PoneyModel[nbParticipants];
+            lanes = new LaneEntityModel[nbParticipants];
         } else { // 5 poneys by default
-            poneys = new PoneyModel[5];
+            participants = new PoneyModel[5];
+            lanes = new LaneEntityModel[5];
         }
 
-        // Initializing poneys
-        for (int i = 0; i < poneys.length; i++) {
-            poneys[i] = new PoneyModel(colorMap[i], i, isIa[i]);
-        }
-        // make them know the others
-        for (int i = 0; i < poneys.length; i++) {
-            for (int j = 0; j < poneys.length; j++) {
-                if (j != i) {
-                    poneys[i].addNeighbor(poneys[j]);
+        if (soloGame) {
+            chooseRandomFileAndGenerateObstacles();
+            // Initializing participants and their specific lanes except for the first one.
+            for (int i = 1; i < participants.length; i++) {
+                participants[i] = new PoneyModel(PoneyModel.getColor(i), i, true, NB_LAPS);
+                participants[i].addSelfToTransforms();
+                lanes[i] = new LaneEntityModel(i, participants[i]);
+                for (FixedEntityModel fe : levelsBuild.getFixedEntities()) {
+                    if (fe.getRow() == i) {
+                        lanes[i].addFixedEntity(fe);
+                    }
                 }
             }
         }
     }
 
+
     /**
-     * Notify the model the game just started.
+     * FieldModel constructor.
+     *
+     * @param nbParticipants the number of participants in the game
      */
-    public void start() {
-        for (int i = 0; i < poneys.length; i++) {
-            poneys[i].start();
+    public FieldModel(final int nbParticipants) {
+        chooseRandomFileAndGenerateObstacles();
+        // If the number of participants is acceptable
+        if (2 <= nbParticipants && nbParticipants <= 5) {
+            participants = new PoneyModel[nbParticipants];
+            lanes = new LaneEntityModel[nbParticipants];
+        } else { // 5 poneys by default
+            participants = new PoneyModel[5];
+            lanes = new LaneEntityModel[5];
+        }
+
+        // Initializing participants and their specific lanes
+        for (int i = 0; i < participants.length; i++) {
+            participants[i] = new PoneyModel(PoneyModel.getColor(i), i, isAi[i], NB_LAPS);
+            participants[i].addSelfToTransforms();
+            lanes[i] = new LaneEntityModel(i, participants[i]);
+            for (FixedEntityModel fe : levelsBuild.getFixedEntities()) {
+                if (fe.getRow() == i) {
+                    lanes[i].addFixedEntity(fe);
+                }
+            }
+        }
+
+        // make them know the others
+        for (int i = 0; i < participants.length; i++) {
+            for (int j = 0; j < participants.length; j++) {
+                if (j != i) {
+                    participants[i].addNeighbor(participants[j]);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Set a new participant for the race.
+     * @param entityType string
+     * @param color string
+     * @param indice int
+     */
+    public void setParticipant(String entityType, String color, int indice) {
+        if (indice < 0 || indice >= 5) {
+            indice = 0;
+        }
+        switch (entityType) {
+            case "pony" :
+                participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
+                participants[indice].addSelfToTransforms();
+                lanes[indice] = new LaneEntityModel(indice, participants[indice]);
+                for (FixedEntityModel fe : levelsBuild.getFixedEntities()) {
+                    if (fe.getRow() == indice) {
+                        lanes[indice].addFixedEntity(fe);
+                    }
+                }
+                break;
+            case "ponyClone" :
+                //TODO mettre PonyClone au lieu de PoneyModel
+                participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
+                participants[indice].addSelfToTransforms();
+                lanes[indice] = new LaneEntityModel(indice, participants[indice]);
+                for (FixedEntityModel fe : levelsBuild.getFixedEntities()) {
+                    if (fe.getRow() == indice) {
+                        lanes[indice].addFixedEntity(fe);
+                    }
+                }
+                break;
+            //Cas par defaut si le type n'existe pas
+            default :
+                participants[indice] = new PoneyModel(color, indice, false, NB_LAPS);
+                participants[indice].addSelfToTransforms();
+                lanes[indice] = new LaneEntityModel(indice, participants[indice]);
+                for (FixedEntityModel fe : levelsBuild.getFixedEntities()) {
+                    if (fe.getRow() == indice) {
+                        lanes[indice].addFixedEntity(fe);
+                    }
+                }
+                break;
+        }
+
+    }
+
+    /**
+     * Set the neighbor for each entity.
+     */
+    public void setNeighbor() {
+        // make them know the others
+        for (int i = 0; i < participants.length; i++) {
+            for (int j = 0; j < participants.length; j++) {
+                if (j != i) {
+                    participants[i].addNeighbor(participants[j]);
+                }
+            }
         }
     }
 
@@ -57,26 +165,125 @@ public class FieldModel implements Model {
      * @param msElapsed time elapsed in ms
      */
     public void update(final double msElapsed) {
-        for (int i = 0; i < poneys.length; i++) {
-            poneys[i].update(msElapsed);
+        for (int i = 0; i < participants.length;i++) {
+            participants[i].update(msElapsed);
+            lanes[i].update(msElapsed,participants[i].getNbLap());
         }
     }
 
     /**
-     * PoneyModels getter.
+     * If the model in parameters is different from the current FieldModel, it means we are in a
+     * multiplayer context and we only have to assign the current FieldModel to the received one.
+     * Else it means we have to update like usual.
      *
-     * @return the PoneyModels stored in this instance
+     * @param msElapsed time elapsed since last update in ms
+     * @param fm other FieldModel to assign
      */
-    public PoneyModel[] getPoneyModels() {
-        return poneys;
+    public void update(final double msElapsed, FieldModel fm) {
+        if (this == fm) {
+            update(msElapsed);
+        } else {
+            participants = fm.participants;
+        }
+
+        rankParticipants();
+        checkRaceFinished();
+    }
+
+    /** Return the lanes.
+     */
+    public LaneEntityModel[] getLanes() {
+        return lanes;
     }
 
     /**
-     * Getter on the number of PoneyModels.
-     *
-     * @return the number of PoneyModels stored in this instance
+     * Mutateur lanes.
+     * @param newLanes tableau de LaneEntityModel
      */
-    public int countPoneys() {
-        return poneys.length;
+    public void setLanes(LaneEntityModel[] newLanes) {
+        lanes = newLanes;
     }
+
+    /**
+     * MovingEntityModels getter.
+     *
+     * @return the MovingEntityModels stored in this instance
+     */
+    public MovingEntityModel[] getParticipantModels() {
+        return participants;
+    }
+
+    /**
+     * Mutateur participant.
+     * @param newParticipant tableau de MovingEntityModel
+     */
+    public void setParticipantModels(MovingEntityModel[] newParticipant) {
+        participants = newParticipant;
+    }
+
+
+    /**
+     * Returns a specific participant from the field model.
+     *
+     * @param index index of the participant
+     * @return participant at index in the arraylist of participants
+     */
+    public MovingEntityModel getParticipantModel(int index) {
+        return participants[index];
+    }
+
+    /**
+     * Getter on the number of MovingEntityModel.
+     *
+     * @return the number of MovingEntityModel stored in this instance
+     */
+    public int countParticipants() {
+        return participants.length;
+    }
+
+    /**
+     * Renvoit la liste des indices triés des PoneyModel classés par
+     * progresion croissante.
+     */
+    public void rankParticipants() {
+        rankings = new ArrayList<>(Arrays.asList(participants));
+        Collections.sort(rankings);
+
+        int i = 1;
+        for (MovingEntityModel mem : rankings) {
+            mem.setRank(i++);
+        }
+    }
+
+    private void checkRaceFinished() {
+        for (MovingEntityModel pm : participants) {
+            if (!pm.getRaceFinished() && pm.getNbLap() == NB_LAPS) {
+                pm.setRaceFinished(true);
+                participantsFinished++;
+
+                if (participantsFinished == participants.length) {
+                    Controller.getInstance().endRace();
+                }
+            }
+        }
+    }
+
+    /**
+     * accesseur ranking.
+     *
+     * @return ranking
+     */
+    public List<MovingEntityModel> getRankings() {
+        return rankings;
+    }
+
+    /**
+     * Lis le contenu d'un fichier level (choisis au hasard).
+     */
+    public void chooseRandomFileAndGenerateObstacles() {
+        File file = levelsBuild.chooseRandomLevelFile();
+        System.out.println(file.getName());
+        levelsBuild.readFile(file);
+    }
+
 }

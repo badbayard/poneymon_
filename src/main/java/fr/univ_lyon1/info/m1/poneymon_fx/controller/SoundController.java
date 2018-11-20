@@ -10,26 +10,38 @@ import javafx.util.Duration;
  * Controller of the sound.
  */
 public class SoundController {
-    //Music file to play
-    private static final String MUSIC_FILE =
-                                    "src/main/resources/assets/BoostPoney.wav";
+    // Music file to play
+    private static final String MUSIC_FILE = "src/main/resources/assets/sound/BoostPoney.wav";
+    private static final String MUSIC_BACKGROUND = "src/main/resources/assets/sound/poney.mp3";
     // Player of the sound
-    final MediaPlayer boostPoney;
+    private final MediaPlayer boostPoney;
+    private final MediaPlayer chunk;
 
     /**
      * SoundController constructor.
      */
-    SoundController() {
+    public SoundController() {
         Media sound = new Media(new File(MUSIC_FILE).toURI().toString());
+        Media sound2 = new Media(new File(MUSIC_BACKGROUND).toURI().toString());
         boostPoney = new MediaPlayer(sound);
+        chunk = new MediaPlayer(sound2);
+
     }
 
     /**
      * Plays a sound when a poney turn into nian poney.
      */
-    public void playBoostSound() {
+    void playBoostSound() {
         boostPoney.play();
         reset();
+    }
+
+    /**
+     * TODO write the javadoc.
+     */
+    public void playchunk() {
+        chunk.setOnEndOfMedia(() -> chunk.seek(Duration.ZERO));
+        chunk.play();
     }
 
     /**
