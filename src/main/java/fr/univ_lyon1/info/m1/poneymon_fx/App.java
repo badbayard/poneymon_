@@ -81,7 +81,7 @@ public class App extends Application {
         // Confirm selected poney
         menu.getSelectMenu().getBtnConfirm().setOnMouseClicked(event -> soloOrMulti());
 
-        // Back to main menu
+        // Back to main menu, problème quand on est en multi, retour au menu ou salle?
         menu.getSelectMenu().getBtnBack().setOnMouseClicked(event -> menu.backToMainMenu());
     }
 
