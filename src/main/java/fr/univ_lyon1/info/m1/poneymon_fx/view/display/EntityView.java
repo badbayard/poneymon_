@@ -2,6 +2,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view.display;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Transform;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Trigger;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.EntityModel;
@@ -9,7 +10,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class EntityView implements View, Collider {
+public class EntityView implements View, Collider,Trigger {
 
     // Graphics context
     protected final GraphicsContext graphicsContext;
@@ -39,6 +40,7 @@ public class EntityView implements View, Collider {
         cc.addView(this);
 
         FieldModel.COLLISIONMANAGER.addToColliders(this);
+        FieldModel.COLLISIONMANAGER.addToTriggers(this);
         graphicsContext = gc;
         participantModel = m;
         canvasWidth = cWidth;
@@ -139,5 +141,15 @@ public class EntityView implements View, Collider {
     @Override
     public boolean isActive() {
         return true;
+    }
+
+    @Override
+    public double getTrWidth() {
+        return imageWidth*1.2 ;
+    }
+
+    @Override
+    public double getTrHeight() {
+        return imageWidth;
     }
 }

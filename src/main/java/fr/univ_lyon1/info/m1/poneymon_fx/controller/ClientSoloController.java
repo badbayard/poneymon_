@@ -36,6 +36,8 @@ public class ClientSoloController extends ClientController {
             fieldModel.update(msElapsed, fieldModel);
             // Check for collisions
             FieldModel.COLLISIONMANAGER.checkCollision();
+            // Check for trigger collision;
+            FieldModel.COLLISIONMANAGER.checkTriggers();
             // refresh the views
             notifyViews();
             // update the last timer update

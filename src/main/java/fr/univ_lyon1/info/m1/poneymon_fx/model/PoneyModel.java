@@ -74,10 +74,6 @@ public class PoneyModel extends MovingEntityModel implements Model {
         if (!dead) {
             jump();
         }
-        //Auto Jump if IA
-        if (isAi) {
-            startJump();
-        }
         // Update if the race isn't finished
         if (raceFinished) {
             return;

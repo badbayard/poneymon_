@@ -2,6 +2,8 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
 import java.io.Console;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
+
 public class FixedEntityModel extends EntityModel {
 
     // On which lap the fixedEntity will appear.
@@ -57,5 +59,10 @@ public class FixedEntityModel extends EntityModel {
         return (this.entityModelEquals(fixedEnt)
                 && (this.getLapPosition() == fixedEnt.getLapPosition())
                 && (this.isVisible() == fixedEnt.isVisible()));
+    }
+    
+    @Override
+    public void onTrigger(Collider col) {
+        
     }
 }

@@ -79,9 +79,12 @@ public class PoneyView extends MovingEntityView implements View {
     public int getColX() {
         return (int) (x + imageWidth / 2);
     }
-
     @Override
     public double getColWidth() {
         return imageWidth / 2;
+    }
+    @Override
+    public double getTrWidth() {
+        return (imageWidth/2)*1.2 ;
     }
 }

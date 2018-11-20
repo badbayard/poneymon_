@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Transform;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Trigger;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
 
 public class EntityModel implements Model, Serializable, Transform {
@@ -79,6 +80,11 @@ public class EntityModel implements Model, Serializable, Transform {
 
     @Override
     public void onCollision(Collider col) {
+        
+    }
+
+    @Override
+    public void onTrigger(Collider col) {
         
     }
 }

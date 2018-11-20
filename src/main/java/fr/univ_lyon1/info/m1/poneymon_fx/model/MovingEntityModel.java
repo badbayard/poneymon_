@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Trigger;
 
 public abstract class MovingEntityModel extends EntityModel
     implements Model, Comparable<MovingEntityModel>, Serializable {
@@ -325,7 +326,7 @@ public abstract class MovingEntityModel extends EntityModel
      * start jump.
      */
     public void startJump() {
-        if (!jumping) {
+        if (!jumping && !dead) {
             jumping = true;
             jumpStartTime = System.currentTimeMillis();
         }
@@ -386,6 +387,13 @@ public abstract class MovingEntityModel extends EntityModel
             hp--;
             System.out.println("Time to blink away ! (" + entityColor + ")");
             startBlink();
+        }
+    }
+    @Override
+    public void onTrigger(Collider col) {
+        System.out.println(getColor() + " poney triggering !");
+        if (isAi) {
+            startJump();
         }
     }
 }
