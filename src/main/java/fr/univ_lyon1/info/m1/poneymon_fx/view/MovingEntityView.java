@@ -19,7 +19,7 @@ public class MovingEntityView extends EntityView {
      * Generic Constructor.
      */
     public MovingEntityView(EntityModel m, GraphicsContext gc, int cWidth, int cHeight,
-            String imgUrlParticipant, String imgUrlJumpUp, String imgUrlJumpDown) {
+                            String imgUrlParticipant, String imgUrlJumpUp, String imgUrlJumpDown) {
         super(m, gc, cWidth, cHeight, imgUrlParticipant);
         deadParticipant = new Image("assets/entity/moving/DeadPoney.gif");
         jumpingUpParticipant = new Image(imgUrlJumpUp);
@@ -75,8 +75,8 @@ public class MovingEntityView extends EntityView {
         double maxHeight = MovingEntityModel.MAX_JUMP_HEIGHT;
         double jumpStartTime = ((MovingEntityModel) participantModel).getJumpStartTime();
         double x = Math.abs((System.currentTimeMillis() - jumpStartTime));
-        if (jumpState() == 1) {// If the player is going up
-            offset = (((2 * maxHeight * x) / jumpDuration));
+        if (jumpState() == 1) { // If the player is going up
+            offset = ((2 * maxHeight * x) / jumpDuration);
         } else if (jumpState() == -1) { // If the player is going down
             offset = ((-2 * maxHeight * x) / jumpDuration) + 2 * maxHeight;
         } else {
@@ -90,10 +90,10 @@ public class MovingEntityView extends EntityView {
      */
     int jumpState() {
         if ((System.currentTimeMillis() - ((MovingEntityModel) participantModel)
-                .getJumpStartTime()) < (MovingEntityModel.JUMP_DURATION / 2)) {
+            .getJumpStartTime()) < (MovingEntityModel.JUMP_DURATION / 2)) {
             return 1;
         } else if (System.currentTimeMillis() - ((MovingEntityModel) participantModel)
-                .getJumpStartTime() < (MovingEntityModel.JUMP_DURATION)) {
+            .getJumpStartTime() < (MovingEntityModel.JUMP_DURATION)) {
             return -1;
         } else {
             return 0;

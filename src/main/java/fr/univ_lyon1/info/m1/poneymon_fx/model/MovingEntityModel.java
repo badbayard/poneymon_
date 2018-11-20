@@ -7,7 +7,7 @@ import java.util.Random;
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
 
 public abstract class MovingEntityModel extends EntityModel
-        implements Model, Comparable<MovingEntityModel> {
+    implements Model, Comparable<MovingEntityModel> {
 
     // Number of laps to win the race
     int nbLaps;
@@ -51,8 +51,8 @@ public abstract class MovingEntityModel extends EntityModel
     protected boolean jumping = false;
     // Available Entity colors
     protected double jumpStartTime;
-    protected static final String[] COLOR_MAP = new String[] { "blue", "green", "orange", "purple",
-            "yellow" };
+    protected static final String[] COLOR_MAP = new String[] {"blue", "green", "orange", "purple",
+        "yellow"};
     List<MovingEntityModel> neighbors = new ArrayList<>();
     // Random number generator for speed
     static final Random RANDOM_GENERATOR = new Random();
@@ -81,8 +81,7 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Sets the poney speed.
      *
-     * @param s
-     *            the new speed
+     * @param s the new speed
      */
     public void setSpeed(double s) {
         speed = s;
@@ -90,8 +89,8 @@ public abstract class MovingEntityModel extends EntityModel
 
     /**
      * Getter.
-     * 
-     * @return
+     *
+     * @return boolean, is the poney jumping ?
      */
     public boolean isJumping() {
         return jumping;
@@ -142,10 +141,8 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Sets the nbLap attributes.
      *
-     * @param lap
-     *            the new value for nbLap
-     * @throws IllegalArgumentException
-     *             if lap is < 0
+     * @param lap the new value for nbLap
+     * @throws IllegalArgumentException if lap is < 0
      */
     public void setNbLap(int lap) throws IllegalArgumentException {
         if (lap >= 0) {
@@ -167,8 +164,7 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Returns the color at position index in the color map.
      *
-     * @param index
-     *            index of the color
+     * @param index index of the color
      * @return color at position index
      */
     static String getColor(int index) {
@@ -218,8 +214,7 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Adds a neighbor to poney.
      *
-     * @param poney
-     *            the neighbor to add
+     * @param poney the neighbor to add
      */
     void addNeighbor(MovingEntityModel poney) {
         neighbors.add(poney);
@@ -228,8 +223,7 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Removes a neighbor.
      *
-     * @param poney
-     *            the neighbor to remove
+     * @param poney the neighbor to remove
      */
     public void removeNeighbor(MovingEntityModel poney) {
         neighbors.remove(poney);
@@ -247,8 +241,7 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Gives the algebraic distance between the current Entity and the other.
      *
-     * @param pm
-     *            the other poney needed to get a distance
+     * @param pm the other poney needed to get a distance
      * @return the algebraic distance between the poneys
      */
     public double getRelativeDistanceTo(MovingEntityModel pm) {
@@ -274,8 +267,7 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Generic update for an entity (displacement, lap completion...).
      *
-     * @param msElapsed
-     *            time elapsed since the last update
+     * @param msElapsed time elapsed since the last update
      */
     public void update(double msElapsed) {
         blink();
@@ -305,7 +297,6 @@ public abstract class MovingEntityModel extends EntityModel
 
     /**
      * Blinking effect.
-     * 
      */
     public void blink() {
         if (blinking) {
@@ -323,7 +314,6 @@ public abstract class MovingEntityModel extends EntityModel
 
     /**
      * start Blinking effect.
-     * 
      */
     public void startBlink() {
         blinking = true;
@@ -342,7 +332,6 @@ public abstract class MovingEntityModel extends EntityModel
 
     /**
      * Blinking effect.
-     * 
      */
     public void jump() {
         if (jumping) {

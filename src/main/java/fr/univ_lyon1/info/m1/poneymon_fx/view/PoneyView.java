@@ -15,20 +15,16 @@ public class PoneyView extends MovingEntityView implements View {
     /**
      * PoneyView constructor.
      *
-     * @param pm
-     *            the poneymodel associated
-     * @param gc
-     *            the drawing tool
-     * @param cWidth
-     *            the canvas width
-     * @param cHeight
-     *            the canvas height
+     * @param pm      the poneymodel associated
+     * @param gc      the drawing tool
+     * @param cWidth  the canvas width
+     * @param cHeight the canvas height
      */
     public PoneyView(PoneyModel pm, GraphicsContext gc, int cWidth, int cHeight) {
         super(pm, gc, cWidth, cHeight,
-                "assets/entity/moving/pony-" + pm.getColor() + "-running.gif",
-                "assets/entity/moving/pony-" + pm.getColor() + "-jumpingUp.gif",
-                "assets/entity/moving/pony-" + pm.getColor() + "-jumpingDown.gif");
+            "assets/entity/moving/pony-" + pm.getColor() + "-running.gif",
+            "assets/entity/moving/pony-" + pm.getColor() + "-jumpingUp.gif",
+            "assets/entity/moving/pony-" + pm.getColor() + "-jumpingDown.gif");
 
         String color = ((MovingEntityModel) participantModel).getColor();
         nianPoneyImage = new Image("assets/entity/moving/pony-" + color + "-rainbow.gif");
@@ -51,20 +47,19 @@ public class PoneyView extends MovingEntityView implements View {
         int row = participantModel.getRow();
         double jumpOffset = 0;
         // Get the jump Y offset
-        if(((MovingEntityModel) participantModel).isJumping()) {
-            
+        if (((MovingEntityModel) participantModel).isJumping()) {
             jumpOffset = calculateJumpOffset();
         }
-        y = (int) (((row + 1 ) * space + row * imageHeight ) - jumpOffset);
+        y = (int) (((row + 1) * space + row * imageHeight) - jumpOffset);
         // Set the right image
         if (((PoneyModel) participantModel).isBoosted()) {
             currentParticipantImage = nianPoneyImage;
         } else {
             currentParticipantImage = classicImage;
         }
-        if(((MovingEntityModel)participantModel).isJumping() && jumpState() == 1){
+        if (((MovingEntityModel) participantModel).isJumping() && jumpState() == 1) {
             currentParticipantImage = jumpingUpParticipant;
-        }else if(((MovingEntityModel)participantModel).isJumping() && jumpState() == -1) {
+        } else if (((MovingEntityModel) participantModel).isJumping() && jumpState() == -1) {
             currentParticipantImage = jumpingDownParticipant;
         }
 
@@ -79,13 +74,14 @@ public class PoneyView extends MovingEntityView implements View {
         }
 
     }
-    
+
     @Override
     public int getColX() {
-        return (int) (x + imageWidth/2);
+        return (int) (x + imageWidth / 2);
     }
+
     @Override
     public double getColWidth() {
-        return imageWidth/2;
+        return imageWidth / 2;
     }
 }
