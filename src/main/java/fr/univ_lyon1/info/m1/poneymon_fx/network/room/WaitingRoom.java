@@ -6,7 +6,7 @@ public class WaitingRoom extends Room {
 
     private FieldModel fieldModel;
 
-    public WaitingRoom(String password, int nbPlayerMax, String name) {
+    public WaitingRoom(char[] password, int nbPlayerMax, String name) {
         super(password, nbPlayerMax, name);
         fieldModel = new FieldModel(5);
     }

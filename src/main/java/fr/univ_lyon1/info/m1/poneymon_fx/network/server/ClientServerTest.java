@@ -58,62 +58,77 @@ public class ClientServerTest {
             System.out.println("- \"quit\" = exit server");
             System.out.print("> ");
             String rep = sc.nextLine();
-            if (rep.equals("quit")) {
-                exit = true;
-                try {
-                    client.socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+            switch (rep) {
+                case "quit":
+                    exit = true;
+                    try {
+                        client.socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    client.messagingSystem.close();
+                    break;
+                case "txt":
+                    System.out.println("Que voulez vous dire au serveur ?");
+                    String msg = sc.nextLine();
+                    cmd = new StringCommand(msg);
+                    client.messagingSystem.sendCommand(cmd);
+                    (client.messagingSystem.receiveCommand()).atReceive();
+                    break;
+                case "join": {
+                    System.out.println("Nom de la salle à rejoindre ?");
+                    String name = sc.nextLine();
+                    System.out.println("Mot de passe de la salle à rejoindre ?");
+                    String password = sc.nextLine();
+                    char[] pswArr = password.toCharArray();
+                    cmd = new JoinWaitingRoomCmd(name, pswArr);
+                    client.messagingSystem.sendCommand(cmd);
+                    (client.messagingSystem.receiveCommand()).atReceive();
+                    break;
                 }
-                client.messagingSystem.close();
-            } else if (rep.equals("txt")) {
-                System.out.println("Que voulez vous dire au serveur ?");
-                String msg = sc.nextLine();
-                cmd = new StringCommand(msg);
-                client.messagingSystem.sendCommand(cmd);
-                (client.messagingSystem.receiveCommand()).atReceive();
-            } else if (rep.equals("join")) {
-                System.out.println("Nom de la salle à rejoindre ?");
-                String name = sc.nextLine();
-                System.out.println("Mot de passe de la salle à rejoindre ?");
-                String password = sc.nextLine();
-                cmd = new JoinWaitingRoomCmd(name, password);
-                client.messagingSystem.sendCommand(cmd);
-                (client.messagingSystem.receiveCommand()).atReceive();
-            } else if (rep.equals("create")) {
-                System.out.println("Nom de la salle à creer ?");
-                String name = sc.nextLine();
-                System.out.println("Mot de passe de la salle à creer ?");
-                String password = sc.nextLine();
-                cmd = new CreateWaitingRoomCmd(name, password);
-                client.messagingSystem.sendCommand(cmd);
-                (client.messagingSystem.receiveCommand()).atReceive();
-            } else if (rep.equals("show")) {
-                cmd = new AskForWaitingRoomCmd();
-                client.messagingSystem.sendCommand(cmd);
-                ShowWaitingRoomCmd cmd2 =
+                case "create": {
+                    System.out.println("Nom de la salle à creer ?");
+                    String name = sc.nextLine();
+                    System.out.println("Mot de passe de la salle à creer ?");
+                    String password = sc.nextLine();
+                    char[] pswArr = password.toCharArray();
+                    cmd = new CreateWaitingRoomCmd(name, pswArr);
+                    client.messagingSystem.sendCommand(cmd);
+                    (client.messagingSystem.receiveCommand()).atReceive();
+                    break;
+                }
+                case "show": {
+                    cmd = new AskForWaitingRoomCmd();
+                    client.messagingSystem.sendCommand(cmd);
+                    ShowWaitingRoomCmd cmd2 =
                         (ShowWaitingRoomCmd) client.messagingSystem
-                                .receiveCommand();
-                cmd2.atReceive();
-                List<WaitingRoom> rooms = cmd2.getRooms();
-                for (int i = 0; i < rooms.size(); ++i) {
-                    System.out.println(rooms.get(i).getName());
+                            .receiveCommand();
+                    cmd2.atReceive();
+                    List<WaitingRoom> rooms = cmd2.getRooms();
+                    for (int i = 0; i < rooms.size(); ++i) {
+                        System.out.println(rooms.get(i).getName());
+                    }
+                    (client.messagingSystem.receiveCommand()).atReceive();
+                    break;
                 }
-                (client.messagingSystem.receiveCommand()).atReceive();
-            } else if (rep.equals("select")) {
-                System.out.println("Choose Color :");
-                String color = sc.nextLine();
-                cmd = new SelectPoneyCmd("pony", color);
-                client.messagingSystem.sendCommand(cmd);
-                WaitingRoomCommand cmd2 =
+                case "select": {
+                    System.out.println("Choose Color :");
+                    String color = sc.nextLine();
+                    cmd = new SelectPoneyCmd("pony", color);
+                    client.messagingSystem.sendCommand(cmd);
+                    WaitingRoomCommand cmd2 =
                         (WaitingRoomCommand) client.messagingSystem.receiveCommand();
-                FieldModel field = cmd2.getFieldModel();
-                for (int i = 0; i < field.getParticipantModels().length; ++i) {
-                    System.out.println(field.getParticipantModel(i).getColor());
+                    FieldModel field = cmd2.getFieldModel();
+                    for (int i = 0; i < field.getParticipantModels().length; ++i) {
+                        System.out.println(field.getParticipantModel(i).getColor());
+                    }
+                    (client.messagingSystem.receiveCommand()).atReceive();
+                    break;
                 }
-                (client.messagingSystem.receiveCommand()).atReceive();
-            } else {
-                System.out.println("Commande inconnue");
+                default:
+                    System.out.println("Commande inconnue");
+                    break;
             }
         }
     }

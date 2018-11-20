@@ -8,13 +8,14 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.server.process.WaitingRoomProce
 import fr.univ_lyon1.info.m1.poneymon_fx.network.util.Password;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class JoinWaitingRoomCmd extends RoomCommand {
 
-    String name;
-    String password;
+    private String name;
+    private char[] password;
 
-    public JoinWaitingRoomCmd(String name, String password) {
+    public JoinWaitingRoomCmd(String name, char[] password) {
         this.name = name;
         this.password = password;
     }
@@ -23,8 +24,8 @@ public class JoinWaitingRoomCmd extends RoomCommand {
     public void atReceive() {
         System.out.println(idPlayer + "envois : commande pour rejoindre une partie.");
 
-        System.out.println(
-            "On cherche la partie : " + name + " avec le mot de passe : " + password);
+        System.out.println("On cherche la partie : " + name
+            + " avec le mot de passe : " + Arrays.toString(password));
 
         if (!(actualRoom instanceof ListRoom) || ((ListRoom) actualRoom).getRooms().isEmpty()) {
             System.err.println(
@@ -46,16 +47,16 @@ public class JoinWaitingRoomCmd extends RoomCommand {
                     System.out.println(waitingRoom.getName().equals(name));
 
                     if (waitingRoom.getName().equals(name)
-                        && waitingRoom.getPassword().isExpectedPassword(password.toCharArray())) {
+                        && waitingRoom.getPassword().isExpectedPassword(password)) {
                         System.out.println("On a trouvé la bonne room, on join");
 
                         Client client = actualRoom.remove(idPlayer);
                         if (client != null) {
                             if (waitingRoom.join(client)) {
                                 ProcessManager.getProcessManager()
-                                        .createAndRunThread(
-                                                new WaitingRoomProcess(client,
-                                                        waitingRoom));
+                                    .createAndRunThread(
+                                        new WaitingRoomProcess(client,
+                                            waitingRoom));
                             } else {
                                 System.err.println("ECHEC Join!");
                             }
