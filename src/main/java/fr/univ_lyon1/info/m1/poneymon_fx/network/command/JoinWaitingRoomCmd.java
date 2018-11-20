@@ -27,8 +27,8 @@ public class JoinWaitingRoomCmd extends RoomCommand {
         System.out.println("On cherche la partie : " + name
                 + " avec le mot de passe : " + Arrays.toString(password));
 
-        if (!(actualRoom instanceof ListRoom) ||
-                ((ListRoom) actualRoom).getRooms().isEmpty()) {
+        if (!(actualRoom instanceof ListRoom)
+                || ((ListRoom) actualRoom).getRooms().isEmpty()) {
             System.err.println(
                     "Pas de room sur laquelle rechercher les parties.");
         } else {
