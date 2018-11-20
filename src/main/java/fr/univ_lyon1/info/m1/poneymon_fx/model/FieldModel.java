@@ -60,6 +60,15 @@ public class FieldModel implements Model, Serializable {
 
 
     /**
+     * Hide all obstacles when the race is finished.
+     */
+    void finishRace() {
+        for(LaneEntityModel l: lanes) {
+            l.finishRace();
+        }
+    }
+    
+    /**
      * FieldModel constructor.
      *
      * @param nbParticipants the number of participants in the game

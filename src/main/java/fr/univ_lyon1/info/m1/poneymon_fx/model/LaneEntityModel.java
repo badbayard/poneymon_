@@ -62,5 +62,12 @@ public class LaneEntityModel implements Serializable {
         }
     }
 
-
+    /**
+     * Hide all obstacles when the race is finished.
+     */
+    void finishRace() {
+        for(FixedEntityModel fx : fixedEntities) {
+            fx.setRaceFinished(true);
+        }
+    }
 }

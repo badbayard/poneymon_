@@ -9,6 +9,22 @@ public class FixedEntityModel extends EntityModel {
     protected int lapPosition;
     // Visible.
     protected boolean visible = false;
+    //Race finished flag
+    protected boolean raceFinished = false;
+    
+    /**
+     * Getter for the raceFinished Flag
+     */
+    public boolean isRaceFinished() {
+        return raceFinished;
+    }
+
+    /**
+     * Setter for the raceFinished Flag
+     */
+    public void setRaceFinished(boolean raceFinished) {
+        this.raceFinished = raceFinished;
+    }
 
     /**
      * Constructor for the fixedEntity.
