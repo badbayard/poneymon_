@@ -38,6 +38,7 @@ public interface Collider {
      * 
      * @return boolean
      */
+    double getSpeed();
     boolean isActive();
 
     Transform getTransform();

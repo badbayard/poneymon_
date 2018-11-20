@@ -78,10 +78,10 @@ public class PoneyModel extends MovingEntityModel implements Model {
         if (raceFinished) {
             return;
         }
-
+        double x1 = x;
         x += speed * msElapsed / (MINIMAL_TIME * 1000);
+        realSpeed = ((x-x1)/msElapsed)*1000 ;
 
-        // Return to the left of the screen if a lap is completed
         if (x > 1) {
             //Check of poney state
             if (boosted) {

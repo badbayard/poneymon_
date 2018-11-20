@@ -3,6 +3,7 @@ package fr.univ_lyon1.info.m1.poneymon_fx.model;
 import java.io.Console;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Trigger;
 
 public class FixedEntityModel extends EntityModel {
 
@@ -62,7 +63,7 @@ public class FixedEntityModel extends EntityModel {
     }
     
     @Override
-    public void onTrigger(Collider col) {
+    public void onTrigger(Collider col,Trigger tr) {
         
     }
 }

@@ -94,7 +94,7 @@ public class CollisionManager {
                     && colliders.get(j).isActive() == true)) {
                     // If the two collider are colliding
                     if (areColliding(triggers.get(i), colliders.get(j)) &&  i != j) {
-                        triggers.get(i).getTransform().onTrigger(colliders.get(j));
+                        triggers.get(i).getTransform().onTrigger(colliders.get(j),triggers.get(i));
                     }
                 }
             }
@@ -116,10 +116,6 @@ public class CollisionManager {
      * Check if a collider and a trigger are touching.
      */
     public boolean areColliding(Trigger colA, Collider colB) {
-        System.out.println("COLLISION EXAMPLE : TriggerA.x = " +colA.getColX()+
-                "trigger width = " + colA.getTrWidth());
-        System.out.println("\t ColliderB.x = " +colB.getColX()+
-                "width = " + colB.getColWidth());
         return rangeIntersect(
             colA.getColX(), colA.getColX() + colA.getTrWidth(),
             colB.getColX(), colB.getColX() + colB.getColWidth())

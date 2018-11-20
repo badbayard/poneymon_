@@ -85,6 +85,6 @@ public class PoneyView extends MovingEntityView implements View {
     }
     @Override
     public double getTrWidth() {
-        return (imageWidth/2)*1.2 ;
+        return (imageWidth/2)*4 ;
     }
 }

@@ -152,4 +152,9 @@ public class EntityView implements View, Collider,Trigger {
     public double getTrHeight() {
         return imageWidth;
     }
+
+    @Override
+    public double getSpeed() {
+        return 0;
+    }
 }

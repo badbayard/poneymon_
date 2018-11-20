@@ -100,4 +100,9 @@ public class MovingEntityView extends EntityView {
         }
 
     }
+    
+    @Override
+    public double getSpeed() {
+       return (((MovingEntityModel)participantModel).getSpeed() * canvasWidth);
+    }
 }

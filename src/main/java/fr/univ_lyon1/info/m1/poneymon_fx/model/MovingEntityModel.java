@@ -9,7 +9,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Trigger;
 
 public abstract class MovingEntityModel extends EntityModel
-    implements Model, Comparable<MovingEntityModel>, Serializable {
+        implements Model, Comparable<MovingEntityModel>, Serializable {
 
     // Number of laps to win the race
     int nbLaps;
@@ -29,6 +29,8 @@ public abstract class MovingEntityModel extends EntityModel
     final String entityColor;
     // Entity's speed
     double speed;
+    // Entity's real speed
+    double realSpeed = 0;
     // Laps completed counter
     int nbLap;
     // Entity's rank
@@ -53,8 +55,8 @@ public abstract class MovingEntityModel extends EntityModel
     protected boolean jumping = false;
     // Available Entity colors
     protected double jumpStartTime;
-    protected static final String[] COLOR_MAP = new String[] {"blue", "green", "orange", "purple",
-        "yellow"};
+    protected static final String[] COLOR_MAP = new String[] { "blue", "green", "orange", "purple",
+            "yellow" };
     List<MovingEntityModel> neighbors = new ArrayList<>();
     // Random number generator for speed
     static final Random RANDOM_GENERATOR = new Random();
@@ -83,7 +85,8 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Sets the poney speed.
      *
-     * @param s the new speed
+     * @param s
+     *            the new speed
      */
     public void setSpeed(double s) {
         speed = s;
@@ -143,8 +146,10 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Sets the nbLap attributes.
      *
-     * @param lap the new value for nbLap
-     * @throws IllegalArgumentException if lap is < 0
+     * @param lap
+     *            the new value for nbLap
+     * @throws IllegalArgumentException
+     *             if lap is < 0
      */
     public void setNbLap(int lap) throws IllegalArgumentException {
         if (lap >= 0) {
@@ -166,7 +171,8 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Returns the color at position index in the color map.
      *
-     * @param index index of the color
+     * @param index
+     *            index of the color
      * @return color at position index
      */
     static String getColor(int index) {
@@ -179,7 +185,7 @@ public abstract class MovingEntityModel extends EntityModel
      * @return the poney speed
      */
     public double getSpeed() {
-        return speed;
+        return realSpeed;
     }
 
     /**
@@ -216,7 +222,8 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Adds a neighbor to poney.
      *
-     * @param poney the neighbor to add
+     * @param poney
+     *            the neighbor to add
      */
     void addNeighbor(MovingEntityModel poney) {
         neighbors.add(poney);
@@ -225,7 +232,8 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Removes a neighbor.
      *
-     * @param poney the neighbor to remove
+     * @param poney
+     *            the neighbor to remove
      */
     public void removeNeighbor(MovingEntityModel poney) {
         neighbors.remove(poney);
@@ -243,7 +251,8 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Gives the algebraic distance between the current Entity and the other.
      *
-     * @param pm the other poney needed to get a distance
+     * @param pm
+     *            the other poney needed to get a distance
      * @return the algebraic distance between the poneys
      */
     public double getRelativeDistanceTo(MovingEntityModel pm) {
@@ -269,7 +278,8 @@ public abstract class MovingEntityModel extends EntityModel
     /**
      * Generic update for an entity (displacement, lap completion...).
      *
-     * @param msElapsed time elapsed since the last update
+     * @param msElapsed
+     *            time elapsed since the last update
      */
     public void update(double msElapsed) {
         blink();
@@ -280,9 +290,9 @@ public abstract class MovingEntityModel extends EntityModel
         if (raceFinished) {
             return;
         }
-
+        double x1 = x;
         x += speed * msElapsed / (MINIMAL_TIME * 1000);
-
+        realSpeed = ((x - x1) / msElapsed) * 1000;
         // Return to the left of the screen if a lap is completed
         if (x > 1) {
             x = 0;
@@ -377,6 +387,7 @@ public abstract class MovingEntityModel extends EntityModel
 
     @Override
     public void onCollision(Collider col) {
+
         // Kill poney if no more HP
         if (hp == 0 && !blinking) {
             raceFinished = true;
@@ -389,10 +400,12 @@ public abstract class MovingEntityModel extends EntityModel
             startBlink();
         }
     }
+
     @Override
-    public void onTrigger(Collider col) {
-        System.out.println(getColor() + " poney triggering !");
-        if (isAi) {
+    public void onTrigger(Collider col, Trigger tr) {
+
+        if (isAi && tr.getColX() + (tr.getSpeed() * (JUMP_DURATION / 1000)) > col.getColX()
+                + col.getColWidth() && !jumping) {
             startJump();
         }
     }

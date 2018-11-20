@@ -84,7 +84,6 @@ public class EntityModel implements Model, Serializable, Transform {
     }
 
     @Override
-    public void onTrigger(Collider col) {
-        
+    public void onTrigger(Collider col,Trigger tr) {
     }
 }

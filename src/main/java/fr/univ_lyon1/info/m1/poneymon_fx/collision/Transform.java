@@ -9,6 +9,6 @@ package fr.univ_lyon1.info.m1.poneymon_fx.collision;
 public interface Transform {
     
     void onCollision(Collider col);
-    void onTrigger(Collider collider);
+    void onTrigger(Collider collider, Trigger trigger);
 
 }
