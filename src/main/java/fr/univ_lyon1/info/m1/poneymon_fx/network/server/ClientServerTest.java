@@ -27,6 +27,9 @@ public class ClientServerTest implements Runnable {
     private int idClient;
     private boolean isInGameRoom = false;
 
+    private Socket socketCnt = null;
+    private CommunicationSystem messagingSystemCnt;
+
     /**
      * Initialize the client.
      */
@@ -34,6 +37,9 @@ public class ClientServerTest implements Runnable {
         try {
             socket = new Socket("127.0.0.1", 4242);
             messagingSystem = new CommunicationSystem(socket, 0);
+
+            socketCnt = new Socket("127.0.0.1", 4243);
+            messagingSystemCnt = new CommunicationSystem(socketCnt, 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -194,10 +200,17 @@ public class ClientServerTest implements Runnable {
     public void run() {
         boolean exit = false;
         Command temp;
+        boolean neverLauch = true;
         while (!exit) {
             temp = messagingSystem.receiveCommand();
             if (temp instanceof UpdateGameCmd) {
-                System.out.println("ON LANCE LE JEU !");
+                if (neverLauch) {
+                    System.out.println("ON LANCE LE JEU !");
+                    neverLauch = false;
+                }
+                System.out.println((((UpdateGameCmd) temp).getFieldModel())
+                        .getParticipantModel(0).getX());
+                temp = null;
             } else {
                 while (cmdRecu != null) {
                     try {

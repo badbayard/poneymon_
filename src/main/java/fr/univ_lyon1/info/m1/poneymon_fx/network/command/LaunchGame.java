@@ -27,7 +27,7 @@ public class LaunchGame extends WaitingRoomCommand {
                         new GameProcessOneClient(gameRoom, clients.get(i)));
             }
             ProcessManager.getProcessManager().createAndRunThreadNoClient(
-                    new MasterGameRoomProcess(gameRoom, clients.get(0)));
+                    new MasterGameRoomProcess(gameRoom, null));
         }
     }
 }

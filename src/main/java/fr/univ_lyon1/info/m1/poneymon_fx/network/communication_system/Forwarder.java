@@ -31,6 +31,8 @@ public class Forwarder {
     public void sendCommand(Command cmd) {
         try {
             objectWriter.writeObject(cmd);
+            objectWriter.flush();
+            objectWriter.reset();
         } catch (IOException exception) {
             exception.printStackTrace();
         }

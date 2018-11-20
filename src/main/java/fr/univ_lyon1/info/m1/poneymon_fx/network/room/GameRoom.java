@@ -19,7 +19,6 @@ public class GameRoom extends Room {
 
         serverMultiController = new ServerMultiController(fieldModel);
         serverMultiController.setFieldModel(fieldModel);
-        serverMultiController.startTimer();
 
     }
 
@@ -32,10 +31,13 @@ public class GameRoom extends Room {
         this.clients = clients;
         model.setNeighbor();
         serverMultiController = new ServerMultiController(model);
-        serverMultiController.startTimer();
     }
 
     public FieldModel getFieldModel(){
         return serverMultiController.getFieldModel();
+    }
+
+    public ServerMultiController getServerMultiController() {
+        return serverMultiController;
     }
 }
