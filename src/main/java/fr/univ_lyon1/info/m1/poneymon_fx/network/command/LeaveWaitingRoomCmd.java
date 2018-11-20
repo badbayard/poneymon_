@@ -10,7 +10,8 @@ public class LeaveWaitingRoomCmd extends WaitingRoomCommand {
 
     @Override
     public void atReceive() {
-        System.out.println(idPlayer + "envois : commande pour quitter une salle d'attente.");
+        System.out.println(idPlayer + " envois : commande pour quitter une "
+                + "salle d'attente.");
 
         if (actualRoom == null) {
             System.err.println("Le client n'est pas dans une waiting room.");

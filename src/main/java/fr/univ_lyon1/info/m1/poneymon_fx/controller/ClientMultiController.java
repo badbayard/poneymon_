@@ -57,7 +57,8 @@ public class ClientMultiController extends ClientController implements Runnable 
         btnBackList.setOnMouseClicked(event -> menuView.backToMainMenu());
 
         menuView.getListroom().getBtnHost().setOnMouseClicked(event -> {
-            CreateWaitingRoomCmd cwrc = new CreateWaitingRoomCmd("truc", "non");
+            char[] pswTest = {'n', 'o', 'n'};
+            CreateWaitingRoomCmd cwrc = new CreateWaitingRoomCmd("truc", pswTest);
             messagingSystem.sendCommand(cwrc);
 
             menuView.activateWaitingRoom();

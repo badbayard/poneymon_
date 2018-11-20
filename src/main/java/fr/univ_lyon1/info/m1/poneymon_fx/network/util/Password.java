@@ -26,9 +26,9 @@ public class Password implements Serializable {
     /**
      * Generates the salt.
      */
-    public Password(String password) {
+    public Password(char[] password) {
         RANDOM.nextBytes(SALT);
-        passwordBytes = hash(password.toCharArray());
+        passwordBytes = hash(password);
     }
 
     /**

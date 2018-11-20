@@ -25,7 +25,7 @@ public abstract class Room implements Serializable {
         clients = new ArrayList<>(maxNbPlayers);
     }
 
-    public Room(String password) {
+    public Room(char[] password) {
         this(password, 4);
     }
 
@@ -35,14 +35,14 @@ public abstract class Room implements Serializable {
      * @param password  le mot de passe de la salle
      * @param nbPlayers le nombre possible de joueurs
      */
-    public Room(String password, int nbPlayers) {
+    public Room(char[] password, int nbPlayers) {
         this(nbPlayers);
         this.password = new Password(password);
         hasPassword = true;
         clients = new ArrayList<>(nbPlayers);
     }
 
-    public Room(String password, int nbPlayers, String name) {
+    public Room(char[] password, int nbPlayers, String name) {
         this(password, nbPlayers);
         this.name = name;
     }
@@ -118,6 +118,7 @@ public abstract class Room implements Serializable {
         if (i != -1) {
             Client res = clients.get(i);
             clients.remove(i);
+            nbPlayers--;
             return res;
         } else {
             return null;
@@ -132,9 +133,7 @@ public abstract class Room implements Serializable {
      * @return the removed client
      */
     public synchronized Client remove(Client client) {
-        if (clients.remove(client)) {
-            nbPlayers--;
-        }
+        clients.remove(client);
         return client;
     }
 }
