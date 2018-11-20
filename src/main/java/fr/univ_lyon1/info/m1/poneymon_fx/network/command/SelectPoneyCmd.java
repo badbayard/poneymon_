@@ -11,7 +11,7 @@ public class SelectPoneyCmd extends WaitingRoomCommand {
     }
 
     @Override
-    public void atReceive() {
+    public boolean atReceive() {
         System.out.println(idPlayer + " : envois selection de poney");
 
         if (actualRoom == null) {
@@ -19,9 +19,9 @@ public class SelectPoneyCmd extends WaitingRoomCommand {
         } else {
             int idInRoom = actualRoom.getIndexClient(idPlayer);
             actualRoom.getFieldModel().setParticipant(entityType, color, idInRoom);
-            WaitingRoomCommand cmd = new WaitingRoomCommand();
-            cmd.setActualRoom(actualRoom);
-            actualRoom.getClient(idPlayer).sendCommandEvt(cmd);
+            return true;
         }
+
+        return false;
     }
 }

@@ -169,22 +169,6 @@ public class FieldModel implements Model, Serializable {
             participants[i].update(msElapsed);
             lanes[i].update(msElapsed,participants[i].getNbLap());
         }
-    }
-
-    /**
-     * If the model in parameters is different from the current FieldModel, it means we are in a
-     * multiplayer context and we only have to assign the current FieldModel to the received one.
-     * Else it means we have to update like usual.
-     *
-     * @param msElapsed time elapsed since last update in ms
-     * @param fm other FieldModel to assign
-     */
-    public void update(final double msElapsed, FieldModel fm) {
-        if (this == fm) {
-            update(msElapsed);
-        } else {
-            participants = fm.participants;
-        }
 
         rankParticipants();
         checkRaceFinished();

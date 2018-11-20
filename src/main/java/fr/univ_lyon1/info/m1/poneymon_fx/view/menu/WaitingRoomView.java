@@ -71,19 +71,4 @@ public class WaitingRoomView extends Parent {
             }
         }
     }
-
-    /**
-     * Check a checkbox when a player join the room.
-     */
-    public void hasJoinRoom() {
-        checkBoxes[nbPlayerInRoom++].setSelected(true);
-    }
-
-    /**
-     * Uncheck a checkbox when a player leave the room.
-     */
-    public void hasLeftRoom() {
-        checkBoxes[nbPlayerInRoom].setSelected(false);
-        nbPlayerInRoom--;
-    }
 }
