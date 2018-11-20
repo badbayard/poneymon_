@@ -68,6 +68,16 @@ public class PoneyModel extends MovingEntityModel implements Model {
      * @param msElapsed time elapsed since the last update
      */
     public void update(double msElapsed) {
+        // Blinking
+        blink();
+        //Jumping
+        if (!dead) {
+            jump();
+        }
+        //Auto Jump if IA
+        if (isAi) {
+            startJump();
+        }
         // Update if the race isn't finished
         if (raceFinished) {
             return;

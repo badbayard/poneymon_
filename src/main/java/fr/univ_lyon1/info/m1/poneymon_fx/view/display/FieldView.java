@@ -1,4 +1,4 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.view;
+package fr.univ_lyon1.info.m1.poneymon_fx.view.display;
 
 import java.util.ArrayList;
 import java.util.List;

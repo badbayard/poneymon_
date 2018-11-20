@@ -11,7 +11,7 @@ public class AskForWaitingRoom extends RoomCommand {
             System.err.println("Pas room assigné à la commande !");
         } else {
             (actualRoom.getClient(idPlayer)).sendCommand(
-                    new ShowWaitingRoom(ListRoom.getInstance().getRooms()));
+                    new ShowWaitingRoomCmd(ListRoom.getInstance().getRooms()));
         }
     }
 }

@@ -7,17 +7,8 @@ public abstract class Process implements Runnable {
     protected volatile boolean isRunning = true;
 
     public void close() {
-        isRunning = false;
-    }
-
-    /**
-     * Annonce la fin de vie d'un thread et ferme la boucle d'execution de ce
-     * dernier.
-     */
-    public void deco() {
         System.out.println("Client disconnected");
-        close();
-        return;
+        isRunning = false;
     }
 
     public int getIdClient() {

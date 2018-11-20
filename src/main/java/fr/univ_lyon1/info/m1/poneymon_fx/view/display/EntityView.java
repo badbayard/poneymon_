@@ -1,4 +1,4 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.view;
+package fr.univ_lyon1.info.m1.poneymon_fx.view.display;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
 import fr.univ_lyon1.info.m1.poneymon_fx.collision.Transform;
@@ -112,13 +112,23 @@ public class EntityView implements View, Collider {
     }
 
     @Override
-    public double getWidth() {
+    public double getColWidth() {
         return imageWidth;
     }
 
     @Override
-    public double getHeight() {
+    public double getColHeight() {
         return imageHeight;
+    }
+    
+    @Override
+    public int getColX() {
+        return x;
+    }
+    
+    @Override
+    public int getColY() {
+        return y;
     }
 
     @Override

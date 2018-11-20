@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.network.client;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
 
@@ -13,6 +14,7 @@ public class Client {
     private int playerId;
     private CommunicationSystem communicationSystem;
     private Socket socket;
+    private MovingEntityModel movingEntityModel;
 
     /**
      * Constructor for client, assigning a unique int ID and a communication socket.
@@ -48,5 +50,9 @@ public class Client {
 
     public void sendCommand(Command cmd) {
         communicationSystem.sendCommand(cmd);
+    }
+
+    public void setMovingEntityModel(MovingEntityModel movingEntityModel) {
+        this.movingEntityModel = movingEntityModel;
     }
 }

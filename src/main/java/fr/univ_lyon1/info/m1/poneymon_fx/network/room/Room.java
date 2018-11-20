@@ -25,7 +25,7 @@ public abstract class Room implements Serializable {
         clients = new ArrayList<>(maxNbPlayers);
     }
 
-    public Room(String password) {
+    public Room(char[] password) {
         this(password, 4);
     }
 
@@ -35,14 +35,14 @@ public abstract class Room implements Serializable {
      * @param password  le mot de passe de la salle
      * @param nbPlayers le nombre possible de joueurs
      */
-    public Room(String password, int nbPlayers) {
+    public Room(char[] password, int nbPlayers) {
         this(nbPlayers);
         this.password = new Password(password);
         hasPassword = true;
         clients = new ArrayList<>(nbPlayers);
     }
 
-    public Room(String password, int nbPlayers, String name) {
+    public Room(char[] password, int nbPlayers, String name) {
         this(password, nbPlayers);
         this.name = name;
     }
@@ -61,8 +61,7 @@ public abstract class Room implements Serializable {
         if (nbPlayers < maxNbPlayers) {
             clients.add(client);
             nbPlayers++;
-            System.out.println(
-                    "Client rejoint :" + nbPlayers + "/" + maxNbPlayers);
+            System.out.println("Client rejoint : " + nbPlayers + "/" + maxNbPlayers);
             return true;
         }
         System.out.println("Room pleine");

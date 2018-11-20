@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class MovingEntityModel
-    extends EntityModel
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
+
+public abstract class MovingEntityModel extends EntityModel
     implements Model, Comparable<MovingEntityModel>, Serializable {
 
     // Number of laps to win the race
@@ -16,7 +17,13 @@ public abstract class MovingEntityModel
     // Minimal speed an entity can have
     static final double MIN_SPEED = 0.3;
     // Max speed an entity can have
-    static final double MAX_SPEED = 1.0;
+    public static final double MAX_SPEED = 1.0;
+    // Max speed an entity can have
+    public static final double BLINK_DURATION = 2000;
+    // Max height an entity can jump
+    public static final double MAX_JUMP_HEIGHT = 100;
+    // Time it take to finish a jump
+    public static final double JUMP_DURATION = 3000;
     // Entity's color
     final String entityColor;
     // Entity's speed
@@ -26,13 +33,26 @@ public abstract class MovingEntityModel
     // Entity's rank
     int rank;
     // Flag for AI
-    boolean isAi;
+    protected boolean isAi;
+    // participants's HP
+    protected int hp = 3;
+    // blinking
+    protected boolean blinking = false;
+    // Time the blink started
+    protected double blinkStartTime;
+    // visible
+    protected boolean visible = true;
     // Notifies the controller to play a boost sound
     boolean playSound = false;
     // Flag for race's end
     boolean raceFinished = false;
+    // Is the participant dead
+    protected boolean dead = false;
+    // Is the participant jumping
+    protected boolean jumping = false;
     // Available Entity colors
-    static final String[] COLOR_MAP = new String[] {"blue", "green", "orange", "purple",
+    protected double jumpStartTime;
+    protected static final String[] COLOR_MAP = new String[] {"blue", "green", "orange", "purple",
         "yellow"};
     List<MovingEntityModel> neighbors = new ArrayList<>();
     // Random number generator for speed
@@ -69,8 +89,20 @@ public abstract class MovingEntityModel
     }
 
     /**
-     * /**
-     * Set the new random speed of the poney.
+     * Getter.
+     *
+     * @return boolean, is the poney jumping ?
+     */
+    public boolean isJumping() {
+        return jumping;
+    }
+
+    public double getJumpStartTime() {
+        return jumpStartTime;
+    }
+
+    /**
+     * /** Set the new random speed of the poney.
      */
     protected void setRandomSpeed() {
         speed = MIN_SPEED + (MAX_SPEED - MIN_SPEED) * RANDOM_GENERATOR.nextFloat();
@@ -239,6 +271,10 @@ public abstract class MovingEntityModel
      * @param msElapsed time elapsed since the last update
      */
     public void update(double msElapsed) {
+        blink();
+        if (!dead) {
+            jump();
+        }
         // Update if the race isn't finished
         if (raceFinished) {
             return;
@@ -260,6 +296,64 @@ public abstract class MovingEntityModel
         }
     }
 
+    /**
+     * Blinking effect.
+     */
+    public void blink() {
+        if (blinking) {
+            if ((System.currentTimeMillis() % 5) == 1) { // Only blink 1 seconds every 5 seconds
+                visible = true;
+            } else {
+                visible = false;
+            }
+            if ((System.currentTimeMillis() - blinkStartTime) > BLINK_DURATION) {
+                blinking = false;
+                visible = true;
+            }
+        }
+    }
+
+    /**
+     * start Blinking effect.
+     */
+    public void startBlink() {
+        blinking = true;
+        blinkStartTime = System.currentTimeMillis();
+    }
+
+    /**
+     * start jump.
+     */
+    public void startJump() {
+        if (!jumping) {
+            jumping = true;
+            jumpStartTime = System.currentTimeMillis();
+        }
+    }
+
+    /**
+     * Blinking effect.
+     */
+    public void jump() {
+        if (jumping) {
+            if ((System.currentTimeMillis() - jumpStartTime) > JUMP_DURATION) {
+                jumping = false;
+            }
+        }
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
     @Override
     public int compareTo(MovingEntityModel mem) {
         if (this.getTotalProgress() == mem.getTotalProgress()) {
@@ -275,9 +369,23 @@ public abstract class MovingEntityModel
         return super.equals(obj);
     }
 
-
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @Override
+    public void onCollision(Collider col) {
+        // Kill poney if no more HP
+        if (hp == 0 && !blinking) {
+            raceFinished = true;
+            dead = true;
+        }
+        // If the poney is not dead, and not invincible(Blinking | Jumping), then decrement HP
+        if (!blinking && !dead && !jumping) {
+            hp--;
+            System.out.println("Time to blink away ! (" + entityColor + ")");
+            startBlink();
+        }
     }
 }

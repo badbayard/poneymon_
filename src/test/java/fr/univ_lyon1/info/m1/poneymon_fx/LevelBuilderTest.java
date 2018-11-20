@@ -26,7 +26,6 @@ public class LevelBuilderTest {
         assert (lvBuild.readFile(file));
     }
 
-
     @Test
     public void readTestFileLevelInvalid() {
         String path = lvBuild.getRepLevels().getFilePath();
@@ -35,7 +34,6 @@ public class LevelBuilderTest {
         assert (lvBuild.readFile(file));
     }
 
-
     @Test
     public void readTestFileLevelInvalidTypes() {
         String path = lvBuild.getRepLevels().getFilePath();
@@ -43,7 +41,6 @@ public class LevelBuilderTest {
         System.out.print("lecture du fichier : " + file.getName() + " \n");
         assert (lvBuild.readFile(file));
     }
-
 
     @Test
     public void readEmptyFile() {
@@ -108,14 +105,8 @@ public class LevelBuilderTest {
         expectedFixedEntities.add(new ObstacleModel(0, 0.8, 4));
 
         /*
-         * puddle 0.1 3 0
-           fence 0.3 4 0
-           fence 0.6 2 0
-           puddle 0.8 0 0
-           fence 0.1 3 1
-           fence 0.3 4 2
-           puddle 0.6 2 3
-           fence 0.8 0 4
+         * puddle 0.1 3 0 fence 0.3 4 0 fence 0.6 2 0 puddle 0.8 0 0 fence 0.1 3 1 fence 0.3 4 2
+         * puddle 0.6 2 3 fence 0.8 0 4
          */
 
         assert (lvBuild.fixedEntitiesEquals(expectedFixedEntities));
@@ -132,62 +123,54 @@ public class LevelBuilderTest {
         assert (lvBuild.fixedEntitiesEquals(expectedFixedEntities));
     }
 
-
     @Test
-    public void TestObstacleExist(){
-        assert(!lvBuild.obstacleExistInRepertories("poney"));
-        assert(!lvBuild.obstacleExistInRepertories("Obstacle"));
-        assert(!lvBuild.obstacleExistInRepertories("obstacle-puddle"));
-        assert(!lvBuild.obstacleExistInRepertories("fence-brown"));
+    public void testObstacleExist() {
+        assert (!lvBuild.obstacleExistInRepertories("poney"));
+        assert (!lvBuild.obstacleExistInRepertories("Obstacle"));
+        assert (!lvBuild.obstacleExistInRepertories("obstacle-puddle"));
+        assert (!lvBuild.obstacleExistInRepertories("fence-brown"));
 
-        assert(lvBuild.obstacleExistInRepertories("fence"));
-        assert(lvBuild.obstacleExistInRepertories("puddle"));
+        assert (lvBuild.obstacleExistInRepertories("fence"));
+        assert (lvBuild.obstacleExistInRepertories("puddle"));
     }
 
-
     @Test
-    public void TestObstacleCreator(){
+    public void testObstacleCreator() {
         FixedEntityModel obstacleCreated;
         FixedEntityModel obstacleExpected;
 
-        obstacleCreated = lvBuild.createSpecificObstacle("definitlyNotExist"
-            , 1, 0.5 , 0);
+        obstacleCreated = lvBuild.createSpecificObstacle("definitlyNotExist", 1, 0.5, 0);
 
-        obstacleExpected = new ObstacleModel(1, 0.5,0);
+        obstacleExpected = new ObstacleModel(1, 0.5, 0);
 
-        assert(obstacleCreated.fixedEntityEquals(obstacleExpected));
-        //TODO tests des classes existantes (quand elles existeront)
-
+        assert (obstacleCreated.fixedEntityEquals(obstacleExpected));
+        // TODO tests des classes existantes (quand elles existeront)
 
     }
 
     @Test
-    public void AddFixedEntityValidLine() {
+    public void addFixedEntityValidLine() {
         LevelBuilder lvBuildTester = new LevelBuilder();
 
         lvBuild.addFixedEntity("fence 0 0 0");
 
-        lvBuildTester.getFixedEntities().add(
-            lvBuildTester.createSpecificObstacle("fence", 0, 0, 0));
+        lvBuildTester.getFixedEntities()
+                .add(lvBuildTester.createSpecificObstacle("fence", 0, 0, 0));
 
-
-        assert(lvBuild.listFixedEntityModelEquals(lvBuildTester));
+        assert (lvBuild.listFixedEntityModelEquals(lvBuildTester));
     }
 
-
     @Test
-    public void AddFixedEntityNotValidLine() {
+    public void addFixedEntityNotValidLine() {
 
         lvBuild.addFixedEntity("DefinitlyNotValid 0 0 0");
 
-
-        assert(lvBuild.getFixedEntities().size() == 0);
+        assert (lvBuild.getFixedEntities().size() == 0);
 
         lvBuild.addFixedEntity("fence .4!4§6 o/ blahblah");
 
-        assert(lvBuild.getFixedEntities().size() == 0);
+        assert (lvBuild.getFixedEntities().size() == 0);
 
     }
-
 
 }

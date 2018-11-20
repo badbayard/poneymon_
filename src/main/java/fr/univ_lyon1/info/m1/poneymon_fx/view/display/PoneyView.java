@@ -1,4 +1,4 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.view;
+package fr.univ_lyon1.info.m1.poneymon_fx.view.display;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
@@ -21,11 +21,14 @@ public class PoneyView extends MovingEntityView implements View {
      * @param cHeight the canvas height
      */
     public PoneyView(PoneyModel pm, GraphicsContext gc, int cWidth, int cHeight) {
-    	super(pm,gc,cWidth,cHeight,"assets/entity/moving/pony-" + pm.getColor() + "-running.gif");
+        super(pm, gc, cWidth, cHeight,
+            "assets/entity/moving/pony-" + pm.getColor() + "-running.gif",
+            "assets/entity/moving/pony-" + pm.getColor() + "-jumpingUp.gif",
+            "assets/entity/moving/pony-" + pm.getColor() + "-jumpingDown.gif");
 
         String color = ((MovingEntityModel) participantModel).getColor();
         nianPoneyImage = new Image("assets/entity/moving/pony-" + color + "-rainbow.gif");
-        
+
         // Update the variable attributes of PoneyView
         update();
     }
@@ -42,18 +45,43 @@ public class PoneyView extends MovingEntityView implements View {
         double poneysHeight = nbPoneys * imageHeight;
         double space = (canvasHeight - poneysHeight) / (nbPoneys + 1);
         int row = participantModel.getRow();
-        y = (int) ((row + 1) * space + row * imageHeight);
-
+        double jumpOffset = 0;
+        // Get the jump Y offset
+        if (((MovingEntityModel) participantModel).isJumping()) {
+            jumpOffset = calculateJumpOffset();
+        }
+        y = (int) (((row + 1) * space + row * imageHeight) - jumpOffset);
         // Set the right image
         if (((PoneyModel) participantModel).isBoosted()) {
             currentParticipantImage = nianPoneyImage;
         } else {
             currentParticipantImage = classicImage;
         }
+        if (((MovingEntityModel) participantModel).isJumping() && jumpState() == 1) {
+            currentParticipantImage = jumpingUpParticipant;
+        } else if (((MovingEntityModel) participantModel).isJumping() && jumpState() == -1) {
+            currentParticipantImage = jumpingDownParticipant;
+        }
 
         // Update of the rank view
         rankView.update();
-        graphicsContext.drawImage(currentParticipantImage, x, y);
+        if (((MovingEntityModel) participantModel).isVisible()) {
+            if (((MovingEntityModel) participantModel).isDead()) {
+                graphicsContext.drawImage(deadParticipant, x, y);
+            } else {
+                graphicsContext.drawImage(currentParticipantImage, x, y);
+            }
+        }
 
+    }
+
+    @Override
+    public int getColX() {
+        return (int) (x + imageWidth / 2);
+    }
+
+    @Override
+    public double getColWidth() {
+        return imageWidth / 2;
     }
 }

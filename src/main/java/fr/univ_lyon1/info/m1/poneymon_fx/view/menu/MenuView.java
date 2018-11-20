@@ -1,21 +1,19 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.view;
+package fr.univ_lyon1.info.m1.poneymon_fx.view.menu;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import fr.univ_lyon1.info.m1.poneymon_fx.view.MainMenu;
-
 /**
  * Class handling the communication between the menus and jfxView.
  */
 public class MenuView {
 
-    private MainMenu mainMenu;
-    private SelectEntity selectMenu;
-    private ListRoom listRoom;
-    private WaitingRoom waitingRoom;
+    private MainMenuView mainMenuView;
+    private SelectEntityView selectMenu;
+    private ListRoomView listRoomView;
+    private WaitingRoomView waitingRoomView;
     private Scene scene;
     private int width;
     private int height;
@@ -48,22 +46,22 @@ public class MenuView {
         imgView.setFitHeight(height);
 
         // Affiche le menu principal
-        mainMenu = new MainMenu(width, height);
-        mainMenu.setVisible(true);
+        mainMenuView = new MainMenuView(width, height);
+        mainMenuView.setVisible(true);
 
         // Prépare le menu de sélection de poney
-        selectMenu = new SelectEntity(width, height);
+        selectMenu = new SelectEntityView(width, height);
         selectMenu.setVisible(false);
 
         // Prépare la listroom
-        listRoom = new ListRoom(width, height);
-        listRoom.setVisible(false);
+        listRoomView = new ListRoomView(width, height);
+        listRoomView.setVisible(false);
         
-        //Prépare la waitingRoom
-        waitingRoom = new WaitingRoom(width, height, 4);
-        waitingRoom.setVisible(false);
+        //Prépare la waitingRoomView
+        waitingRoomView = new WaitingRoomView(width, height, 4);
+        waitingRoomView.setVisible(false);
 
-        root.getChildren().addAll(imgView, mainMenu, selectMenu, listRoom, waitingRoom);
+        root.getChildren().addAll(imgView, mainMenuView, selectMenu, listRoomView, waitingRoomView);
 
         scene = new Scene(root);
     }
@@ -80,10 +78,10 @@ public class MenuView {
     /**
      * Get the main menu.
      * 
-     * @return field mainMenu.
+     * @return field mainMenuView.
      */
-    public MainMenu getMainMenu() {
-        return mainMenu;
+    public MainMenuView getMainMenuView() {
+        return mainMenuView;
     }
 
     /**
@@ -91,7 +89,7 @@ public class MenuView {
      * 
      * @return field selectMenu;
      */
-    public SelectEntity getSelectMenu() {
+    public SelectEntityView getSelectMenu() {
         return selectMenu;
     }
 
@@ -100,15 +98,15 @@ public class MenuView {
      * 
      * @return field listroom;
      */
-    public ListRoom getListroom() {
-        return listRoom;
+    public ListRoomView getListroom() {
+        return listRoomView;
     }
 
     /**
      * Display the select menu.
      */
     public void activateSelectMenu() {
-        mainMenu.setVisible(false);
+        mainMenuView.setVisible(false);
         selectMenu.setVisible(true);
     }
 
@@ -116,22 +114,22 @@ public class MenuView {
      * Display the main menu.
      */
     public void backToMainMenu() {
-        mainMenu.setVisible(true);
+        mainMenuView.setVisible(true);
         selectMenu.setVisible(false);
-        listRoom.setVisible(false);
+        listRoomView.setVisible(false);
     }
 
     /**
      * Display the Listroom.
      */
     public void activateSelectlistroom() {
-        mainMenu.setVisible(false);
-        listRoom.setVisible(true);
+        mainMenuView.setVisible(false);
+        listRoomView.setVisible(true);
     }
     
     public void activateWaitingRoom() {
-        listRoom.setVisible(false);
-        waitingRoom.setVisible(true);
+        listRoomView.setVisible(false);
+        waitingRoomView.setVisible(true);
     }
 
     /**
@@ -154,17 +152,17 @@ public class MenuView {
 
     /**
      * Get the waiting room.
-     * @return field waitingRoom
+     * @return field waitingRoomView
      */
-    public WaitingRoom getWaitingRoom() {
-        return waitingRoom;
+    public WaitingRoomView getWaitingRoomView() {
+        return waitingRoomView;
     }
     
     /**
      * Display the Listroom.
      */
     public void backToListRoom() {
-        waitingRoom.setVisible(false);
-        listRoom.setVisible(true);
+        waitingRoomView.setVisible(false);
+        listRoomView.setVisible(true);
     }
 }

@@ -1,11 +1,8 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import fr.univ_lyon1.info.m1.poneymon_fx.collision.CollisionManager;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.MenuView;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 
@@ -22,6 +19,7 @@ public abstract class Controller {
     long lastTimerUpdate;
     // The game is finished
     boolean gameOver = false;
+    boolean eventsSet = false;
 
     private static Controller controller;
 
@@ -91,6 +89,17 @@ public abstract class Controller {
             poneyModel.turnIntoNianPoney();
         }
     }
+    
+    /**
+     * Make the poney jump.
+     *
+     * @param poneyModel the PoneyModel of the poney the user wants to jump.
+     */
+    public void jumpButton(PoneyModel poneyModel) {
+        if (!poneyModel.isJumping()) {
+            poneyModel.startJump();
+        }
+    }
 
     public void setFieldModel(FieldModel fm) {
         fieldModel = fm;
@@ -107,5 +116,18 @@ public abstract class Controller {
 
     public void exit() {
         Platform.exit();
+    }
+
+    /**
+     * Sets the events for the buttons in views.
+     *
+     * @param menuView the main menu view from which are accessed all others and buttons.
+     */
+    public void setEvents(MenuView menuView) {
+        if (eventsSet) {
+            return;
+        }
+
+        eventsSet = true;
     }
 }

@@ -1,4 +1,4 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.view;
+package fr.univ_lyon1.info.m1.poneymon_fx.view.display;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientSoloController;
@@ -11,7 +11,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.FieldModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.MovingEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 
-import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
@@ -105,7 +104,12 @@ public class JfxView implements View {
 
                     boostPoney.setOnMouseClicked(
                         m -> cc.boostButton((PoneyModel) participantModel));
+                    Button jumpPoney = new Button("Jump poney: " + participantModel.getColor());
+
+                    jumpPoney.setOnMouseClicked(
+                        m -> cc.jumpButton((PoneyModel) participantModel));
                     hb.getChildren().add(boostPoney);
+                    hb.getChildren().add(jumpPoney);
                 }
             }
         }

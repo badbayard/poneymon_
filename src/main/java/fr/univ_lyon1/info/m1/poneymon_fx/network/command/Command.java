@@ -22,7 +22,7 @@ public class Command implements Serializable {
     }
 
 
-    public void beforSend() {
+    public void beforeSend() {
     }
 
     public void atReceive() {

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class LaneModelTest {
 
-
     private LaneEntityModel lane;
     private FieldModel field;
 
@@ -27,43 +26,38 @@ public class LaneModelTest {
     }
 
     @Test
-    public void testAddEntityRightLane (){
-        FixedEntityModel mur = new FixedEntityModel( 0,0.5,1);
+    public void testAddEntityRightLane() {
+        FixedEntityModel mur = new FixedEntityModel(0, 0.5, 1);
         lane.addFixedEntity(mur);
 
-        assert(field.getLanes()[0].getFixedEntities().contains(mur));
+        assert (field.getLanes()[0].getFixedEntities().contains(mur));
     }
 
     @Test
-    public void removeEntityTheRightLane (){
+    public void removeEntityTheRightLane() {
 
-        ObstacleModel [] murs = {
-            new ObstacleModel( 4,0.9,3),
-            new ObstacleModel( 0,0.8,0),
-            new ObstacleModel( 2,0.6,2),
-            new ObstacleModel( 1,0.5,4),
-            new ObstacleModel( 3,0.1,1),
-        };
+        ObstacleModel[] murs = { new ObstacleModel(4, 0.9, 3), new ObstacleModel(0, 0.8, 0),
+            new ObstacleModel(2, 0.6, 2), new ObstacleModel(1, 0.5, 4),
+            new ObstacleModel(3, 0.1, 1), };
 
         field = new FieldModel(5);
-        for (int j = 0; j < field.getLanes().length ; j++) {
-           for (int i = 0; i < murs.length; i++) {
-               if (murs[i].getRow() == j) {
-                   field.getLanes()[j].addFixedEntity(murs[i]);
-                   assert(field.getLanes()[j].getFixedEntities().contains(murs[i]));
-               }
-           }
+        for (int j = 0; j < field.getLanes().length; j++) {
+            for (int i = 0; i < murs.length; i++) {
+                if (murs[i].getRow() == j) {
+                    field.getLanes()[j].addFixedEntity(murs[i]);
+                    assert (field.getLanes()[j].getFixedEntities().contains(murs[i]));
+                }
+            }
         }
 
-        for (int j = 0; j < field.getLanes().length ; j++) {
+        for (int j = 0; j < field.getLanes().length; j++) {
             for (int i = 0; i < murs.length; i++) {
                 if (murs[i].getRow() == j) {
                     field.getLanes()[j].removeFixedEntity(murs[i]);
-                    assert(!field.getLanes()[j].getFixedEntities().contains(murs[i]));
+                    assert (!field.getLanes()[j].getFixedEntities().contains(murs[i]));
                 }
             }
         }
     }
-
 
 }

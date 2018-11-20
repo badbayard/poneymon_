@@ -1,25 +1,15 @@
-package fr.univ_lyon1.info.m1.poneymon_fx.view;
+package fr.univ_lyon1.info.m1.poneymon_fx.view.menu;
 
-import java.io.IOException;
-
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.scene.Node;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.ButtonMenu;
 import javafx.scene.Parent;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.image.ImageView;
 
 @SuppressWarnings("restriction")
 
 /**
  * Class creating the main menu.
  */
-public class MainMenu extends Parent {
+public class MainMenuView extends Parent {
 
     private VBox mainMenu;
     private ButtonMenu btnSolo;
@@ -27,9 +17,9 @@ public class MainMenu extends Parent {
     private ButtonMenu btnExit;
 
     /**
-     * Constructor of MainMenu.
+     * Constructor of MainMenuView.
      */
-    public MainMenu(int x, int y) {
+    public MainMenuView(int x, int y) {
         // La valeur 10 corresponds à l'écarts entre les différents éléments
         mainMenu = new VBox(10);
 
