@@ -18,8 +18,8 @@ public class LaunchGameCmd extends WaitingRoomCommand {
             System.err.println("Pas de room ou joueurs pas host !");
         } else {
             ArrayList<Client> clients = actualRoom.getClients();
-            GameRoom gameRoom = new GameRoom(actualRoom.getFieldModel(),
-                    clients);
+            GameRoom gameRoom = new GameRoom(actualRoom.getFieldModel(), clients);
+
             UpdateGameCmd cmd = new UpdateGameCmd(getFieldModel());
             for (Client client : clients) {
                 client.sendCommandCnt(cmd);

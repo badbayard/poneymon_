@@ -13,7 +13,6 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.UpdateGameCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.WaitingRoom;
-import fr.univ_lyon1.info.m1.poneymon_fx.view.display.JfxView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.ListRoomView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.MenuView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.WaitingRoomView;
@@ -92,6 +91,8 @@ public class ClientMultiController extends ClientController {
             listener.setRunning(false);
             return;
         }
+
+        super.step(currentNanoTime);
 
         // Check for collisions
         FieldModel.COLLISIONMANAGER.checkCollision();
@@ -181,12 +182,6 @@ public class ClientMultiController extends ClientController {
             messagingSystemEvt.sendCommand(lgc);
 
             StringCommand reponse = (StringCommand) messagingSystemEvt.receiveCommand();
-
-            if (reponse != null && reponse.getMot().equals("OK")) {
-                UpdateGameCmd ugc = (UpdateGameCmd) messagingSystemEvt.receiveCommand();
-
-                turnGameOn(ugc);
-            }
         });
 
         eventsSet = true;
@@ -197,23 +192,16 @@ public class ClientMultiController extends ClientController {
 
         fieldModel = updateGameCmd.getFieldModel();
 
-//        JfxView jfxView = menuView.getJfxView();
-//        jfxView.addViews();
-//        Platform.runLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                jfxView.setFieldModel(fieldModel);
-//            }
-//        });
-//        menuView.activateJfxView();
-
-
-
         Platform.runLater(new Runnable() {
-            @Override public void run() {
-                JfxView jfxView = new JfxView(stage, 800, 600);
-                jfxView.addViews();
-                jfxView.setFieldModel(fieldModel);
+            @Override
+            public void run() {
+                menuView.getJfxView().addViews();
+                menuView.getJfxView().setFieldModel(fieldModel);
+                menuView.activateJfxView();
+
+                System.out.println(views);
+
+                startTimer();
             }
         });
 

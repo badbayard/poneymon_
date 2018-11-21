@@ -62,12 +62,12 @@ public class MenuView {
         waitingRoomView = new WaitingRoomView(width, height, 4);
         waitingRoomView.setVisible(false);
 
-//        // Prépare la jfxView
-//        jfxView = new JfxView(width, height);
-//        jfxView.setVisible(false);
+        // Prépare la jfxView
+        jfxView = new JfxView(width, height);
+        jfxView.setVisible(false);
 
-        root.getChildren().addAll(imgView, mainMenuView, selectMenu, listRoomView, waitingRoomView);
-//            jfxView);
+        root.getChildren().addAll(imgView, mainMenuView, selectMenu, listRoomView, waitingRoomView,
+            jfxView);
 
         scene = new Scene(root);
     }
@@ -165,14 +165,18 @@ public class MenuView {
         return waitingRoomView;
     }
 
-//    public JfxView getJfxView() {
-//        return jfxView;
-//    }
+    public JfxView getJfxView() {
+        return jfxView;
+    }
 
-//    public void activateJfxView() {
-//        waitingRoomView.setVisible(false);
-//        jfxView.setVisible(true);
-//    }
+    /**
+     * Displays the JfxView.
+     */
+    public void activateJfxView() {
+        selectMenu.setVisible(false);
+        waitingRoomView.setVisible(false);
+        jfxView.setVisible(true);
+    }
 
     /**
      * Display the Listroom.

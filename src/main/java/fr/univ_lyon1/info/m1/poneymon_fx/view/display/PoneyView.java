@@ -26,8 +26,12 @@ public class PoneyView extends MovingEntityView implements View {
             "assets/entity/moving/pony-" + pm.getColor() + "-jumpingUp.gif",
             "assets/entity/moving/pony-" + pm.getColor() + "-jumpingDown.gif");
 
+
+
         String color = ((MovingEntityModel) participantModel).getColor();
         nianPoneyImage = new Image("assets/entity/moving/pony-" + color + "-rainbow.gif");
+
+        System.out.println(nianPoneyImage + " - " + nianPoneyImage.getHeight());
 
         // Update the variable attributes of PoneyView
         update();

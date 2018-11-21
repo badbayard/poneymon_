@@ -65,6 +65,7 @@ public final class FieldView extends Canvas implements View {
     public void setFieldModel(FieldModel fm) {
         fieldModel = fm;
 
+        System.out.println("Set field model FW, creating views");
         // Build as many MovingEntityView as there is MovingEntityModel in FieldModel
         participantViews.clear();
         MovingEntityModel[] participantModels = fm.getParticipantModels();

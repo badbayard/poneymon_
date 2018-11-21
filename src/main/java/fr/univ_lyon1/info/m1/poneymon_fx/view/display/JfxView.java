@@ -14,12 +14,13 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
  * Display a window using JavaFX.
  */
-public class JfxView implements View {
+public class JfxView extends Parent implements View {
     private final Scene scene;
     private FieldView fieldView;
     private Group root;
@@ -30,7 +31,7 @@ public class JfxView implements View {
      * @param width  the width of the view
      * @param height the height of the view
      */
-    public JfxView(Stage stage, final int width, final int height) {
+    public JfxView(final int width, final int height) {
         root = new Group();
         scene = new Scene(root);
 
@@ -41,12 +42,14 @@ public class JfxView implements View {
         // MouseListener
         listenToEvent();
 
-        Platform.runLater(new Runnable() {
-            @Override public void run() {
-                stage.setScene(scene);
-                stage.show();
-            }
-        });
+        getChildren().add(root);
+
+//        Platform.runLater(new Runnable() {
+//            @Override public void run() {
+//                stage.setScene(scene);
+//                stage.show();
+//            }
+//        });
     }
 
     /**

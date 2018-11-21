@@ -11,7 +11,7 @@ import java.util.List;
 
 public abstract class ClientController extends Controller {
     // Subscribed views for display events
-    private List<View> views = new ArrayList<>();
+    public List<View> views = new ArrayList<>();
     // Tiny window displaying data about a participant
     private DataView dataView;
     // Sound controller managed by this controller

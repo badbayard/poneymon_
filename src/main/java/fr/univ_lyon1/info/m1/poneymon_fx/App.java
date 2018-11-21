@@ -138,14 +138,11 @@ public class App extends Application {
 
         csc.setFieldModel(fieldModel);
 
-        JfxView jfxView = new JfxView(stage, 800, 600);
-        jfxView.addViews();
-        // Trigger the waterfall initialization
-        jfxView.setFieldModel(fieldModel);
+        menu.getJfxView().addViews();
+        menu.getJfxView().setFieldModel(fieldModel);
+        menu.activateJfxView();
 
-//        // On ajoute la scene a la fenetre et on affiche
-//        stage.setScene(jfxView.getScene());
-//        stage.show();
+        System.out.println(csc.views);
 
         // Launch the game
         csc.startTimer();
