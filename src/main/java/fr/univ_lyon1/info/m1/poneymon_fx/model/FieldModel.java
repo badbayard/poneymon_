@@ -106,27 +106,13 @@ public class FieldModel implements Model, Serializable {
         }
     }
 
-    /*
-    private LaneEntityModel[] lanes;
-    private MovingEntityModel[] participants;
-    private static final int NB_LAPS = 5;
-    private transient int participantsFinished = 0;
-
-    public static final CollisionManager COLLISIONMANAGER = new CollisionManager();
-    // State of the poneys. True : AI, False : Human
-    private static final boolean[] isAi = new boolean[] {true, true, true, false, false};
-
-    private transient ArrayList<MovingEntityModel> rankings;
-
-    private transient LevelBuilder levelsBuild = new LevelBuilder();
-    */
-
     public void assign(FieldModel other) {
         lanes = other.lanes;
         for (int i = 0; i < other.participants.length; i++) {
             participants[i].assign(other.participants[i]);
         }
         participantsFinished = other.participantsFinished;
+        rankParticipants();
     }
 
 
