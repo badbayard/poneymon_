@@ -12,10 +12,10 @@ import java.util.List;
 public abstract class ClientController extends Controller {
     // Subscribed views for display events
     public List<View> views = new ArrayList<>();
-    // Tiny window displaying data about a participant
-    private DataView dataView;
     // Sound controller managed by this controller
     SoundController soundController = new SoundController();
+    // Tiny window displaying data about a participant
+    private DataView dataView;
 
     /**
      * Default constructor for ClientController.
@@ -70,7 +70,8 @@ public abstract class ClientController extends Controller {
      * @param yClick    the ordinate of the click
      * @param fieldView the fieldView in which the click happened
      */
-    public void mouseClicked(double xClick, double yClick, FieldView fieldView) {
+    public void mouseClicked(double xClick, double yClick,
+                             FieldView fieldView) {
         fieldView.manageClick(xClick, yClick);
     }
 
@@ -86,6 +87,10 @@ public abstract class ClientController extends Controller {
         }
     }
 
+    public DataView getDataView() {
+        return dataView;
+    }
+
     /**
      * Sets the data view.
      *
@@ -93,9 +98,5 @@ public abstract class ClientController extends Controller {
      */
     public void setDataView(DataView dv) {
         dataView = dv;
-    }
-
-    public DataView getDataView() {
-        return dataView;
     }
 }

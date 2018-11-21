@@ -28,17 +28,17 @@ import java.net.Socket;
 import java.util.List;
 
 public class ClientMultiController extends ClientController {
+    MenuView menuView;
+    Thread listenerThread;
+    ControllerListener listener;
+    boolean init = false;
+    Stage stage;
     private Socket socketEvt = null;
     private Socket socketCnt = null;
     private CommunicationSystem messagingSystemEvt;
     private CommunicationSystem messagingSystemCnt;
     // Donnez par le serveur nécéssaire dans chaque communication
     private int idClient;
-    MenuView menuView;
-    Thread listenerThread;
-    ControllerListener listener;
-    boolean init = false;
-    Stage stage;
 
     /**
      * Constructeur du controller multi côté client.
@@ -52,8 +52,10 @@ public class ClientMultiController extends ClientController {
      * Initialise la connexion au serveur.
      *
      * @param host        adresse IP de l'hôte
-     * @param portEvents  port auquel se connecter sur l'hôte pour les événements
-     * @param portContinu port auquel se connecter sur l'hôte pour les infos continus
+     * @param portEvents  port auquel se connecter sur l'hôte pour les
+     *                    événements
+     * @param portContinu port auquel se connecter sur l'hôte pour les infos
+     *                    continus
      */
     public boolean initNetwork(String host, int portEvents, int portContinu) {
         if (init) {
@@ -125,10 +127,12 @@ public class ClientMultiController extends ClientController {
                 return;
             }
 
-            CreateWaitingRoomCmd cwrc = new CreateWaitingRoomCmd(roomName, roomPswd);
+            CreateWaitingRoomCmd cwrc =
+                    new CreateWaitingRoomCmd(roomName, roomPswd);
             messagingSystemEvt.sendCommand(cwrc);
 
-            StringCommand sc = (StringCommand) messagingSystemEvt.receiveCommand();
+            StringCommand sc =
+                    (StringCommand) messagingSystemEvt.receiveCommand();
 
             if (sc != null && sc.getMot().equals("OK")) {
                 menuView.activateWaitingRoom();
@@ -139,23 +143,30 @@ public class ClientMultiController extends ClientController {
         // Refresh available games
         lrw.getBtnRefresh().setOnMouseClicked(event -> {
             messagingSystemEvt.sendCommand(new AskForWaitingRoomCmd());
-            ShowWaitingRoomCmd swrc = (ShowWaitingRoomCmd) messagingSystemEvt.receiveCommand();
-            StringCommand sc = (StringCommand) messagingSystemEvt.receiveCommand();
+            ShowWaitingRoomCmd swrc =
+                    (ShowWaitingRoomCmd) messagingSystemEvt.receiveCommand();
+            StringCommand sc =
+                    (StringCommand) messagingSystemEvt.receiveCommand();
 
             if (!sc.getMot().equals("OK") || swrc != null) {
                 List<WaitingRoom> waitingRooms = swrc.getRooms();
                 List<HBox> containers = lrw.setWaitingRooms(waitingRooms);
 
                 for (HBox container : containers) {
-                    String roomName = ((Text) container.getChildren().get(0)).getText();
+                    String roomName =
+                            ((Text) container.getChildren().get(0)).getText();
                     Button joinBtn = (Button) container.getChildren().get(2);
 
                     joinBtn.setOnMouseClicked(e -> {
                         char[] pswd =
-                            ((TextField) container.getChildren().get(1)).getText().toCharArray();
-                        messagingSystemEvt.sendCommand(new JoinWaitingRoomCmd(roomName, pswd));
+                                ((TextField) container.getChildren().get(1))
+                                        .getText().toCharArray();
+                        messagingSystemEvt.sendCommand(
+                                new JoinWaitingRoomCmd(roomName, pswd));
 
-                        StringCommand reponse = (StringCommand) messagingSystemEvt.receiveCommand();
+                        StringCommand reponse =
+                                (StringCommand) messagingSystemEvt
+                                        .receiveCommand();
 
                         if (reponse != null && reponse.getMot().equals("OK")) {
                             menuView.activateWaitingRoom();
@@ -172,7 +183,8 @@ public class ClientMultiController extends ClientController {
             LeaveWaitingRoomCmd lwr = new LeaveWaitingRoomCmd();
             messagingSystemEvt.sendCommand(lwr);
 
-            StringCommand reponse = (StringCommand) messagingSystemEvt.receiveCommand();
+            StringCommand reponse =
+                    (StringCommand) messagingSystemEvt.receiveCommand();
             menuView.backToListRoom();
         });
 
@@ -181,7 +193,8 @@ public class ClientMultiController extends ClientController {
             LaunchGameCmd lgc = new LaunchGameCmd();
             messagingSystemEvt.sendCommand(lgc);
 
-            StringCommand reponse = (StringCommand) messagingSystemEvt.receiveCommand();
+            StringCommand reponse =
+                    (StringCommand) messagingSystemEvt.receiveCommand();
         });
 
         eventsSet = true;
@@ -198,8 +211,6 @@ public class ClientMultiController extends ClientController {
                 menuView.getJfxView().addViews();
                 menuView.getJfxView().setFieldModel(fieldModel);
                 menuView.activateJfxView();
-
-                System.out.println(views);
 
                 startTimer();
             }
@@ -228,13 +239,13 @@ public class ClientMultiController extends ClientController {
         messagingSystemEvt.sendCommand(spc);
     }
 
+    FieldModel getFieldModel() {
+        return fieldModel;
+    }
+
     @Override
     public void setFieldModel(FieldModel fm) {
         this.fieldModel = fm;
-    }
-
-    FieldModel getFieldModel() {
-        return fieldModel;
     }
 
     @Override

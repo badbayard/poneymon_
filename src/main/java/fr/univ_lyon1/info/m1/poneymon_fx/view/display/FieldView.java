@@ -141,7 +141,6 @@ public final class FieldView extends Canvas implements View {
     public void update() {
         graphicsContext.setFill(grassPattern);
         graphicsContext.fillRect(0, 0, width, height);
-        System.out.println("Fieldview : " + fieldModel.getParticipantModels()[0] + " - " + fieldModel.getParticipantModels()[0].getX());
     }
 
     /**

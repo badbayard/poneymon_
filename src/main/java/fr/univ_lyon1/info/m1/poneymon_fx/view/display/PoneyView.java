@@ -44,10 +44,6 @@ public class PoneyView extends MovingEntityView implements View {
         // Get the x coordinate
         x = (int) (canvasWidth * participantModel.getX() * widthRatio - imageWidth);
 
-        if(participantModel.getRow() == 0) {
-            System.out.println("Poneyview : " + participantModel + " - " + participantModel.getX());
-        }
-
         // Get the y coordinate
         int nbPoneys = ((MovingEntityModel) participantModel).countNeighbors() + 1;
         double poneysHeight = nbPoneys * imageHeight;

@@ -45,7 +45,7 @@ public class App extends Application {
 
         stage.setScene(menu.getScene());
         stage.show();
-        // soundController.playchunk();
+        soundController.playchunk();
 
         setEvents();
     }
