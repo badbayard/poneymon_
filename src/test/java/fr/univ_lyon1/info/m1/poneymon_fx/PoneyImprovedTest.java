@@ -23,7 +23,6 @@ public class PoneyImprovedTest {
     /**
      * Test for the boost.
      */
-    @Test
     public void testBoost() {
 
         poney.setSpeed(0.25);

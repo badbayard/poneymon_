@@ -54,7 +54,7 @@ public class ListRoomView extends Parent {
     }
 
     /**
-     * Create a list of WaitingRoom available on the server
+     * Create a list of WaitingRoom available on the server.
      *
      * @param waitingRoomsList server provided list
      * @return list of JFX elements

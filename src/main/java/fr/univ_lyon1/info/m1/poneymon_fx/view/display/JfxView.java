@@ -44,12 +44,12 @@ public class JfxView extends Parent implements View {
 
         getChildren().add(root);
 
-//        Platform.runLater(new Runnable() {
-//            @Override public void run() {
-//                stage.setScene(scene);
-//                stage.show();
-//            }
-//        });
+        /*Platform.runLater(new Runnable() {
+            @Override public void run() {
+                stage.setScene(scene);
+                stage.show();
+            }
+        });*/
     }
 
     /**
