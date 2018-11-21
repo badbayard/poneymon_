@@ -19,14 +19,22 @@ public class MasterGameRoomProcess extends GameRoomProcess {
 
     @Override
     public void run() {
+        ArrayList<Client> clients = gameRoom.getClients();
+        UpdateGameCmd cmd;
+
         while (isRunning) {
             gameRoom.getServerMultiController().update();
-            ArrayList<Client> clients = gameRoom.getClients();
-            UpdateGameCmd cmd = new UpdateGameCmd(gameRoom.getFieldModel());
-            System.out.println(
-                    cmd.getFieldModel().getParticipantModel(0).getX());
-            for (int i = 0; i < clients.size(); ++i) {
-                clients.get(i).sendCommandEvt(cmd);
+            cmd = new UpdateGameCmd(gameRoom.getFieldModel());
+            System.out.println(cmd.getFieldModel().getParticipantModel(0).getX());
+
+            for (Client client1 : clients) {
+                client1.sendCommandCnt(cmd);
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                int i = 5;
             }
         }
     }

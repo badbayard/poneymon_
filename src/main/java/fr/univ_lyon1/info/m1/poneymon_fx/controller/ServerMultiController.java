@@ -26,7 +26,7 @@ public class ServerMultiController extends Controller {
     void step(long currentNanoTime) {
         if (!gameOver) {
             // Each time the event is triggered, update the model
-            fieldModel.update(currentNanoTime / 1e6, fieldModel);
+            fieldModel.update(currentNanoTime / 1e6);
             // Check for collisions
             FieldModel.COLLISIONMANAGER.checkCollision();
         }
@@ -36,6 +36,5 @@ public class ServerMultiController extends Controller {
         serverTimer.stop();
         step(serverTimer.getTimeNano());
         serverTimer.start();
-
     }
 }

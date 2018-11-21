@@ -1,5 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view.menu;
 
+import fr.univ_lyon1.info.m1.poneymon_fx.view.display.JfxView;
 import javafx.scene.layout.Pane;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -14,6 +15,8 @@ public class MenuView {
     private SelectEntityView selectMenu;
     private ListRoomView listRoomView;
     private WaitingRoomView waitingRoomView;
+    private JfxView jfxView;
+    private Pane root;
     private Scene scene;
     private int width;
     private int height;
@@ -31,15 +34,13 @@ public class MenuView {
         height = y;
 
         // Creation de la fenêtre.
-        Pane root = new Pane();
+        root = new Pane();
         root.setPrefSize(width, height);
-        
+
         //Chargement du background.
         Image background = new Image("assets/menu/bgMenu.jpg");
-        
+
         //Adapte l'image a la taille de la fenêtre
-
-
 
         ImageView imgView = new ImageView(background);
         imgView.setFitWidth(width);
@@ -56,19 +57,24 @@ public class MenuView {
         // Prépare la listroom
         listRoomView = new ListRoomView(width, height);
         listRoomView.setVisible(false);
-        
-        //Prépare la waitingRoomView
+
+        // Prépare la waitingRoomView
         waitingRoomView = new WaitingRoomView(width, height, 4);
         waitingRoomView.setVisible(false);
 
+//        // Prépare la jfxView
+//        jfxView = new JfxView(width, height);
+//        jfxView.setVisible(false);
+
         root.getChildren().addAll(imgView, mainMenuView, selectMenu, listRoomView, waitingRoomView);
+//            jfxView);
 
         scene = new Scene(root);
     }
 
     /**
      * Get the scene.
-     * 
+     *
      * @return the scene attribut
      */
     public Scene getScene() {
@@ -77,7 +83,7 @@ public class MenuView {
 
     /**
      * Get the main menu.
-     * 
+     *
      * @return field mainMenuView.
      */
     public MainMenuView getMainMenuView() {
@@ -86,7 +92,7 @@ public class MenuView {
 
     /**
      * Get the select menu.
-     * 
+     *
      * @return field selectMenu;
      */
     public SelectEntityView getSelectMenu() {
@@ -95,7 +101,7 @@ public class MenuView {
 
     /**
      * Get the listroom menu.
-     * 
+     *
      * @return field listroom;
      */
     public ListRoomView getListroom() {
@@ -126,7 +132,7 @@ public class MenuView {
         mainMenuView.setVisible(false);
         listRoomView.setVisible(true);
     }
-    
+
     public void activateWaitingRoom() {
         listRoomView.setVisible(false);
         waitingRoomView.setVisible(true);
@@ -134,7 +140,7 @@ public class MenuView {
 
     /**
      * Get field indicating wether a game is solo or multiplayer.
-     * 
+     *
      * @return isSolo
      */
     public boolean getIsSolo() {
@@ -143,7 +149,7 @@ public class MenuView {
 
     /**
      * Set the field isSolo to the new value.
-     * 
+     *
      * @param newValue true if solo, false otherwise
      */
     public void setIsSolo(boolean newValue) {
@@ -152,12 +158,22 @@ public class MenuView {
 
     /**
      * Get the waiting room.
+     *
      * @return field waitingRoomView
      */
     public WaitingRoomView getWaitingRoomView() {
         return waitingRoomView;
     }
-    
+
+//    public JfxView getJfxView() {
+//        return jfxView;
+//    }
+
+//    public void activateJfxView() {
+//        waitingRoomView.setVisible(false);
+//        jfxView.setVisible(true);
+//    }
+
     /**
      * Display the Listroom.
      */

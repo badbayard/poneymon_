@@ -3,7 +3,8 @@ package fr.univ_lyon1.info.m1.poneymon_fx.view.display;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.ClientSoloController;
 import fr.univ_lyon1.info.m1.poneymon_fx.controller.Controller;
-import javafx.stage.Stage;
+import javafx.application.Platform;
+import javafx.scene.Parent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 
@@ -13,34 +14,23 @@ import fr.univ_lyon1.info.m1.poneymon_fx.model.PoneyModel;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 /**
  * Display a window using JavaFX.
  */
 public class JfxView implements View {
-    // Window title
-    private static final String WINDOW_TITLE = "Poneymon";
     private final Scene scene;
-    // Field model
     private FieldView fieldView;
     private Group root;
 
     /**
      * Constructor of JfxView.
      *
-     * @param stage
-     *            the stage of the view
-     * @param width
-     *            the width of the view
-     * @param height
-     *            the height of the view
+     * @param width  the width of the view
+     * @param height the height of the view
      */
     public JfxView(Stage stage, final int width, final int height) {
-        ClientController cc = (ClientController) Controller.getInstance();
-        cc.addView(this);
-
-        stage.setTitle(WINDOW_TITLE);
-
         root = new Group();
         scene = new Scene(root);
 
@@ -51,9 +41,22 @@ public class JfxView implements View {
         // MouseListener
         listenToEvent();
 
-        // On ajoute la scene a la fenetre et on affiche
-        stage.setScene(scene);
-        stage.show();
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
+    }
+
+    /**
+     * Add this view and the one it contains to the controller.
+     */
+    public void addViews() {
+        ClientController cc = (ClientController) Controller.getInstance();
+        cc.addView(this);
+
+        fieldView.addViews();
     }
 
     /**
@@ -77,11 +80,10 @@ public class JfxView implements View {
     /**
      * Sets the field model.
      *
-     * @param fm
-     *            the field model
+     * @param fm the field model
      */
-    public void setModel(FieldModel fm) {
-        fieldView.setModel(fm);
+    public void setFieldModel(FieldModel fm) {
+        fieldView.setFieldModel(fm);
 
         setButtons();
     }
@@ -133,9 +135,5 @@ public class JfxView implements View {
         }
 
         root.getChildren().add(hb);
-    }
-
-    public Scene getScene() {
-        return scene;
     }
 }

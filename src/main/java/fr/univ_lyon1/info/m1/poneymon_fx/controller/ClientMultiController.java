@@ -5,22 +5,27 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.command.AskForWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.Command;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.CreateWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.JoinWaitingRoomCmd;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.LaunchGameCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.LeaveWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.SelectPoneyCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.ShowWaitingRoomCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.command.StringCommand;
+import fr.univ_lyon1.info.m1.poneymon_fx.network.command.UpdateGameCmd;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.communication_system.CommunicationSystem;
 import fr.univ_lyon1.info.m1.poneymon_fx.network.room.WaitingRoom;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.display.JfxView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.ListRoomView;
 import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.MenuView;
+import fr.univ_lyon1.info.m1.poneymon_fx.view.menu.WaitingRoomView;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.List;
 
 public class ClientMultiController extends ClientController {
@@ -34,12 +39,14 @@ public class ClientMultiController extends ClientController {
     Thread listenerThread;
     ControllerListener listener;
     boolean init = false;
+    Stage stage;
 
     /**
      * Constructeur du controller multi côté client.
      */
-    public ClientMultiController() {
+    public ClientMultiController(Stage stage) {
         super();
+        this.stage = stage;
     }
 
     /**
@@ -100,6 +107,7 @@ public class ClientMultiController extends ClientController {
 
         //********** EVENT LIST ROOM **********//
         ListRoomView lrw = menuView.getListroom();
+        WaitingRoomView wrw = menuView.getWaitingRoomView();
 
         // Back to main menu from list
         lrw.getBtnBack().setOnMouseClicked(event -> menuView.backToMainMenu());
@@ -123,7 +131,7 @@ public class ClientMultiController extends ClientController {
 
             if (sc != null && sc.getMot().equals("OK")) {
                 menuView.activateWaitingRoom();
-                menuView.getWaitingRoomView().setNbPlayerInRoom(1);
+                wrw.setNbPlayerInRoom(1);
             }
         });
 
@@ -148,7 +156,6 @@ public class ClientMultiController extends ClientController {
 
                         StringCommand reponse = (StringCommand) messagingSystemEvt.receiveCommand();
 
-                        System.out.println(reponse.getMot());
                         if (reponse != null && reponse.getMot().equals("OK")) {
                             menuView.activateWaitingRoom();
                         }
@@ -160,7 +167,7 @@ public class ClientMultiController extends ClientController {
         //********** EVENT WAITING ROOM **********//
 
         // Back to ListRoomView from WaitingRoomView
-        menuView.getWaitingRoomView().getBtnBack().setOnMouseClicked(event -> {
+        wrw.getBtnBack().setOnMouseClicked(event -> {
             LeaveWaitingRoomCmd lwr = new LeaveWaitingRoomCmd();
             messagingSystemEvt.sendCommand(lwr);
 
@@ -168,7 +175,49 @@ public class ClientMultiController extends ClientController {
             menuView.backToListRoom();
         });
 
+        // Launch the game
+        wrw.getBtnStart().setOnMouseClicked(event -> {
+            LaunchGameCmd lgc = new LaunchGameCmd();
+            messagingSystemEvt.sendCommand(lgc);
+
+            StringCommand reponse = (StringCommand) messagingSystemEvt.receiveCommand();
+
+            if (reponse != null && reponse.getMot().equals("OK")) {
+                UpdateGameCmd ugc = (UpdateGameCmd) messagingSystemEvt.receiveCommand();
+
+                turnGameOn(ugc);
+            }
+        });
+
         eventsSet = true;
+    }
+
+    void turnGameOn(UpdateGameCmd updateGameCmd) {
+        listener.setGameOn(true);
+
+        fieldModel = updateGameCmd.getFieldModel();
+
+//        JfxView jfxView = menuView.getJfxView();
+//        jfxView.addViews();
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                jfxView.setFieldModel(fieldModel);
+//            }
+//        });
+//        menuView.activateJfxView();
+
+
+
+        Platform.runLater(new Runnable() {
+            @Override public void run() {
+                JfxView jfxView = new JfxView(stage, 800, 600);
+                jfxView.addViews();
+                jfxView.setFieldModel(fieldModel);
+            }
+        });
+
+        System.out.println("Turning game on");
     }
 
     Command receiveCommandCnt() {

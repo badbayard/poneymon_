@@ -17,6 +17,8 @@ import fr.univ_lyon1.info.m1.poneymon_fx.controller.SoundController;
  * Main application class. Needs JavaFx.
  */
 public class App extends Application {
+    // Window title
+    private static final String WINDOW_TITLE = "Poneymon";
     private MenuView menu;
     private Stage stage;
     private SoundController soundController;
@@ -36,13 +38,8 @@ public class App extends Application {
     @Override
     public void start(Stage s) throws Exception {
         stage = s;
+        stage.setTitle(WINDOW_TITLE);
         soundController = new SoundController();
-
-        // Secondary view
-        /*
-         * Stage s3 = new Stage(); JfxView v2 = new JfxView(s3, 1000, 600);
-         * c.addView(v2); v2.setModel(soundController); v2.setController(c);
-         */
 
         menu = new MenuView(800, 600);
 
@@ -141,10 +138,14 @@ public class App extends Application {
 
         csc.setFieldModel(fieldModel);
 
-        // Creates a window 1200x800 px
         JfxView jfxView = new JfxView(stage, 800, 600);
+        jfxView.addViews();
         // Trigger the waterfall initialization
-        jfxView.setModel(fieldModel);
+        jfxView.setFieldModel(fieldModel);
+
+//        // On ajoute la scene a la fenetre et on affiche
+//        stage.setScene(jfxView.getScene());
+//        stage.show();
 
         // Launch the game
         csc.startTimer();
@@ -156,7 +157,7 @@ public class App extends Application {
     private boolean initServerConnection() {
         // Get and Set the controller
         ClientMultiController cmc =
-            (ClientMultiController) Controller.setInstance(new ClientMultiController());
+            (ClientMultiController) Controller.setInstance(new ClientMultiController(stage));
 
         return cmc.initNetwork(host, portEvents, portContinuous);
     }

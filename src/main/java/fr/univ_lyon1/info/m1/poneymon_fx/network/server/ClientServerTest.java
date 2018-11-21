@@ -200,14 +200,10 @@ public class ClientServerTest implements Runnable {
     public void run() {
         boolean exit = false;
         Command temp;
-        boolean neverLauch = true;
+
         while (!exit) {
             temp = messagingSystem.receiveCommand();
             if (temp instanceof UpdateGameCmd) {
-                if (neverLauch) {
-                    System.out.println("ON LANCE LE JEU !");
-                    neverLauch = false;
-                }
                 System.out.println((((UpdateGameCmd) temp).getFieldModel())
                         .getParticipantModel(0).getX());
                 temp = null;

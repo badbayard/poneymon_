@@ -5,7 +5,7 @@ import fr.univ_lyon1.info.m1.poneymon_fx.network.room.GameRoom;
 
 public class GameProcessOneClient extends GameRoomProcess {
 
-    public GameProcessOneClient(GameRoom gameRoom, Client client){
+    public GameProcessOneClient(GameRoom gameRoom, Client client) {
         this.gameRoom = gameRoom;
         this.client = client;
     }
@@ -16,6 +16,5 @@ public class GameProcessOneClient extends GameRoomProcess {
 
 
         }
-
     }
 }
