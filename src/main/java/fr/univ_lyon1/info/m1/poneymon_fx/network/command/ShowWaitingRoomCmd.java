@@ -18,7 +18,7 @@ public class ShowWaitingRoomCmd extends Command {
     }
 
     @Override
-    public void atReceive() {
-        System.out.println("On a reçu les waitings rooms !");
+    public boolean atReceive() {
+        return true;
     }
 }

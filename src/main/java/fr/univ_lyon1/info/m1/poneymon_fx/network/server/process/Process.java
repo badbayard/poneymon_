@@ -7,7 +7,6 @@ public abstract class Process implements Runnable {
     protected volatile boolean isRunning = true;
 
     public void close() {
-        System.out.println("Client disconnected");
         isRunning = false;
     }
 

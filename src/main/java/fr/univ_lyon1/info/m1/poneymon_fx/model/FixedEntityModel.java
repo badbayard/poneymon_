@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
-import java.io.Console;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Trigger;
 
 public class FixedEntityModel extends EntityModel {
 
@@ -8,21 +9,34 @@ public class FixedEntityModel extends EntityModel {
     protected int lapPosition;
     // Visible.
     protected boolean visible = false;
+    //Race finished flag
+    protected boolean raceFinished = false;
 
     /**
      * Constructor for the fixedEntity.
-     * 
-     * @param r
-     *            row of the object.
-     * @param x
-     *            Position of the object.
-     * @param lapPosition
-     *            On which lap the object is gonna show.
+     *
+     * @param r           row of the object.
+     * @param x           Position of the object.
+     * @param lapPosition On which lap the object is gonna show.
      */
     public FixedEntityModel(int r, double x, int lapPosition) {
         super(r);
         this.lapPosition = lapPosition;
         this.setX(x);
+    }
+
+    /**
+     * Getter for the raceFinished Flag.
+     */
+    public boolean isRaceFinished() {
+        return raceFinished;
+    }
+
+    /**
+     * Setter for the raceFinished Flag.
+     */
+    public void setRaceFinished(boolean raceFinished) {
+        this.raceFinished = raceFinished;
     }
 
     /**
@@ -42,6 +56,7 @@ public class FixedEntityModel extends EntityModel {
 
     /**
      * Accesseur lapPosition.
+     *
      * @return lapPosition
      */
     public int getLapPosition() {
@@ -49,7 +64,9 @@ public class FixedEntityModel extends EntityModel {
     }
 
     /**
-     * Teste l'egalitée entre l'FixedEntityModel courante et une autre FixedEntityModel.
+     * Teste l'egalitée entre l'FixedEntityModel courante et une autre
+     * FixedEntityModel.
+     *
      * @param fixedEnt FixedEntityModel a tester
      * @return boolean
      */
@@ -57,5 +74,10 @@ public class FixedEntityModel extends EntityModel {
         return (this.entityModelEquals(fixedEnt)
                 && (this.getLapPosition() == fixedEnt.getLapPosition())
                 && (this.isVisible() == fixedEnt.isVisible()));
+    }
+
+    @Override
+    public void onTrigger(Collider col, Trigger tr) {
+
     }
 }

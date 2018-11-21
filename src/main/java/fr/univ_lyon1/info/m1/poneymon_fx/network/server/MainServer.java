@@ -10,6 +10,5 @@ public class MainServer {
     public static void main(String[] args) {
         Server server = new Server();
         server.open();
-        System.err.println("server is running");
     }
 }

@@ -42,7 +42,6 @@ public class PoneyModelTest {
     @Test
     public void testDistance() {
 
-        double returnDist;
         poney.setNbLap(1);
         poney.setX(0);
         PoneyModel anotherPonney = new PoneyModel("blue", 0, true, 5);
@@ -50,7 +49,9 @@ public class PoneyModelTest {
         anotherPonney.setX(0.1);
         anotherPonney.setNbLap(1);
         anotherPonney.setSpeed(1);
+        
 
+        double returnDist;
         returnDist = (poney.getX() + poney.getNbLap())
                 - (anotherPonney.getNbLap() + anotherPonney.getX());
 

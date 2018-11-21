@@ -56,8 +56,17 @@ public class ProcessManager {
         }
         Thread t = new Thread(process);
         threads.add(new Pair<>(process, t));
-        System.out.println("On lance un nouveau thread pour le client : "
-                + process.getIdClient());
+        t.start();
+    }
+
+    /**
+     * Ajoute le processus au Manager et lance le thread correspondant.
+     *
+     * @param process Le nouveau processus à lancé
+     */
+    public synchronized void createAndRunThreadNoClient(Process process) {
+        Thread t = new Thread(process);
+        threads.add(new Pair<>(process, t));
         t.start();
     }
 
@@ -67,8 +76,6 @@ public class ProcessManager {
      * @param index l'index du processus à détruire
      */
     public synchronized void deleteProcess(int index) {
-        System.out.println("On ferme un thread pour le client : "
-                + threads.get(index).getKey().getIdClient());
         threads.get(index).getKey().close();
         threads.remove(index);
     }

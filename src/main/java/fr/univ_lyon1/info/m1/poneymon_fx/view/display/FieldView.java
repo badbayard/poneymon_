@@ -37,16 +37,11 @@ public final class FieldView extends Canvas implements View {
     /**
      * FieldView constructor.
      *
-     * @param w
-     *            the width of the view
-     * @param h
-     *            the height of the view
+     * @param w the width of the view
+     * @param h the height of the view
      */
     FieldView(int w, int h) {
         super(w, h);
-
-        ClientController cc = (ClientController) Controller.getInstance();
-        cc.addView(this);
 
         width = w;
         height = h;
@@ -57,13 +52,17 @@ public final class FieldView extends Canvas implements View {
         graphicsContext = getGraphicsContext2D();
     }
 
+    void addViews() {
+        ClientController cc = (ClientController) Controller.getInstance();
+        cc.addView(this);
+    }
+
     /**
      * Sets the model of the view.
      *
-     * @param fm
-     *            the model of the view
+     * @param fm the model of the view
      */
-    public void setModel(FieldModel fm) {
+    public void setFieldModel(FieldModel fm) {
         fieldModel = fm;
 
         // Build as many MovingEntityView as there is MovingEntityModel in FieldModel
@@ -74,16 +73,15 @@ public final class FieldView extends Canvas implements View {
             // TODO : add each new player created here
             if (participantModel instanceof PoneyModel) {
                 participantViews.add(new PoneyView((PoneyModel) participantModel, graphicsContext,
-                        width, height));
+                    width, height));
             }
         }
     }
 
     /**
      * Building the FixedEntities from LaneEntityModel Objects.
-     * 
-     * @param le
-     *            lanes list
+     *
+     * @param le lanes list
      */
     void buildFixedEntities(LaneEntityModel[] le) {
         ArrayList<FixedEntityModel> temp;
@@ -101,14 +99,12 @@ public final class FieldView extends Canvas implements View {
     /**
      * Determines whether the user clicked on a participant to update the data view.
      *
-     * @param xClick
-     *            the abscissa of the click
-     * @param yClick
-     *            the ordinate of the click
+     * @param xClick the abscissa of the click
+     * @param yClick the ordinate of the click
      */
     public void manageClick(double xClick, double yClick) {
         ClientController cc = (ClientController) Controller.getInstance();
-        
+
         // Nothing to do if the field doesn't handle a dataView
         DataView dataView = cc.getDataView();
 
@@ -128,11 +124,10 @@ public final class FieldView extends Canvas implements View {
             int imgHeight = (int) participantView.getImageHeight();
 
             boolean participantClicked = x <= xClick && xClick <= x + imgWidth && y <= yClick
-                    && yClick <= y + imgHeight;
+                && yClick <= y + imgHeight;
 
             // Add the view to the new focused participant
             if (participantClicked) {
-                System.out.println(participantModel.getColor());
                 dataView.setParticipantModel(participantModel);
             }
         }
@@ -167,8 +162,7 @@ public final class FieldView extends Canvas implements View {
     /**
      * Gets the participant view i.
      *
-     * @param i
-     *            the index of the view wanted
+     * @param i the index of the view wanted
      * @return the MovingEntityView of index i
      */
     public MovingEntityView getParticipantView(int i) {

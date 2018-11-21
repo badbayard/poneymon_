@@ -17,12 +17,15 @@ import fr.univ_lyon1.info.m1.poneymon_fx.controller.SoundController;
  * Main application class. Needs JavaFx.
  */
 public class App extends Application {
+    // Window title
+    private static final String WINDOW_TITLE = "Poneymon";
     private MenuView menu;
     private Stage stage;
     private SoundController soundController;
 
     private String host = "127.0.0.1";
-    private int port = 4242;
+    private int portEvents = 4242;
+    private int portContinuous = 4243;
 
     /**
      * Start() launch the application.
@@ -35,19 +38,14 @@ public class App extends Application {
     @Override
     public void start(Stage s) throws Exception {
         stage = s;
+        stage.setTitle(WINDOW_TITLE);
         soundController = new SoundController();
-
-        // Secondary view
-        /*
-         * Stage s3 = new Stage(); JfxView v2 = new JfxView(s3, 1000, 600);
-         * c.addView(v2); v2.setModel(soundController); v2.setController(c);
-         */
 
         menu = new MenuView(800, 600);
 
         stage.setScene(menu.getScene());
         stage.show();
-        // soundController.playchunk();
+        soundController.playchunk();
 
         setEvents();
     }
@@ -140,10 +138,9 @@ public class App extends Application {
 
         csc.setFieldModel(fieldModel);
 
-        // Creates a window 1200x800 px
-        JfxView jfxView = new JfxView(stage, 800, 600);
-        // Trigger the waterfall initialization
-        jfxView.setModel(fieldModel);
+        menu.getJfxView().addViews();
+        menu.getJfxView().setFieldModel(fieldModel);
+        menu.activateJfxView();
 
         // Launch the game
         csc.startTimer();
@@ -155,15 +152,9 @@ public class App extends Application {
     private boolean initServerConnection() {
         // Get and Set the controller
         ClientMultiController cmc =
-            (ClientMultiController) Controller.setInstance(new ClientMultiController());
+            (ClientMultiController) Controller.setInstance(new ClientMultiController(stage));
 
-        if (cmc.initNetwork(host, port)) {
-            Thread t = new Thread(cmc);
-            t.start();
-            return true;
-        }
-
-        return false;
+        return cmc.initNetwork(host, portEvents, portContinuous);
     }
 
     /**

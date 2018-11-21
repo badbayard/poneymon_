@@ -13,8 +13,9 @@ public class StringCommand extends Command {
     }
 
     @Override
-    public void atReceive() {
+    public boolean atReceive() {
         System.out.println("L'envoyeur dit : " + mot);
+        return true;
     }
 
     public String getMot() {

@@ -1,13 +1,6 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.collision;
 
-/**
- * Interface referencing the views that have a collider attached.
- * 
- * @author ali
- *
- */
-public interface Collider {
-
+public interface Trigger {
     /**
      * Get collision type.
      */
@@ -16,12 +9,12 @@ public interface Collider {
     /**
      * Get the Collider width.
      */
-    double getColWidth();
+    double getTrWidth();
 
     /**
      * Get the Collider height.
      */
-    double getColHeight();
+    double getTrHeight();
 
     /**
      * Get the Collider X.
@@ -38,9 +31,9 @@ public interface Collider {
      * 
      * @return boolean
      */
-    double getSpeed();
-
     boolean isActive();
+
+    double getSpeed();
 
     Transform getTransform();
 }

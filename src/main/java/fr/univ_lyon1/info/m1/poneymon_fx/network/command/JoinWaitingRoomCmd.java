@@ -20,20 +20,11 @@ public class JoinWaitingRoomCmd extends RoomCommand {
     }
 
     @Override
-    public void atReceive() {
-        System.out.println(
-            idPlayer + "envois : commande pour rejoindre une partie.");
-
-        System.out.println("On cherche la partie : " + name
-            + " avec le mot de passe : " + Arrays.toString(password));
-
+    public boolean atReceive() {
         if (!(actualRoom instanceof ListRoom)
             || ((ListRoom) actualRoom).getRooms().isEmpty()) {
-            System.err.println(
-                "Pas de room sur laquelle rechercher les parties.");
+            return false;
         } else {
-            System.out.println("Il y a des rooms pour chercher la partie.");
-
             ArrayList<WaitingRoom> possibleRooms =
                 (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();
 
@@ -43,29 +34,27 @@ public class JoinWaitingRoomCmd extends RoomCommand {
                 System.err.println("Pas de parties joignables disponible.");
             } else {
                 for (WaitingRoom possibleRoom : possibleRooms) {
+
                     waitingRoom = possibleRoom;
-
-                    System.out.println(waitingRoom.getName().equals(name));
-
                     if (waitingRoom.getName().equals(name)
                         && waitingRoom.getPassword().isExpectedPassword(password)) {
-                        System.out.println("On a trouvé la bonne room, on join");
 
                         Client client = actualRoom.remove(idPlayer);
                         if (client != null) {
                             if (waitingRoom.join(client)) {
-                                ProcessManager.getProcessManager().createAndRunThread(
-                                    new WaitingRoomProcess(client, waitingRoom));
-                            } else {
-                                System.err.println("ECHEC Join!");
+                                ProcessManager.getProcessManager()
+                                    .createAndRunThread(
+                                        new WaitingRoomProcess(client, waitingRoom));
+
+                                notifyOtherPlayers(waitingRoom.getClients(),
+                                    new NotifyPlayerChangeCmd(waitingRoom.getNbPlayers()));
+                                return true;
                             }
-                        } else {
-                            System.err.println("ECHEC Récupération client !");
                         }
                     }
                 }
             }
         }
+        return false;
     }
-
 }

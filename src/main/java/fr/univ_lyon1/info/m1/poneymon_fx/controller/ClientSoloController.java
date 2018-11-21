@@ -21,28 +21,38 @@ public class ClientSoloController extends ClientController {
         };
     }
 
+    @Override
     void step(long currentNanoTime) {
         // Prevent from resuming the game when the race is over
-        if (!gameOver) {
-            // Allow to resume the game to it's last position
-            if (resume) {
-                lastTimerUpdate = currentNanoTime;
-                resume = false;
-            }
-
-            // Time elapsed since the last update
-            double msElapsed = (currentNanoTime - lastTimerUpdate) / 1000000.0;
-            // Each time the event is triggered, update the model
-            fieldModel.update(msElapsed, fieldModel);
-            // Check for collisions
-            FieldModel.COLLISIONMANAGER.checkCollision();
-            // refresh the views
-            notifyViews();
-            // update the last timer update
-            lastTimerUpdate = currentNanoTime;
-            // Check if a boost sound must be played
-            playBoostSound();
+        if (gameOver) {
+            return;
         }
+
+        // Allow to resume the game to it's last position
+        if (resume) {
+            lastTimerUpdate = currentNanoTime;
+            resume = false;
+        }
+
+        // Time elapsed since the last update
+        double msElapsed = (currentNanoTime - lastTimerUpdate) / 1e6;
+        // update the last timer update
+        lastTimerUpdate = currentNanoTime;
+
+        // Each time the event is triggered, update the model
+        fieldModel.update(msElapsed);
+
+        // Check for collisions
+        FieldModel.COLLISIONMANAGER.checkCollision();
+
+        // Check for trigger collision;
+        FieldModel.COLLISIONMANAGER.checkTriggers();
+
+        // refresh the views
+        notifyViews();
+
+        // Check if a boost sound must be played
+        playBoostSound();
     }
 
     /**

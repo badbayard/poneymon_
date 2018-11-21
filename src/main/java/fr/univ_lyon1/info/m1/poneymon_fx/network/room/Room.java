@@ -51,6 +51,10 @@ public abstract class Room implements Serializable {
         return clients;
     }
 
+    public int getNbPlayers() {
+        return nbPlayers;
+    }
+
     /**
      * Add a client to the room.
      *
@@ -61,10 +65,8 @@ public abstract class Room implements Serializable {
         if (nbPlayers < maxNbPlayers) {
             clients.add(client);
             nbPlayers++;
-            System.out.println("Client rejoint : " + nbPlayers + "/" + maxNbPlayers);
             return true;
         }
-        System.out.println("Room pleine");
         return false;
     }
 
