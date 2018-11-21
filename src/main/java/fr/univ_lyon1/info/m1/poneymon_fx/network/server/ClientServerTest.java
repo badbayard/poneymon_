@@ -53,15 +53,13 @@ public class ClientServerTest implements Runnable {
     public static void main(String[] args) {
         ClientServerTest client = new ClientServerTest();
         Scanner sc = new Scanner(System.in);
-        boolean exit = false;
-        boolean knownCmd = false;
         Command cmd = client.messagingSystem.receiveCommand();
         client.setIdClient(cmd.getIdPlayer());
         cmd.atReceive();
-
         Thread thread = new Thread(client);
         thread.start();
-
+        boolean exit = false;
+        boolean knownCmd = false;
         while (!exit) {
             System.out.println("Choisissez votre commande : ");
             System.out.println("- \"txt\" = StringCommand");
@@ -186,12 +184,16 @@ public class ClientServerTest implements Runnable {
         messagingSystem.setIdClient(idClient);
     }
 
+    /**
+     * fait attendre 10 ms au thread en parametre.
+     * @param t le thread qui doit attendre
+     */
     public void waitCmd(Thread t) {
         while (cmdRecu == null) {
             try {
                 t.join(10);
             } catch (InterruptedException e) {
-
+                e.printStackTrace();
             }
         }
     }
@@ -216,7 +218,7 @@ public class ClientServerTest implements Runnable {
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
-
+                        e.printStackTrace();
                     }
                 }
                 cmdRecu = temp;

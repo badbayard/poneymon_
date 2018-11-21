@@ -12,8 +12,10 @@ import java.net.Socket;
 public class Server {
 
     private static Integer idClient = 0;
-    private int portEvt, portCnt;
-    private ServerSocket serverEvt = null, serverCnt = null;
+    private int portEvt;
+    private int portCnt;
+    private ServerSocket serverEvt = null;
+    private ServerSocket serverCnt = null;
     private boolean isRunning = true;
     private ListRoom listRoom;
 
@@ -54,7 +56,8 @@ public class Server {
                     Socket clientSocketEvt = serverEvt.accept();
                     Socket clientSocketCnt = serverCnt.accept();
 
-                    Client client = new Client(idClient, clientSocketEvt, clientSocketCnt);
+                    Client client = new Client(idClient, clientSocketEvt,
+                            clientSocketCnt);
                     incrementId();
 
                     client.sendCommandEvt(new StringCommand("Welcome"));

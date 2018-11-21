@@ -6,12 +6,18 @@ public class ServerTimer {
     private long timeEnd = 0;
     private long time = 0;
 
+    /**
+     * Lance le timer.
+     */
     public void start() {
         timeStart = System.nanoTime();
         timeEnd = 0;
         time = 0;
     }
 
+    /**
+     * Arrete le timer et met à jour la duree.
+     */
     public void stop() {
         if (timeStart == 0) {
             return;
