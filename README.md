@@ -18,6 +18,7 @@ Les développeurs ne garantisse pas le bon focntionnement de ce logiciel s'il es
 Pour que ce logiciel fonctionne de manière relativement sûr, il faut au préalable avoir installé : 
 - Java  (version 1.8 ou ultérieur)
 - Maven (version 4.0 ou ultérieur)
+- JavaFX
 
 
 ## Compilation
