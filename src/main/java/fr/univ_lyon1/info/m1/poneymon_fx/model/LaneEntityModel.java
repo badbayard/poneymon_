@@ -5,23 +5,12 @@ import java.util.ArrayList;
 
 public class LaneEntityModel implements Serializable {
     private int row;
-    public int getRow() {
-        return row;
-    }
-
-    public MovingEntityModel getBoundParticipant() {
-        return boundParticipant;
-    }
-
     private MovingEntityModel boundParticipant;
     private ArrayList<FixedEntityModel> fixedEntities;
 
-    public ArrayList<FixedEntityModel> getFixedEntities() {
-        return fixedEntities;
-    }
-
     /**
      * Constructor of the lane Entity.
+     *
      * @param boundParticipant the participant on the lane.
      */
     public LaneEntityModel(int row, MovingEntityModel boundParticipant) {
@@ -30,17 +19,30 @@ public class LaneEntityModel implements Serializable {
         this.boundParticipant = boundParticipant;
         fixedEntities = new ArrayList<FixedEntityModel>();
     }
-    
+
     /**
      * Constructor of the lane Entity.
+     *
      * @param boundParticipant the participant on the lane.
      */
     public LaneEntityModel(int row, MovingEntityModel boundParticipant,
-            ArrayList<FixedEntityModel> fixedEntities) {
+                           ArrayList<FixedEntityModel> fixedEntities) {
         super();
         this.row = row;
         this.boundParticipant = boundParticipant;
         this.fixedEntities = fixedEntities;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public MovingEntityModel getBoundParticipant() {
+        return boundParticipant;
+    }
+
+    public ArrayList<FixedEntityModel> getFixedEntities() {
+        return fixedEntities;
     }
 
     public void addFixedEntity(FixedEntityModel fe) {
@@ -54,7 +56,6 @@ public class LaneEntityModel implements Serializable {
 
     /**
      * Update all.
-     * 
      */
     void update(double msElapsed, int currentLap) {
         for (int i = 0; i < fixedEntities.size(); i++) {
@@ -66,7 +67,7 @@ public class LaneEntityModel implements Serializable {
      * Hide all obstacles when the race is finished.
      */
     void finishRace() {
-        for(FixedEntityModel fx : fixedEntities) {
+        for (FixedEntityModel fx : fixedEntities) {
             fx.setRaceFinished(true);
         }
     }

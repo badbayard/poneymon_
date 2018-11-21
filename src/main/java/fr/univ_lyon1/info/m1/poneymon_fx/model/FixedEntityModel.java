@@ -11,35 +11,32 @@ public class FixedEntityModel extends EntityModel {
     protected boolean visible = false;
     //Race finished flag
     protected boolean raceFinished = false;
-    
+
     /**
-     * Getter for the raceFinished Flag
+     * Constructor for the fixedEntity.
+     *
+     * @param r           row of the object.
+     * @param x           Position of the object.
+     * @param lapPosition On which lap the object is gonna show.
+     */
+    public FixedEntityModel(int r, double x, int lapPosition) {
+        super(r);
+        this.lapPosition = lapPosition;
+        this.setX(x);
+    }
+
+    /**
+     * Getter for the raceFinished Flag.
      */
     public boolean isRaceFinished() {
         return raceFinished;
     }
 
     /**
-     * Setter for the raceFinished Flag
+     * Setter for the raceFinished Flag.
      */
     public void setRaceFinished(boolean raceFinished) {
         this.raceFinished = raceFinished;
-    }
-
-    /**
-     * Constructor for the fixedEntity.
-     * 
-     * @param r
-     *            row of the object.
-     * @param x
-     *            Position of the object.
-     * @param lapPosition
-     *            On which lap the object is gonna show.
-     */
-    public FixedEntityModel(int r, double x, int lapPosition) {
-        super(r);
-        this.lapPosition = lapPosition;
-        this.setX(x);
     }
 
     /**
@@ -59,6 +56,7 @@ public class FixedEntityModel extends EntityModel {
 
     /**
      * Accesseur lapPosition.
+     *
      * @return lapPosition
      */
     public int getLapPosition() {
@@ -66,7 +64,9 @@ public class FixedEntityModel extends EntityModel {
     }
 
     /**
-     * Teste l'egalitée entre l'FixedEntityModel courante et une autre FixedEntityModel.
+     * Teste l'egalitée entre l'FixedEntityModel courante et une autre
+     * FixedEntityModel.
+     *
      * @param fixedEnt FixedEntityModel a tester
      * @return boolean
      */
@@ -75,9 +75,9 @@ public class FixedEntityModel extends EntityModel {
                 && (this.getLapPosition() == fixedEnt.getLapPosition())
                 && (this.isVisible() == fixedEnt.isVisible()));
     }
-    
+
     @Override
-    public void onTrigger(Collider col,Trigger tr) {
-        
+    public void onTrigger(Collider col, Trigger tr) {
+
     }
 }

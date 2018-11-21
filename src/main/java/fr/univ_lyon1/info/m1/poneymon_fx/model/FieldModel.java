@@ -110,7 +110,11 @@ public class FieldModel implements Model, Serializable {
             l.finishRace();
         }
     }
-    
+
+    /**
+     * Copie profonde du model.
+     * @param other le fielModel à copier
+     */
     public void assign(FieldModel other) {
         lanes = other.lanes;
         for (int i = 0; i < other.participants.length; i++) {

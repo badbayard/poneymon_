@@ -23,6 +23,7 @@ public class JoinWaitingRoomCmd extends RoomCommand {
     public boolean atReceive() {
         if (!(actualRoom instanceof ListRoom)
             || ((ListRoom) actualRoom).getRooms().isEmpty()) {
+            return false;
         } else {
             ArrayList<WaitingRoom> possibleRooms =
                 (ArrayList<WaitingRoom>) ((ListRoom) actualRoom).getRooms();

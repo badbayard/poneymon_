@@ -82,6 +82,10 @@ public abstract class MovingEntityModel extends EntityModel
         isAi = clone.isAi();
     }
 
+    /**
+     * Copie profonde des MovingEntity.
+     * @param other l'ientity a copier
+     */
     public void assign(MovingEntityModel other) {
         super.assign(other);
         nbLap = other.getNbLap();
