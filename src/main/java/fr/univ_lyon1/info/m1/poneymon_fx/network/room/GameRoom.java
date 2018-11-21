@@ -24,7 +24,8 @@ public class GameRoom extends Room {
 
     /**
      * Constructeur avec un fieldModel en parametre.
-     * @param model le model en parametre
+     *
+     * @param model   le model en parametre
      * @param clients les clients du jeu
      */
     public GameRoom(FieldModel model, ArrayList<Client> clients) {
@@ -33,7 +34,7 @@ public class GameRoom extends Room {
         serverMultiController = new ServerMultiController(model);
     }
 
-    public FieldModel getFieldModel(){
+    public FieldModel getFieldModel() {
         return serverMultiController.getFieldModel();
     }
 
