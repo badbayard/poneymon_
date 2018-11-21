@@ -29,9 +29,9 @@ Pour que ce logiciel fonctionne de manière relativement sûr, il faut au préal
 ## Execution (après compilation)
 
 Pour lancer un serveur : 
-`mvn exec:java@server`  
+`mvn compile exec:java@server`  
 Pour lancer un client :
-`mvn exec:java@client  `
+`mvn compile exec:java@client  `
 
 ## Conventions
 
