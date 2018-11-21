@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.model;
 
-import java.io.Console;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Collider;
+import fr.univ_lyon1.info.m1.poneymon_fx.collision.Trigger;
 
 public class FixedEntityModel extends EntityModel {
 
@@ -8,6 +9,22 @@ public class FixedEntityModel extends EntityModel {
     protected int lapPosition;
     // Visible.
     protected boolean visible = false;
+    //Race finished flag
+    protected boolean raceFinished = false;
+    
+    /**
+     * Getter for the raceFinished Flag
+     */
+    public boolean isRaceFinished() {
+        return raceFinished;
+    }
+
+    /**
+     * Setter for the raceFinished Flag
+     */
+    public void setRaceFinished(boolean raceFinished) {
+        this.raceFinished = raceFinished;
+    }
 
     /**
      * Constructor for the fixedEntity.
@@ -57,5 +74,10 @@ public class FixedEntityModel extends EntityModel {
         return (this.entityModelEquals(fixedEnt)
                 && (this.getLapPosition() == fixedEnt.getLapPosition())
                 && (this.isVisible() == fixedEnt.isVisible()));
+    }
+    
+    @Override
+    public void onTrigger(Collider col,Trigger tr) {
+        
     }
 }

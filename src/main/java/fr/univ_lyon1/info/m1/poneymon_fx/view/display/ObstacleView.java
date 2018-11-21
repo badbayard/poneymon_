@@ -1,6 +1,7 @@
 package fr.univ_lyon1.info.m1.poneymon_fx.view.display;
 
 import fr.univ_lyon1.info.m1.poneymon_fx.model.EntityModel;
+import fr.univ_lyon1.info.m1.poneymon_fx.model.FixedEntityModel;
 import fr.univ_lyon1.info.m1.poneymon_fx.model.ObstacleModel;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -25,7 +26,7 @@ public class ObstacleView extends FixedEntityView {
         // Get the y coordinate
         y = (int) (participantModel.getRow() * imageHeight);
         // Only draw if the Model is visible
-        if (((ObstacleModel) participantModel).isVisible()) {
+        if (((ObstacleModel) participantModel).isVisible() && !((FixedEntityModel) participantModel).isRaceFinished()) {
             graphicsContext.drawImage(classicImage, x, y);
         }
     }

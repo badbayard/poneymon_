@@ -45,6 +45,9 @@ public class ClientSoloController extends ClientController {
         // Check for collisions
         FieldModel.COLLISIONMANAGER.checkCollision();
 
+        // Check for trigger collision;
+        FieldModel.COLLISIONMANAGER.checkTriggers();
+
         // refresh the views
         notifyViews();
 

@@ -5,6 +5,14 @@ import java.util.ArrayList;
 
 public class LaneEntityModel implements Serializable {
     private int row;
+    public int getRow() {
+        return row;
+    }
+
+    public MovingEntityModel getBoundParticipant() {
+        return boundParticipant;
+    }
+
     private MovingEntityModel boundParticipant;
     private ArrayList<FixedEntityModel> fixedEntities;
 
@@ -54,5 +62,12 @@ public class LaneEntityModel implements Serializable {
         }
     }
 
-
+    /**
+     * Hide all obstacles when the race is finished.
+     */
+    void finishRace() {
+        for(FixedEntityModel fx : fixedEntities) {
+            fx.setRaceFinished(true);
+        }
+    }
 }
