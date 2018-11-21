@@ -79,6 +79,13 @@ public abstract class MovingEntityModel extends EntityModel
         isAi = clone.isAi();
     }
 
+    public void assign(MovingEntityModel other) {
+        super.assign(other);
+        nbLap = other.getNbLap();
+        speed = other.getSpeed();
+        isAi = other.isAi();
+    }
+
     /**
      * Sets the poney speed.
      *

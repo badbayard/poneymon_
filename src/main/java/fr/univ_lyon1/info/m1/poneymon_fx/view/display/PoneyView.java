@@ -26,12 +26,8 @@ public class PoneyView extends MovingEntityView implements View {
             "assets/entity/moving/pony-" + pm.getColor() + "-jumpingUp.gif",
             "assets/entity/moving/pony-" + pm.getColor() + "-jumpingDown.gif");
 
-
-
         String color = ((MovingEntityModel) participantModel).getColor();
         nianPoneyImage = new Image("assets/entity/moving/pony-" + color + "-rainbow.gif");
-
-        System.out.println(nianPoneyImage + " - " + nianPoneyImage.getHeight());
 
         // Update the variable attributes of PoneyView
         update();
@@ -43,6 +39,10 @@ public class PoneyView extends MovingEntityView implements View {
     public void update() {
         // Get the x coordinate
         x = (int) (canvasWidth * participantModel.getX() * widthRatio - imageWidth);
+
+        if(participantModel.getRow() == 0) {
+            System.out.println("Poneyview : " + participantModel + " - " + participantModel.getX());
+        }
 
         // Get the y coordinate
         int nbPoneys = ((MovingEntityModel) participantModel).countNeighbors() + 1;
@@ -69,6 +69,7 @@ public class PoneyView extends MovingEntityView implements View {
 
         // Update of the rank view
         rankView.update();
+
         if (((MovingEntityModel) participantModel).isVisible()) {
             if (((MovingEntityModel) participantModel).isDead()) {
                 graphicsContext.drawImage(deadParticipant, x, y);

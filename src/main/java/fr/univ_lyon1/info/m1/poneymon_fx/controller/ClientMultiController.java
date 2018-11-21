@@ -233,6 +233,10 @@ public class ClientMultiController extends ClientController {
         this.fieldModel = fm;
     }
 
+    FieldModel getFieldModel() {
+        return fieldModel;
+    }
+
     @Override
     public void exit() {
         if (socketEvt != null) {
@@ -248,5 +252,9 @@ public class ClientMultiController extends ClientController {
 
     void changeNbPlayers(int nbPlayers) {
         menuView.getWaitingRoomView().setNbPlayerInRoom(nbPlayers);
+    }
+
+    void assignFieldModel(FieldModel other) {
+        fieldModel.assign(other);
     }
 }

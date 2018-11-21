@@ -33,7 +33,10 @@ public class ControllerListener implements Runnable {
                     cmc.turnGameOn(ugc);
                 }
 
-                cmc.setFieldModel(ugc.getFieldModel());
+//                cmc.setFieldModel(ugc.getFieldModel());
+                cmc.assignFieldModel(ugc.getFieldModel());
+                System.out.println(ugc.getFieldModel().getParticipantModels()[0].getX());
+                System.out.println(cmc.getFieldModel().getParticipantModels()[0].getX());
                 System.out.println(ugc);
             }
         }

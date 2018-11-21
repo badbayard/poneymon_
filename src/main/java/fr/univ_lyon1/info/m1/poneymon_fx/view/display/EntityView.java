@@ -31,8 +31,7 @@ public class EntityView implements View, Collider {
     /**
      * Entity View Constructor.
      * 
-     * @param imgUrl
-     *            Url of the Entity image.
+     * @param imgUrl Url of the Entity image.
      */
     public EntityView(EntityModel m, GraphicsContext gc, int cWidth, int cHeight, String imgUrl) {
         ClientController cc = (ClientController) Controller.getInstance();

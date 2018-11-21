@@ -43,6 +43,10 @@ public class EntityModel implements Model, Serializable, Transform {
         row = clone.getRow();
     }
 
+    public void assign(EntityModel other) {
+        x = other.x;
+    }
+
     /**
      * Gets the entity abscissa.
      *
