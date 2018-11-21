@@ -12,8 +12,6 @@ public class SelectPoneyCmd extends WaitingRoomCommand {
 
     @Override
     public boolean atReceive() {
-        System.out.println(idPlayer + " : envois selection de poney");
-
         if (actualRoom == null) {
             System.err.println("Pas de room pour selectionner le poney");
         } else {

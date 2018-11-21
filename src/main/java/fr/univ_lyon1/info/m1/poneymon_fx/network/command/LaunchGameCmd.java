@@ -12,8 +12,6 @@ public class LaunchGameCmd extends WaitingRoomCommand {
 
     @Override
     public boolean atReceive() {
-        System.out.println(idPlayer + " envois : lancement du jeu");
-
         if (actualRoom == null || actualRoom.getIndexClient(idPlayer) != 0) {
             System.err.println("Pas de room ou joueurs pas host !");
         } else {

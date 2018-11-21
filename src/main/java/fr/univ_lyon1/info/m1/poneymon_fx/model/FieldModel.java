@@ -298,7 +298,6 @@ public class FieldModel implements Model, Serializable {
      */
     public void chooseRandomFileAndGenerateObstacles() {
         File file = levelsBuild.chooseRandomLevelFile();
-        System.out.println(file.getName());
         levelsBuild.readFile(file);
     }
 

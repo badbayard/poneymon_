@@ -25,8 +25,6 @@ public class MasterGameRoomProcess extends GameRoomProcess {
         while (isRunning) {
             gameRoom.getServerMultiController().update();
             cmd = new UpdateGameCmd(gameRoom.getFieldModel());
-            //System.out.println(cmd.getFieldModel().getParticipantModel(0)
-            // .getX());
 
             for (Client client1 : clients) {
                 client1.sendCommandCnt(cmd);

@@ -215,8 +215,6 @@ public class ClientMultiController extends ClientController {
                 startTimer();
             }
         });
-
-        System.out.println("Turning game on");
     }
 
     Command receiveCommandCnt() {
@@ -253,7 +251,6 @@ public class ClientMultiController extends ClientController {
         if (socketEvt != null) {
             try {
                 socketEvt.close();
-                System.out.println("ON FERME AUSSI LE SOCKET");
             } catch (IOException e) {
                 e.printStackTrace();
             }

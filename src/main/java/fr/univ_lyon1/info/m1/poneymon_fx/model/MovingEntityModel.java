@@ -403,7 +403,6 @@ public abstract class MovingEntityModel extends EntityModel
         // If the poney is not dead, and not invincible(Blinking | Jumping), then decrement HP
         if (!blinking && !dead && !jumping) {
             hp--;
-            System.out.println("Time to blink away ! (" + entityColor + ")");
             startBlink();
         }
     }

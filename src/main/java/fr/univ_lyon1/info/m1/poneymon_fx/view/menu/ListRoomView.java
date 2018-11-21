@@ -113,7 +113,6 @@ public class ListRoomView extends Parent {
     }
 
     public char[] getPswdFieldValue() {
-        System.out.println();
         return pswdField.getText().toCharArray();
     }
 }

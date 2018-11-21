@@ -15,7 +15,6 @@ public class UpdateGameCmd extends GameCommand {
 
     @Override
     public boolean atReceive() {
-        System.out.println("Le serveur envois le model");
         return true;
     }
 }

@@ -9,8 +9,6 @@ public class LeaveWaitingRoomCmd extends WaitingRoomCommand {
 
     @Override
     public boolean atReceive() {
-        System.out.println(idPlayer + " envois : commande pour quitter une salle d'attente.");
-
         if (actualRoom == null) {
             System.err.println("Le client n'est pas dans une waiting room.");
         } else {
@@ -24,11 +22,7 @@ public class LeaveWaitingRoomCmd extends WaitingRoomCommand {
                     notifyOtherPlayers(actualRoom.getClients(),
                         new NotifyPlayerChangeCmd(actualRoom.getNbPlayers()));
                     return true;
-                } else {
-                    System.err.println("ECHEC Join!");
                 }
-            } else {
-                System.err.println("ECHEC Récupération client!");
             }
         }
 

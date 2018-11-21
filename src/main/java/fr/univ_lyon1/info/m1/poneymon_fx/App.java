@@ -142,8 +142,6 @@ public class App extends Application {
         menu.getJfxView().setFieldModel(fieldModel);
         menu.activateJfxView();
 
-        System.out.println(csc.views);
-
         // Launch the game
         csc.startTimer();
     }

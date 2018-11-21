@@ -20,9 +20,6 @@ public class CreateWaitingRoomCmd extends RoomCommand {
 
     @Override
     public boolean atReceive() {
-        System.out.println(idPlayer + " envois : commande pour crée un partie.");
-        System.out.println("On essaye créer la partie : " + name + " avec le "
-            + "mot de passe : " + Arrays.toString(password));
         if (actualRoom == null) {
             System.err.println("Pas room assigné à la commande !");
         } else {
@@ -42,7 +39,6 @@ public class CreateWaitingRoomCmd extends RoomCommand {
             if (roomAlreadyExists) {
                 System.err.println("Room existe déjà ! on doit renvoyer un false au client..");
             } else {
-                System.out.println("La room n'exsite pas, on l'a crée");
                 WaitingRoom newRoom = new WaitingRoom(password, 5, name);
                 lr.getRooms().add(newRoom);
                 Client client = actualRoom.getClient(idPlayer);
